@@ -32,8 +32,8 @@
     <li style="margin-left:1580px;"   class="layui-nav-item">
         <a style="color:rgba(0,0,0,.65);" href="home"><i class="fa fa-institution"></i></a>
     </li>
-    <li class="layui-nav-item whichPage" whichPage="">
-        <a style="color:rgba(0,0,0,.65);" href="javascript:;" name="unreadMsg"><i class="fa fa-bell-o"></i><span class="layui-badge-dot"></span></a>
+    <li class="layui-nav-item loadPage" whichPage="msg/unreadMsg">
+        <a style="color:rgba(0,0,0,.65);" href="javascript:;" ><i class="fa fa-bell-o"></i><span class="layui-badge-dot"></span></a>
     </li>
     <li  class="layui-nav-item" >
         <a style="color:rgba(0,0,0,.65);" href="javascript:;">
@@ -42,10 +42,10 @@
         </a>
         <dl class="layui-nav-child">
 
-            <dd><a name="userIntroduce" href="javascript:;">
+            <dd><a class="loadPage" whichPage="user/userIntroduce"  href="javascript:;">
                 <i class="layui-icon layui-icon-username"></i>&nbsp;我的名片</a>
             </dd>
-            <dd><a name="userSetting" href="javascript:;">
+            <dd><a class="loadPage" whichPage="user/userSetting"  href="javascript:;">
                 <i class="layui-icon layui-icon-set"></i>&nbsp;个人设置</a>
             </dd>
             <hr class="layui-bg-gray">
@@ -64,46 +64,70 @@
             <li class="layui-nav-item layui-nav-itemed myleftnav">
                 <a class="" href="javascript:;"><i class="fa fa-user-circle-o fa-lg"></i> <span >&nbsp;&nbsp;事项管理</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;"><i class="fa fa-pencil fa-lg"></i> <span >&nbsp;&nbsp;新建事项</span></a></dd>
-                    <dd><a href="javascript:;"><i class="fa fa-clipboard fa-lg"></i> <span >&nbsp;&nbsp;已发事项</span></a></dd>
-                    <dd><a href="javascript:;"><i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;已办事项</span></a></dd>
-                    <dd><a href="javascript:;"><i class="fa fa-trash fa-lg"></i> <span >&nbsp;&nbsp;草稿箱</span></a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-pencil fa-lg"></i> <span >&nbsp;&nbsp;新建事项</span>
+                    </a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-clipboard fa-lg"></i> <span >&nbsp;&nbsp;已发事项</span>
+                    </a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;已办事项</span>
+                    </a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-trash fa-lg"></i> <span >&nbsp;&nbsp;草稿箱</span>
+                    </a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-hourglass-1 fa-lg"></i> <span >&nbsp;&nbsp;代办消息</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;"><i class="fa fa-book fa-lg"></i> <span >&nbsp;&nbsp;我的代办</span></a></dd>
-                    <dd><a name="messageList" href="javascript:;"><i class="fa fa-comments-o fa-lg"></i> <span >&nbsp;&nbsp;我的消息</span></a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-book fa-lg"></i> <span >&nbsp;&nbsp;我的代办</span>
+                    </a></dd>
+                    <dd><a class="loadPage" whichPage="msg/unreadMsg"  href="javascript:;">
+                        <i class="fa fa-comments-o fa-lg"></i> <span >&nbsp;&nbsp;我的消息</span>
+                    </a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-tv fa-lg"></i> <span >&nbsp;&nbsp;文化建设</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;"><i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;私人空间</span></a></dd>
-                    <dd><a href="javascript:;"><i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;集团空间</span></a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;私人空间</span>
+                    </a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;集团空间</span>
+                    </a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-diamond fa-lg"></i> <span >&nbsp;&nbsp;实用工具</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;"><i class="fa fa-bell fa-lg"></i> <span >&nbsp;&nbsp;提醒事项</span></a></dd>
-                    <dd><a href="javascript:;"><i class="fa fa-check-square fa-lg"></i> <span >&nbsp;&nbsp;打卡签到</span></a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-bell fa-lg"></i> <span >&nbsp;&nbsp;提醒事项</span>
+                    </a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                        <i class="fa fa-check-square fa-lg"></i> <span >&nbsp;&nbsp;打卡签到</span>
+                    </a></dd>
                 </dl>
             </li>
 
             <li class="layui-nav-item myleftnav">
-                <a href="javascript:;"><i class="fa fa-line-chart fa-lg"></i> <span >&nbsp;&nbsp;统计分析</span></a>
+                <a  href="javascript:;"><i class="fa fa-line-chart fa-lg"></i> <span >&nbsp;&nbsp;统计分析</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;"><i class="fa fa-database fa-lg"></i> <span >&nbsp;&nbsp;工作效率统计</span></a></dd>
+                    <dd><a class="loadPage" whichPage="" href="javascript:;"><i class="fa fa-database fa-lg"></i> <span >&nbsp;&nbsp;工作效率统计</span>
+                    </a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;个人页</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" name="userIntroduce"><i class="fa fa-street-view fa-lg"></i>
-                        <span >&nbsp;&nbsp;个人中心</span></a></dd>
-                    <dd><a href="javascript:;" name="userSetting"><i class="fa fa-gear fa-lg"></i> <span >&nbsp;&nbsp;个人设置</span></a></dd>
+                    <dd><a class="loadPage" whichPage="user/userIntroduce" href="javascript:;">
+                        <i class="fa fa-street-view fa-lg"></i><span >&nbsp;&nbsp;个人中心</span>
+                    </a></dd>
+                    <dd><a  class="loadPage" whichPage="user/userSetting" href="javascript:;">
+                        <i class="fa fa-gear fa-lg"></i> <span >&nbsp;&nbsp;个人设置</span>
+                    </a></dd>
                 </dl>
             </li>
         </ul>
@@ -140,15 +164,37 @@
     //JavaScript代码区域
     var element;
     var form;
+    var layer;
     layui.use('element', function(){
          element = layui.element;
-
-
     });
     layui.use('form', function() {
          form = layui.form;
     });
+    layui.use('layer',function(){
+        layer=layui.layer;
+    });
+    $(".loadPage").on('click',function(){
+        $("#main").html("");
+        layer.load(2,{time:1000*5});
+        var whichPage=$(this).attr('whichPage');
+        setTimeout(function(){
+            if(whichPage==null||whichPage==""){
+                iziToast.error({
+                    title: "Tips",
+                    message: "当前功能正在开发中",
+                    position: 'bottomRight',
+                    transitionIn: 'bounceInLeft'
+                });
+                layer.closeAll('loading');
+                window.location.href="home";
+            }else{
+                layer.closeAll('loading');
+                $("#main").load(whichPage);
+            }
+        },300)
 
+    });
     /*设置单点登陆工具栏浮动特效 ----start---*/
     $(document).on("mouseover","#myin",function(){
         $(this).css("position","relative");
