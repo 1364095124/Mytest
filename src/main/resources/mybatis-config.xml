@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">  
+      
+<configuration>  
+    <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径  -->  
+<settings>
+	 <setting name="jdbcTypeForNull" value="NULL"/>
+    <setting name="logImpl" value="LOG4J" />
+</settings>
+    <typeAliases>    
+         <typeAlias type="com.lh.model.User" alias="User"/>
+        <typeAlias type="com.lh.model.Person" alias="Person"/>
+        <typeAlias type="com.lh.model.Workflow" alias="Workflow"/>
+        <typeAlias type="com.lh.model.ThirdApp" alias="ThirdApp"/>
+        <typeAlias type="com.lh.model.ThirdAppSso" alias="ThirdAppSso"/>
+        <typeAlias type="com.lh.model.Message" alias="Message"/>
+        <typeAlias type="com.lh.model.ThirdAppPending" alias="ThirdAppPending"/>
+        <typeAlias type="com.lh.model.ThirdAppMsg" alias="ThirdAppMsg"/>
+        <typeAlias type="com.lh.model.Page" alias="Page"/>
+    </typeAliases> 
+<!--
+      <mappers>  
+        <mapper resource="com/lh/mapping/UserMapper.xml" />  
+    </mappers>
+    -->
+    
+  
+</configuration> 

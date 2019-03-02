@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.ThirdAppMapper">
+    <sql id="ThirdAppitem">
+        id,name,number,images_url,description,isDeleted
+    </sql>
+    <sql id="ThirdSsoitem">
+        id,thirdAppNumber,thirdAppName,sso_url,isDisabled,isDeleted
+    </sql>
+    <sql id="ThirdMsgitem">
+        id,thirdAppNumber,type,requireTime,msg_url,isDisabled,isDeleted
+    </sql>
+    <sql id="ThirdPenditem">
+        id,thirdAppNumber,type,requireTime,pending_url,isDisabled,isDeleted
+    </sql>
+
+    <select id="select" parameterType="ThirdApp" resultType="ThirdApp">
+        SELECT
+          <include refid="ThirdAppitem"/>
+        FROM
+          thirdapps
+        WHERE
+          isDeleted=0
+            <if test="id!=null">
+                AND id=#{id}
+            </if>
+            <if test="name!=null">
+                AND name=#{name}
+            </if>
+            <if test="number!=null">
+                AND number=#{number}
+            </if>
+
+    </select>
+
+    <insert id="insert" parameterType="ThirdApp">
+        INSERT
+          thirdapps(
+            id,
+            name,
+            number,
+            images_url,
+            description,
+            isDeleted
+          )
+        VALUES (
+           uuid(),
+           #{name},
+           #{number},
+           #{images_url},
+           #{description},
+           0
+        )
+
+    </insert>
+
+    <update id="deleteThirdApp" parameterType="string">
+        UPDATE
+          thirdapps
+        SET
+          isDeleted=1
+        WHERE
+          number=#{number}
+    </update>
+
+    <select id="getNewNumber" resultType="integer">
+        SELECT
+          MAX(number)+1 as 'number'
+        FROM
+          thirdapps
+    </select>
+
+    <insert id="insertSso" parameterType="ThirdAppSso">
+        INSERT
+        INTO
+          thirdappssos(
+            id,
+            thirdAppNumber,
+            thirdAppName,
+            sso_url,
+            isDisabled,
+            isDeleted
+          )
+        VALUES (
+            uuid(),
+            #{thirdAppNumber},
+            #{thirdAppName},
+            #{sso_url},
+            0,
+            0
+        )
+    </insert>
+
+    <select id="selectSso" parameterType="ThirdAppSso" resultType="ThirdAppSso">
+        SELECT
+          <include refid="ThirdSsoitem"/>
+        FROM
+          thirdappssos
+        WHERE
+          isDeleted=0
+            <if test="id!=null">
+               AND id=#{id}
+            </if>
+            <if test="thirdAppNumber!=null">
+                AND thirdAppNumber=#{thirdAppNumber}
+            </if>
+            <if test="sso_url!=null">
+                AND sso_url=#{sso_url}
+            </if>
+
+    </select>
+
+    <update id="updateSso" parameterType="ThirdAppSso">
+        UPDATE
+          thirdappssos
+        SET
+          sso_url=#{sso_url},
+          isDisabled=#{isDisabled}
+        WHERE
+          thirdAppNumber=#{thirdAppNumber}
+
+    </update>
+
+    <update id="deleteSso" parameterType="string">
+        UPDATE
+          thirdappssos
+        SET
+          isDeleted=1
+        where
+          thirdAppNumber=#{thirdAppNumber}
+    </update>
+
+    <select id="selectAvaliNumber" resultType="integer">
+        SELECT
+          number
+        FROM
+          thirdapps
+        WHERE
+          number
+        NOT IN
+        (
+          SELECT
+            thirdAppNumber
+          FROM
+            thirdappssos
+          WHERE
+            isDeleted=0
+        )
+        AND
+          isDeleted=0
+    </select>
+
+    <select id="queryThirdMsg" parameterType="ThirdAppMsg" resultType="java.util.HashMap">
+        SELECT
+          <include refid="ThirdMsgitem"/>
+        FROM
+          thirdappmsgs
+        WHERE
+          isDeleted=0
+        <if test="thirdAppNumber!=null">
+            thirdAppNumber=#{thirdAppNumber}
+        </if>
+    </select>
+
+    <insert id="insertMsg" parameterType="ThirdAppMsg">
+        INSERT
+        INTO
+          thirdappmsgs
+          (
+            id,
+            thirdAppNumber,
+            type,
+            requireTime,
+            msg_url,
+            isDisabled
+          )
+        VALUES
+          (
+            uuid(),
+            #{thirdAppNumber},
+            #{type},
+            #{requireTime},
+            #{msg_url},
+            #{isDisabled}
+          )
+    </insert>
+
+    <update id="updateMsg" parameterType="ThirdAppMsg">
+        UPDATE
+          thirdappmsgs
+       <set>
+           <if test="type!=null">
+              type=#{type},
+           </if>
+           <if test="requireTime!=null">
+               requireTime=#{type},
+           </if>
+           <if test="msg_url!=null">
+               msg_url=#{msg_url},
+           </if>
+       </set>
+       WHERE
+        thirdAppNumber=#{thirdAppNumber}
+    </update>
+
+    <delete id="deleteMsg" parameterType="string">
+      UPDATE
+        thirdappmsgs
+      SET
+        isDeleted=1
+      WHERE
+        thirdAppNumber=#{thirdAppNumber}
+    </delete>
+
+    <select id="queryThirdPending" parameterType="ThirdAppPending" resultType="ThirdAppPending">
+        SELECT
+          <include refid="ThirdPenditem"/>
+        FROM
+          thirdpendings
+        WHERE
+          isDeleted=0
+        <if test="thirdAppNumber!=null">
+            AND thirdAppNumber=#{thirdAppNumber}
+        </if>
+    </select>
+
+    <insert id="addThirdPending" parameterType="ThirdAppPending">
+        INSERT
+        INTO
+          thirdpendings
+          (
+            id,
+            thirdAppNumber,
+            type,
+            requireTime,
+            pending_url,
+            isDisabled
+          )
+        VALUES
+        (
+          uuid(),
+          #{thirdAppNumber},
+          #{type},
+          #{requireTime},
+          #{pending_url},
+          #{isDisabled}
+        )
+    </insert>
+
+    <update id="updateThirdPending" parameterType="ThirdAppPending">
+        UPDATE
+          thirdpendings
+        <set>
+            <if test="type!=null">
+                type=#{type},
+            </if>
+            <if test="requireTime!=null">
+                requireTime=#{requireTime},
+            </if>
+            <if test="pending_url!=null">
+                pending_url=#{pending_url},
+            </if>
+        </set>
+        WHERE
+        thirdAppNumber=#{thirdAppNumber}
+    </update>
+
+    <update id="deleteThirdPending" parameterType="string">
+        UPDATE
+          thirdpendings
+        SET
+          isDeleted=1
+        WHERE
+          thirdAppNumber=#{thirdAppNumber}
+    </update>
+
+    <select id="selectUnRegisterMsg" resultType="ThirdApp">
+        SELECT
+          <include refid="ThirdAppitem"/>
+        FROM
+          thirdapps
+        WHERE
+          number
+        NOT
+        IN
+        (
+          SELECT
+            thirdAppNumber
+          FROM
+            thirdappmsgs
+        )
+    </select>
+
+    <select id="selectUnRegisterPending" resultType="ThirdApp">
+        SELECT
+          <include refid="ThirdAppitem"/>
+        FROM
+          thirdapps
+        WHERE
+          number
+        NOT
+        IN
+        (
+          SELECT
+            thirdAppNumber
+          FROM
+            thirdpendings
+        )
+    </select>
+
+
+
+</mapper>

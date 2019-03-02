@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.UserMapper">
+    <sql id="userItem">
+        id,account,password,passwordSalt,isAdmin,isDisabled,isDeleted
+    </sql>
+    <sql id="personItem">
+        id,account,name,sex,age,phone,email,photo_url,note
+    </sql>
+    <select id="login" parameterType="User" resultType="User">
+        SELECT
+          <include refid="userItem"/>
+        FROM
+          users
+        WHERE
+          account=#{account}
+        AND
+          password=#{password}
+    </select>
+
+    <update id="updateIsDisabled" >
+        UPDATE
+          users
+        SET
+          isDisabled=#{isDisabled}
+        WHERE
+          account=#{account}
+    </update>
+
+    <select id="selectUser" parameterType="User" resultType="User">
+        SELECT
+          <include refid="userItem"/>
+        FROM
+          users
+        <where>
+            <if test="null!=account">
+                and account=#{account}
+            </if>
+            <if test="null!=id">
+                and id=#{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserById" parameterType="string" resultType="User">
+        SELECT
+          <include refid="userItem"/>
+        FROM
+          users
+        WHERE
+          id=#{id}
+    </select>
+
+    <select id="selectUserByAccount" parameterType="string" resultType="User">
+        SELECT
+          <include refid="userItem"/>
+        FROM
+          users
+        WHERE
+          account=#{account}
+    </select>
+
+    <select id="selectPersonByAccount" parameterType="string" resultType="Person">
+        SELECT
+          <include refid="personItem"/>
+        FROM
+          persons
+        WHERE
+          account=#{account}
+
+    </select>
+
+    <update id="updatePwd" parameterType="User">
+        UPDATE
+          users
+        SET
+          password=#{password}
+        WHERE
+          account=#{account}
+    </update>
+
+    <update id="updatePerson" parameterType="Person">
+        UPDATE
+          persons
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="age!=null">
+                age=#{age},
+            </if>
+            <if test="phone!=null">
+                phone=#{phone},
+            </if>
+            <if test="email!=null">
+                email=#{email},
+            </if>
+            <if test="photo_url!=null">
+                photo_url=#{photo_url},
+            </if>
+            <if test="note!=null">
+                note=#{note},
+            </if>
+        </set>
+        where
+          account=#{account}
+    </update>
+</mapper>

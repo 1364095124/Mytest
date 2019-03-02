@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.MsgMapper">
+    <sql id="msgItem">
+        id,send_id,receive_id,type,content,sendTime,url
+    </sql>
+    <insert id="addMsg" parameterType="Message">
+        INSERT
+        INTO
+          messages(
+           id,
+           send_id,
+           receive_id,
+           type,
+           content,
+           sendTime,
+           url
+          )
+        VALUES (
+          uuid(),
+          #{send_id},
+          #{receive_id},
+          #{type},
+          #{content},
+          #{sendTime},
+          #{url}
+        )
+    </insert>
+
+   <select id="queryMsg" parameterType="Message" resultType="java.util.HashMap">
+      SELECT
+        <include refid="msgItem"/>
+      FROM
+        messages
+      WHERE
+        isDeleted=0
+      AND
+        isRead=#{isRead}
+      <if test="null!=id">
+          AND id=#{id}
+      </if>
+
+      <if test="null!=send_id">
+          AND send_id=#{send_id}
+      </if>
+      <if test="null!=receive_id">
+          AND receive_id=#{receive_id}
+      </if>
+      <if test="null!=content">
+          AND content LIKE CONCAT('%',#{content},'%')
+      </if>
+      <if test="null!=sendTime">
+          AND sendTime like CONCAT('%',#{sendTime},'%')
+      </if>
+
+   </select>
+
+    <update id="updateToRead" parameterType="string">
+        UPDATE
+          messages
+        SET
+          isRead=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="selectPageList" parameterType="Page" resultType="Message">
+        SELECT
+         <include refid="msgItem"/>
+        FROM
+          messages
+        WHERE
+          isDeleted=0
+          <if test="account!=null">
+              AND receive_id=#{account}
+          </if>
+          <if test="keyWord!=null and keyType=='sendTime'">
+              AND sendTime like binary CONCAT('%',#{keyWord},'%')
+          </if>
+          <if test="keyWord!=null and keyType=='content'">
+              AND content like binary CONCAT('%',#{keyWord},'%')
+          </if>
+          order by sendTime desc
+          limit #{start},#{rows}
+    </select>
+
+    <select id="selectPageCount" parameterType="Page" resultType="java.lang.Integer">
+        SELECT
+          count(1)
+        FROM
+          messages
+        WHERE
+          isDeleted=0
+        <if test="account!=null">
+            AND receive_id=#{account}
+        </if>
+        <if test="keyWord!=null and keyType=='sendTime'">
+            AND sendTime like binary CONCAT('%',#{keyWord},'%')
+        </if>
+        <if test="keyWord!=null and keyType=='content'">
+            AND content like binary CONCAT('%',#{keyWord},'%')
+        </if>
+    </select>
+</mapper>
