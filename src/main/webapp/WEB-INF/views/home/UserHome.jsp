@@ -92,7 +92,7 @@
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-tv fa-lg"></i> <span >&nbsp;&nbsp;文化建设</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="fileManager/personFile" href="javascript:;">
                         <i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;私人空间</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="" href="javascript:;">
@@ -192,7 +192,7 @@
                 layer.closeAll('loading');
                 $("#main").load(whichPage);
             }
-        },300)
+        },200)
 
     });
     /*设置单点登陆工具栏浮动特效 ----start---*/
