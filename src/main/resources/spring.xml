@@ -22,11 +22,15 @@
 
 
     <!-- 加载properties文件  -->
-    <!--  <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
             <list>
-                <value>classpath:mysqldb.properties</value>
+                <value>classpath:project.properties</value>
             </list>
         </property>
-    </bean> -->
+    </bean>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="properties" ref="configProperties"/>
+    </bean>
 </beans>

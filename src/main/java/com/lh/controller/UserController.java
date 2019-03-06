@@ -19,14 +19,14 @@ public class UserController {
 
     //跳转到个人名片页面
     @RequestMapping(value="/user/userIntroduce")
-    @RequiresRoles("normal")
+
     public String userIntroduce(){
         return "userSetting/userIntroduce";
     }
 
     //跳转到个人设置页面
     @RequestMapping(value="/user/userSetting")
-    @RequiresRoles("normal")
+
     public String userSetting(){
         return "userSetting/userSetting";
     }

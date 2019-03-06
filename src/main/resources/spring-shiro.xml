@@ -37,6 +37,7 @@
         <property name="redirectUrl" value="/login" />
     </bean>
 
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
        <property name="realm" ref="Myrealm"/>

@@ -32,12 +32,13 @@ public class Myrealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info =  new SimpleAuthorizationInfo();
         Map<String,Object> map=userService.queryPermissionByUser(user.getAccount());
         Set<String> roleSet=(Set)map.get("role");
+        System.out.println("----role"+JSON.toJSONString(roleSet));
         Set<String> permissionSet=(Set)map.get("permission");
+        System.out.println("----per"+JSON.toJSONString(permissionSet));
 
-
-        /**根据用户ID查询角色（role），放入到Authorization里.*/
+        /*根据用户ID查询角色（role），放入到Authorization里.*/
         info.setRoles(roleSet);
-        /**根据用户ID查询权限（permission），放入到Authorization里.*/
+        /*根据用户ID查询权限（permission），放入到Authorization里.*/
         info.setStringPermissions(permissionSet);
         return info;
     }
@@ -47,6 +48,7 @@ public class Myrealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
+
         String account=(String)token.getPrincipal();
         String password=new String((char[])token.getCredentials());
         List<User> list=userService.login(account,password);

@@ -25,7 +25,5 @@ public interface IUserService {
 
     public String updatePerson(Person person);
 
-    public User queryRoleByAccount(String account);
-
     public Map<String,Object> queryPermissionByUser(String account);
 }

@@ -126,6 +126,7 @@ public class LoginController {
                 resultMap.put("message","账号密码错误");
             }
         }catch(AuthenticationException ax){
+            System.out.println(ax.toString());
             resultMap.put("state",500);
             resultMap.put("message","用户名不存在或密码错误");
         }

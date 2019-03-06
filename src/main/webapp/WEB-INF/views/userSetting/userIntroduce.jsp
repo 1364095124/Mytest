@@ -35,7 +35,8 @@
         <br/>
         <br/>
         <p style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;">
-            <button class="layui-btn layui-btn-radius layui-btn-normal" id="changeImg"><i class="fa fa-random"></i>切换头像</button>
+            <button class="layui-btn layui-btn-radius layui-btn-normal" id="changeImg">
+                <i class="layui-icon layui-icon-upload"></i>切换头像</button>
         </p>
 
 
@@ -59,7 +60,7 @@
             //执行实例
             var uploadInst = upload.render({
                 elem: '#changeImg' //绑定元素
-                ,url: '/upload/uploadImg' //上传接口
+                ,url: '/file/uploadImg' //上传接口
                 ,auto:true
                 ,accept:'images'
                 ,drag:false
@@ -69,6 +70,7 @@
                 ,done: function(res){
                     //上传完毕回调
                     layer.closeAll('loading');
+                    console.log(res);
 
                 }
                 ,error: function(){

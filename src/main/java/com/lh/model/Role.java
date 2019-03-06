@@ -1,12 +1,10 @@
 package com.lh.model;
 
-import java.util.HashSet;
-import java.util.Set;
+
 
 public class Role {
     private String role_id;
     private String roleName;
-    private Set<Permission> permissionSet=new HashSet<>();
     private Integer isDisable;
     private Integer isDeleted;
 
@@ -18,13 +16,6 @@ public class Role {
         this.role_id = role_id;
     }
 
-    public Set<Permission> getPermissionSet() {
-        return permissionSet;
-    }
-
-    public void setPermissionSet(Set<Permission> permissionSet) {
-        this.permissionSet = permissionSet;
-    }
 
 
 

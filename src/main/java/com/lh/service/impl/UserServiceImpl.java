@@ -23,7 +23,6 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<User> login(String account, String password) {
-
         User user=new User();
         user.setAccount(account);
         user.setPassword(password);
@@ -139,19 +138,18 @@ public class UserServiceImpl implements IUserService {
         return JSON.toJSONString(resultMap);
     }
 
-    @Override
-    public User queryRoleByAccount(String account) {
-        return userMapper.queryRoleByAccount(account);
-    }
+
 
     @Override
     public Map<String, Object> queryPermissionByUser(String account) {
         Map<String,Object> map=new HashMap();
-        Set<String> roleSet=userMapper.queryRoleByUser(account);
+        Set<String> roleSet=new HashSet<>();
         Set<String> permissionSet=new HashSet<>();
-        for(String s:roleSet){
-            Set<String> p=userMapper.queryPermissionByRole(s);
-            permissionSet.addAll(p);
+        List<String> list=userMapper.queryRoleByUser(account);
+        roleSet.addAll(list);
+        for(String s:list){
+            List<String> l=userMapper.queryPermissionByRole(s);
+            permissionSet.addAll(l);
         }
         map.put("role",roleSet);
         map.put("permission",permissionSet);
