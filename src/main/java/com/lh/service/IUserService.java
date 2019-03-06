@@ -3,7 +3,9 @@ package com.lh.service;
 import com.lh.model.Person;
 import com.lh.model.User;
 
+
 import java.util.List;
+import java.util.Map;
 
 public interface IUserService {
 
@@ -22,4 +24,8 @@ public interface IUserService {
     public String updatePwd(User user);
 
     public String updatePerson(Person person);
+
+    public User queryRoleByAccount(String account);
+
+    public Map<String,Object> queryPermissionByUser(String account);
 }

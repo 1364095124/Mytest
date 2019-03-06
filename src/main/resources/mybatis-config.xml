@@ -19,6 +19,8 @@
         <typeAlias type="com.lh.model.ThirdAppPending" alias="ThirdAppPending"/>
         <typeAlias type="com.lh.model.ThirdAppMsg" alias="ThirdAppMsg"/>
         <typeAlias type="com.lh.model.Page" alias="Page"/>
+        <typeAlias type="com.lh.model.Permission" alias="Permission"/>
+        <typeAlias type="com.lh.model.Role" alias="Role"/>
     </typeAliases> 
 <!--
       <mappers>  

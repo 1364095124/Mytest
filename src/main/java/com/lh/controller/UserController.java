@@ -4,6 +4,7 @@ package com.lh.controller;
 import com.lh.model.Person;
 import com.lh.model.User;
 import com.lh.service.IUserService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,14 @@ public class UserController {
 
     //跳转到个人名片页面
     @RequestMapping(value="/user/userIntroduce")
+    @RequiresRoles("normal")
     public String userIntroduce(){
         return "userSetting/userIntroduce";
     }
 
     //跳转到个人设置页面
     @RequestMapping(value="/user/userSetting")
+    @RequiresRoles("normal")
     public String userSetting(){
         return "userSetting/userSetting";
     }

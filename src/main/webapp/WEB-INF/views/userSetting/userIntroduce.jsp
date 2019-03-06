@@ -26,15 +26,22 @@
     <br/>
     <div style="background-color:#ffffff;">
         <p style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;padding-top:25px;">
-            <img src="//t.cn/RCzsdCq" class="layui-circle"/> </p>
+            <img src="//t.cn/RCzsdCq" id="pic" id="myPhoto" class="layui-circle"/>
+        </p>
         <br/>
         <br/>
         <br/>
         <br/>
         <br/>
         <br/>
+        <p style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;">
+            <button class="layui-btn layui-btn-radius layui-btn-normal" id="changeImg"><i class="fa fa-random"></i>切换头像</button>
+        </p>
+
+
+
         <p  style="width: 100%;height: 45px;display: block;line-height: 45px;font-size:25px;text-align: center;"><strong>Liu Hai</strong></p>
-        <p style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;">这个人很懒，什么也没留下</p>
+        <p style="width: 100%;height: 35px;display: block;line-height: 45px;text-align: center;">这个人很懒，什么也没留下</p>
         <hr/>
         <br/>
         <p style="margin-left:400px;"><i class="fa fa-bank"></i>java开发工程师</p>
@@ -45,5 +52,31 @@
         <br/>
         <br/>
     </div>
+    <script>
+        layui.use('upload', function(){
+            var upload = layui.upload;
+
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#changeImg' //绑定元素
+                ,url: '/upload/uploadImg' //上传接口
+                ,auto:true
+                ,accept:'images'
+                ,drag:false
+                ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                    layer.load(); //上传loading
+                }
+                ,done: function(res){
+                    //上传完毕回调
+                    layer.closeAll('loading');
+
+                }
+                ,error: function(){
+                    //请求异常回调
+                    layer.closeAll('loading');
+                }
+            });
+        });
+    </script>
 </body>
 

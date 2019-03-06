@@ -19,16 +19,14 @@
             {name: '操作',headerClass: 'value_col',colClass: 'value_col',style: 'width: 30%',
                 render: function(row) {
                     return [
-                        '<a class="layui-btn layui-btn-xs layui-btn-danger"
-                        <i class="layui-icon "></i> </a>',
+                        '<a class="layui-btn layui-btn-xs layui-btn-danger"> <i class="layui-icon "></i> </a>',
                 ].join('');
                 }
             }
         ];
         layui.use(['form', 'tree', 'layer'], function() {
-            var layer = layui.layer,
-                form = layui.form,
-                $ = layui.jquery;
+            var layer = layui.layer;
+            var    form = layui.form;
             var tree1 = layui.treeGird({
                 elem: '#demo', //传入元素选择器
                 spreadable: false, //设置是否全展开，默认不展开

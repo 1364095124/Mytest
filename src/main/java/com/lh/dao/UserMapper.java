@@ -5,6 +5,7 @@ import com.lh.model.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserMapper {
 
@@ -26,4 +27,12 @@ public interface UserMapper {
     public int updatePwd(User user);
 
     public int updatePerson(Person person);
+
+    public User queryRoleByAccount(String account);
+
+    public Set<String> queryRoleByUser(String account);
+
+    public Set<String>  queryPermissionByRole(String roleName);
+
+
 }

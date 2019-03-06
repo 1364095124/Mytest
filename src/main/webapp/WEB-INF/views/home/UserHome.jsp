@@ -28,7 +28,8 @@
 
 <ul class="layui-nav" style="background:#ffffff;">
 
-    <li style="position:relative;left:200px;" class="layui-nav-item kit-side-fold" ><span title="菜单缩放" style="color:#000000;"><i class="fa fa-navicon fa-lg" aria-hidden="true"></i></span></li>
+    <li style="position:relative;left:200px;" class="layui-nav-item kit-side-fold" >
+        <span title="菜单缩放" style="color:#000000;"><i class="fa fa-navicon fa-lg" aria-hidden="true"></i></span></li>
     <li style="margin-left:1580px;"   class="layui-nav-item">
         <a style="color:rgba(0,0,0,.65);" href="home"><i class="fa fa-institution"></i></a>
     </li>
@@ -37,7 +38,7 @@
     </li>
     <li  class="layui-nav-item" >
         <a style="color:rgba(0,0,0,.65);" href="javascript:;">
-            <img name="curUser" src="//t.cn/RCzsdCq"  class="layui-nav-img"/><span id="curUser"></span>
+            <img name="curUser" src="//t.cn/RCzsdCq"  id="curPhoto" class="layui-nav-img"/><span id="curUser"></span>
             <i class="fa fa-sort-desc"></i>
         </a>
         <dl class="layui-nav-child">

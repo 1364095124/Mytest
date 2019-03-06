@@ -3,17 +3,21 @@ package com.lh.shiro;
 import com.alibaba.fastjson.JSON;
 import com.lh.common.StringUtils;
 import com.lh.dao.UserMapper;
+import com.lh.model.Role;
 import com.lh.model.User;
 import com.lh.service.IUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Myrealm extends AuthorizingRealm {
 
@@ -24,7 +28,18 @@ public class Myrealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        User user=(User)principals.getPrimaryPrincipal();
+        SimpleAuthorizationInfo info =  new SimpleAuthorizationInfo();
+        Map<String,Object> map=userService.queryPermissionByUser(user.getAccount());
+        Set<String> roleSet=(Set)map.get("role");
+        Set<String> permissionSet=(Set)map.get("permission");
+
+
+        /**根据用户ID查询角色（role），放入到Authorization里.*/
+        info.setRoles(roleSet);
+        /**根据用户ID查询权限（permission），放入到Authorization里.*/
+        info.setStringPermissions(permissionSet);
+        return info;
     }
 
     /*

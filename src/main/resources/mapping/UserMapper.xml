@@ -7,6 +7,21 @@
     <sql id="personItem">
         id,account,name,sex,age,phone,email,photo_url,note
     </sql>
+    
+    <resultMap id="userMap" type="User">
+        <id property="id" column="id"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <collection property="roleSet" column="roleName" ofType="Role">
+            <id property="role_id" column="role_id"/>
+            <result property="roleName" column="roleName"/>
+            <collection property="permissionSet" column="permissionName" ofType="Permission">
+                <id property="permission_id" column="permission_id"/>
+                <result property="permissionName" column="permissionName"/>
+            </collection>
+        </collection>
+    </resultMap>
+    
     <select id="login" parameterType="User" resultType="User">
         SELECT
           <include refid="userItem"/>
@@ -108,4 +123,55 @@
         where
           account=#{account}
     </update>
+
+    <select id="queryRoleByAccount" parameterType="string" resultMap="userMap">
+        SELECT
+          u.id,
+          u.account,
+          u.password,
+          r.role_id,
+          r.roleName,
+          p.permission_id,
+          p.permissionName
+        FROM
+          users as u,
+          user_roles as ur,
+          roles as r,
+          role_permissions as rp,
+          permissions as p
+        WHERE
+          u.account=ur.account
+        AND
+          ur.roleName=r.roleName
+        AND
+          r.roleName=rp.roleName
+        AND
+          rp.permissionName=p.permissionName
+        AND
+          u.account=#{account}
+    </select>
+
+    <select id="queryRoleByUser" parameterType="string" resultMap="string">
+        SELECT
+          roleName
+        FROM
+          users as u,
+          user_roles as ur
+        WHERE
+          u.account=ur.account
+        AND
+          u.account=#{account}
+    </select>
+
+    <select id="queryPermissionByRole" parameterType="string" resultMap="string">
+        SELECT
+          permissionName
+        FROM
+          permissions as p,
+          role_permission as rp
+        WHERE
+          p.roleName=rp.roleName
+        AND
+          p.roleName=#{roleName}
+    </select>
 </mapper>

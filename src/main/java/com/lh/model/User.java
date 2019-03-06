@@ -1,5 +1,8 @@
 package com.lh.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class User {
 
     private  String id;
@@ -7,8 +10,17 @@ public class User {
     private String password;
     private String passwordSalt;
     private Integer isAdmin;
+    private Set<Role> roleSet=new HashSet<>();
     private Integer isDisabled;
     private Integer isDeleted;
+
+    public Set<Role> getRoleSet() {
+        return roleSet;
+    }
+
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
+    }
 
     public Integer getIsAdmin() {
         return isAdmin;

@@ -12,8 +12,8 @@ import com.lh.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.json.Json;
-import java.util.List;
+
+import java.util.*;
 
 @Service("userService")
 public class UserServiceImpl implements IUserService {
@@ -137,6 +137,26 @@ public class UserServiceImpl implements IUserService {
             resultMap.put("message","更新失败！请重试");
         }
         return JSON.toJSONString(resultMap);
+    }
+
+    @Override
+    public User queryRoleByAccount(String account) {
+        return userMapper.queryRoleByAccount(account);
+    }
+
+    @Override
+    public Map<String, Object> queryPermissionByUser(String account) {
+        Map<String,Object> map=new HashMap();
+        Set<String> roleSet=userMapper.queryRoleByUser(account);
+        Set<String> permissionSet=new HashSet<>();
+        for(String s:roleSet){
+            Set<String> p=userMapper.queryPermissionByRole(s);
+            permissionSet.addAll(p);
+        }
+        map.put("role",roleSet);
+        map.put("permission",permissionSet);
+
+        return map;
     }
 
 
