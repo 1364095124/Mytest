@@ -1,10 +1,13 @@
 package com.lh.model;
 
+/**
+ * 权限类
+ */
 public class Permission {
-    private String permission_id;
-    private String permissionName;
-    private Integer isDisabled;
-    private Integer isDeleted;
+    private String permission_id;  //权限id
+    private String permissionName;  //权限名称
+    private Integer isDisabled;  //是否禁用
+    private Integer isDeleted;  //是否删除
 
     public String getPermission_id() {
         return permission_id;

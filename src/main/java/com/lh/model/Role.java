@@ -1,12 +1,14 @@
 package com.lh.model;
 
 
-
+/**
+ * 用户角色类
+ */
 public class Role {
-    private String role_id;
-    private String roleName;
-    private Integer isDisable;
-    private Integer isDeleted;
+    private String role_id;  //主键
+    private String roleName;  //角色名
+    private Integer isDisable;  //是否禁用
+    private Integer isDeleted;  //是否删除
 
     public String getRole_id() {
         return role_id;

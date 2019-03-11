@@ -1,13 +1,17 @@
 package com.lh.model;
 
+
+/**
+ * 第三方应用代办集成配置类
+ */
 public class ThirdAppPending {
-    private String id;
-    private String thirdAppNumber;
-    private int type;
-    private int requireTime;
-    private String pending_url;
-    private int isDisabled;
-    private int isDeleted;
+    private String id;  //主键
+    private String thirdAppNumber;  //第三方应用编码
+    private int type;  //获取代办类型  0表示第三方推送  1表示从第三方代办抓取
+    private int requireTime;  //获取代办的时间间隔
+    private String pending_url; //代办链接地址
+    private int isDisabled;  //是否禁用
+    private int isDeleted;  //是否删除
 
     public int getRequireTime() {
         return requireTime;

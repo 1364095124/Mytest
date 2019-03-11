@@ -2,18 +2,22 @@ package com.lh.model;
 
 import java.io.Serializable;
 
+
+/**
+信息类
+ */
 public class Message implements Serializable {
 
-    private String id;
-    private String send_id;
-    private String receive_id;
-    private String sendName;
-    private String type;
-    private String content;
-    private String sendTime;
-    private String url;
-    private int isRead;
-    private int isDeleted;
+    private String id;  //主键
+    private String send_id;  //发送者的账户
+    private String receive_id;  //接收者的账户
+    private String sendName;  //
+    private String type; //类型  可以“消息”，“代办”，“公告”
+    private String content;   //信息主体
+    private String sendTime;   //发送的时间
+    private String url;   //信息的路径
+    private int isRead;  //是否已读
+    private int isDeleted;  //是否删除
 
     public int getIsRead() {
         return isRead;

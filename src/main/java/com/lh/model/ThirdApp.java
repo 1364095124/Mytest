@@ -1,12 +1,16 @@
 package com.lh.model;
 
+
+/**
+ * 第三方应用信息类
+ */
 public class ThirdApp {
-    private String id;
-    private String name;
-    private Integer number;
-    private String images_url;
-    private String description;
-    private Integer isDeleted;
+    private String id;  //主键
+    private String name;  //第三方应用名
+    private Integer number;  //第三方应用编码
+    private String images_url; //图标链接
+    private String description;  //描述
+    private Integer isDeleted; //是否删除
 
     public String getImages_url() {
         return images_url;

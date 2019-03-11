@@ -3,9 +3,9 @@ package com.lh.model;
 /**
  *
  * layui数据表格返回数据处理类
- * Created by ASUS on 2018/5/19
+ * Created by LH on 2019/2/19
  *
- * @Authod Grey Wolf
+ * @Authod LH
  */
 public class ResultMap<T> {
     private String msg;

@@ -1,12 +1,16 @@
 package com.lh.model;
 
+
+/**
+ * 第三方应用单点登陆配置类
+ */
 public class ThirdAppSso {
-    private String id;
-    private String thirdAppNumber;
-    private String thirdAppName;
-    private String sso_url;
-    private Integer isDisabled;
-    private Integer isDeleted;
+    private String id; //主键
+    private String thirdAppNumber;  //第三方应用编码
+    private String thirdAppName;  //第三方应用名称
+    private String sso_url; //单点登陆地址
+    private Integer isDisabled;  //是否禁用
+    private Integer isDeleted;  //是否删除
 
     public String getThirdAppName() {
         return thirdAppName;

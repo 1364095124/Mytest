@@ -1,5 +1,9 @@
 package com.lh.model;
 
+
+/**
+邮件配置
+ */
 public class MailParameters {
 
     private String senderAddress;//发送者地址

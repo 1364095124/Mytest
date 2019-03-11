@@ -1,14 +1,18 @@
 package com.lh.model;
 
+
+/**
+ * 用户基本信息类
+ */
 public class Person {
-    private String id;
-    private String account;
-    private String name;
-    private String sex;
-    private Integer age;
-    private String phone;
-    private String email;
-    private String photo_url;
+    private String id;  //主键
+    private String account; //登陆账号
+    private String name;  //姓名
+    private String sex;  //性别
+    private Integer age;  //年龄
+    private String phone; //电话号码
+    private String email;  //电子邮件
+    private String photo_url; //头像链接
 
     public String getSex() {
         return sex;

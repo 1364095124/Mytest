@@ -1,5 +1,9 @@
 package com.lh.model;
 
+
+/**
+ * 工作流配置类
+ */
 public class Workflow {
     private String id;
     private String workId;

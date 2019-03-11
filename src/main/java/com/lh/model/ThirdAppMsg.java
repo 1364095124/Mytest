@@ -1,13 +1,17 @@
 package com.lh.model;
 
+
+/**
+ * 第三方应用消息集成配置类
+ */
 public class ThirdAppMsg {
-    private String id;
-    private String thirdAppNumber;
-    private int type;
-    private String requireTime;
-    private String msg_url;
-    private int isDisabled;
-    private int isDeleted;
+    private String id;  //主键
+    private String thirdAppNumber;  //第三方应用的注册码
+    private int type;  //获取消息类型  0表示“第三方推送”，1表示“获取第三方”
+    private String requireTime;  //获取第三方消息的间隔
+    private String msg_url;  //消息链接路径
+    private int isDisabled;  //是否禁用
+    private int isDeleted;  //是否删除
 
     public String getId() {
         return id;

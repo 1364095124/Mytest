@@ -1,7 +1,7 @@
 package com.lh.workflow;
 
 
-import com.lh.model.WorkflowEventData;
+
 import com.lh.model.WorkflowEventResult;
 
 public abstract class BaseWorkflow {
@@ -11,17 +11,17 @@ public abstract class BaseWorkflow {
     public abstract String getName();
 
     //结束后
-    public void onFinishWorkitem(WorkflowEventData data) {
+    public void onFinishWorkitem(String data) {
 
     }
 
     //发起前
-    public WorkflowEventResult onBeforeStart(WorkflowEventData data) {
+    public WorkflowEventResult onBeforeStart(String data) {
         return null;
     }
 
     //结束前
-    public WorkflowEventResult onBeforeFinishWorkitem(WorkflowEventData data) {
+    public WorkflowEventResult onBeforeFinishWorkitem(String data) {
         return null;
     }
 }
