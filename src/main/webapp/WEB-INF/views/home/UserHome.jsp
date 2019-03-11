@@ -26,7 +26,7 @@
 </style>
 <body class="layui-bg-gray">
 
-<ul class="layui-nav" style="background:#ffffff;">
+<ul class="layui-nav " style="background:#ffffff;">
 
     <li style="position:relative;left:200px;" class="layui-nav-item kit-side-fold" >
         <span title="菜单缩放" style="color:#000000;"><i class="fa fa-navicon fa-lg" aria-hidden="true"></i></span></li>
@@ -60,7 +60,7 @@
     <div class="layui-side-scroll">
 
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <ul class="layui-nav  layui-nav-tree"  lay-filter="test">
             <li class="layui-nav-item myleftnav" style="height:60px;background-color:rgba(255,255,255,0.1);"><span style="margin-left:16px;font-size:35px;"><i style="color:#1890ff !important;" class="fa fa-twitter"></i>&nbsp;<strong>OA协同办公系统</strong></span></li>
             <li class="layui-nav-item layui-nav-itemed myleftnav">
                 <a class="" href="javascript:;"><i class="fa fa-user-circle-o fa-lg"></i> <span >&nbsp;&nbsp;事项管理</span></a>
@@ -107,7 +107,7 @@
                     <dd><a class="loadPage" whichPage="" href="javascript:;">
                         <i class="fa fa-bell fa-lg"></i> <span >&nbsp;&nbsp;提醒事项</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="oaTools/signManager" href="javascript:;">
                         <i class="fa fa-check-square fa-lg"></i> <span >&nbsp;&nbsp;打卡签到</span>
                     </a></dd>
                 </dl>

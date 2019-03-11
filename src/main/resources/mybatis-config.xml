@@ -22,6 +22,7 @@
         <typeAlias type="com.lh.model.Permission" alias="Permission"/>
         <typeAlias type="com.lh.model.Role" alias="Role"/>
         <typeAlias type="com.lh.model.LeaveForm" alias="LeaveForm"/>
+        <typeAlias type="com.lh.model.Sign" alias="Sign"/>
     </typeAliases> 
 <!--
       <mappers>  
