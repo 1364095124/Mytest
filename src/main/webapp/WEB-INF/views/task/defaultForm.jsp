@@ -23,7 +23,7 @@
     <div class="form " style="background: #ffffff;">
     <h2 style="text-align: center">差旅费报销单</h2>
         <br/>
-        <form class="layui-form" action="">
+        <form class="layui-form" action="" id="test">
             <div class="layui-form-item">
                 <label class="layui-form-label">报销人所属部门：</label>
                 <div class="layui-input-block" style="width: 400px;">
@@ -77,8 +77,8 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">费用类型</label>
-                <div class="layui-input-block">
-                    <select name="interest" lay-filter="aihao">
+                <div class="layui-input-block" style="width:300px !important;">
+                    <select name="interest" lay-filter="aihao" >
                         <option value=""></option>
                         <option value="0" selected="">车费</option>
                         <option value="1" >住宿费</option>
@@ -98,7 +98,7 @@
 
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">具体事项</label>
-                <div class="layui-input-block">
+                <div class="layui-input-block" style="width:800px;">
                     <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
@@ -114,7 +114,7 @@
         </form>
     </div>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function() {
+    layui.use(['form', 'layedit', 'laydate','layer'], function() {
         var form = layui.form
             , layer = layui.layer
             , layedit = layui.layedit

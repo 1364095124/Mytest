@@ -21,11 +21,88 @@
           signs
         WHERE
           isDeleted=0
+        <if test="id!=null and id!=''">
+            id=#{id}
+        </if>
         <if test="account!=null">
             AND account=#{account}
         </if>
         <if test="signTime!=null">
             AND signTime=#{signTime}
         </if>
+        ORDER
+        BY
+          signTime
+        DESC
+
     </select>
+
+    <select id="queryMemo" parameterType="string"  resultType="Memo">
+        SELECT
+          *
+        FROM
+        (
+          SELECT
+            *
+          FROM
+            memos
+          WHERE
+            isDeleted=0
+          AND
+            account=#{account}
+        )
+        AS
+        a
+        <where>
+            <if test="keyWord!=null and keyWord!=''">
+                 a.title like concat('%',#{keyWord},'%')
+            OR
+                 a.tigger_Time like concat('%',#{keyWord},'%')
+            </if>
+        </where>
+
+
+    </select>
+
+    <insert id="addMemo" parameterType="Memo">
+        INSERT
+        INTO
+          memos
+        VALUES(
+          uuid(),
+          #{account},
+          #{title},
+          #{content},
+          #{tigger_Time},
+          0
+        )
+    </insert>
+
+    <update id="updateMemo" parameterType="Memo">
+        UPDATE
+          memos
+        <set>
+            <if test="title!=null and title!=''">
+                title=#{title},
+            </if>
+            <if test="content!=null and content!=''">
+                content=#{content},
+            </if>
+            <if test="tigger_Time!=null and tigger_Time!=''">
+                tigger_Time=#{tigger_Time},
+            </if>
+        </set>
+        WHERE
+          id=#{id}
+
+    </update>
+
+    <update id="deleteMemo" parameterType="string">
+        UPDATE
+          memos
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
 </mapper>

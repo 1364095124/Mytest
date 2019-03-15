@@ -47,6 +47,15 @@ public class LoginController {
         return "error";
     }
 
+    /**
+     * 跳转到403错误页面
+     * @return
+     */
+    @RequestMapping(value="/error403")
+    public String error403(){
+        return "error403";
+    }
+
     //跳转到主界面
     @RequestMapping(value = "/home")
     public String home(){

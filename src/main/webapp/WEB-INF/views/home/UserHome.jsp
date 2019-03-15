@@ -24,7 +24,7 @@
     }
 
 </style>
-<body class="layui-bg-gray">
+<body style="background-color:#f0f2f5">
 
 <ul class="layui-nav " style="background:#ffffff;">
 
@@ -104,7 +104,7 @@
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-diamond fa-lg"></i> <span >&nbsp;&nbsp;实用工具</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="oaTools/memoManager" href="javascript:;">
                         <i class="fa fa-bell fa-lg"></i> <span >&nbsp;&nbsp;提醒事项</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="oaTools/signManager" href="javascript:;">
@@ -116,7 +116,7 @@
             <li class="layui-nav-item myleftnav">
                 <a  href="javascript:;"><i class="fa fa-line-chart fa-lg"></i> <span >&nbsp;&nbsp;统计分析</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="" href="javascript:;"><i class="fa fa-database fa-lg"></i> <span >&nbsp;&nbsp;工作效率统计</span>
+                    <dd><a class="loadPage" whichPage="error403" href="javascript:;"><i class="fa fa-database fa-lg"></i> <span >&nbsp;&nbsp;工作效率统计</span>
                     </a></dd>
                 </dl>
             </li>
@@ -138,12 +138,12 @@
 <br/>
 <div class="layui-layout layui-layout-admin">
 
-    <div class="layui-container">
+    <div class="layui-fluid">
         <div id="main">
             <div class="row" >
                 <div  class="layui-col-lg12">
 
-                    <div id="AppSso" style="background-color:rgba(255,255,255,0.5);border-radius:10px;height:80px;">
+                    <div id="AppSso" style="background-color:rgba(255,255,255,0.7);border-radius:10px;height:80px;">
 
                     </div>
                 </div>
@@ -235,6 +235,7 @@
             //将footer和body的宽度修改
             $('.layui-body').css('left', 50+'px');
             $('.layui-footer').css('left', 50+'px');
+            $('.layui-fluid').css('padding-left',100+'px');
             //将二级导航栏隐藏
             $('dd span').each(function(){
                 $(this).hide();
@@ -246,6 +247,7 @@
             $('.kit-side-fold ').css('left', '200px');
             $('.layui-body').css('left', 200+'px');
             $('.layui-footer').css('left', 200+'px');
+            $('.layui-fluid').css('padding-left',250+'px');
             $('dd span').each(function(){
                 $(this).show();
             });
