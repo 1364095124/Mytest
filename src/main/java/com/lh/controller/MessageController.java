@@ -57,7 +57,7 @@ public class MessageController {
      */
     @RequestMapping("msg/updateToRead")
     @ResponseBody
-    public int updateToRead(@RequestParam("id") String id){
+    public String updateToRead(@RequestParam("id") String id){
         return msgService.updateToRead(id);
     }
 

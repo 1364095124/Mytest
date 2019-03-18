@@ -22,7 +22,7 @@ public interface IMsgService {
     *@Param id 消息主键id
     * 修改消息状态为已读
      */
-    public int updateToRead(String id);
+    public String updateToRead(String id);
 
 
     //分页数据

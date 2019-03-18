@@ -63,6 +63,7 @@ public class ThridQuartz {
                         message.setContent(memo.getContent());
                         message.setReceive_id(memo.getAccount());
                         message.setType("公告");
+                        message.setSendName("System");
                         message.setSendTime(memo.getTigger_Time());
                         System.out.println("发送公告"+ JSON.toJSONString(message));
                         msgService.sendMsg(message);

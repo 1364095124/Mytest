@@ -39,9 +39,9 @@
 </script>
 
 <script>
+    var n;
     layui.use('table', function(){
         var table = layui.table;
-
         //渲染
         table.render({
             elem: '#test'  //绑定table表格
@@ -101,6 +101,8 @@
         //监听工具条
         table.on('tool(test)', function(obj){
             var data = obj.data;
+            console.log(data);
+            n=data;
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
@@ -116,8 +118,81 @@
                     });
                     layer.close(index);
                 });
+            }else if(obj.event === 'detail'){
+                var data = obj.data;
+                var temp=" <form class=\"layui-form\" action=\"\" >\n" +
+                    "        <br/> <br/> <br/><div class=\"layui-form-item\">\n" +
+                    "            <label class=\"layui-form-label\">发送者</label>\n" +
+                    "            <div class=\"layui-input-block\" style=\"width: 500px;\">\n" +
+                    "                <input type=\"text\" name=\"send_id\" id=\"send_id\" readonly value="+data.send_id+"\n" +
+                    "                        class=\"layui-input\">\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"layui-form-item\">\n" +
+                    "            <label class=\"layui-form-label\">发送时间</label>\n" +
+                    "            <div class=\"layui-input-block\" style=\"width: 500px;\">\n" +
+                    "                <input type=\"date\" name=\"sendTime\" id=\"sendTime\" readonly value="+data.sendTime+"\n" +
+                    "                        class=\"layui-input\">\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"layui-form-item layui-form-text\">\n" +
+                    "            <label class=\"layui-form-label\">内容</label>\n" +
+                    "            <div class=\"layui-input-block\" name=\"\" style=\"width:800px;\">\n" +
+                    "                <textarea id=\"content\" name=\"content\" readonly  class=\"layui-textarea\">"+data.content+"</textarea>\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"layui-form-item\">\n" +
+                    "            <div class=\"layui-input-block\">\n" +
+                    "                <button  class=\"layui-btn\" lay-submit lay-filter=\"SubForm\">已读</button>\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "        <br/>\n" +
+                    "        <br/>\n" +
+                    "    </form>";
+                var index=layer.open({
+                    type: 1,//类型
+                    offset: '150px',
+                    area: ['1000px', '700px'],//定义宽和高
+                    title: '查看详细信息',//题目
+                    shadeClose: false,//点击遮罩层关闭
+                    content: temp//打开的内容
+                });
+                form.on('submit(SubForm)', function(data) {
+                    var param = JSON.stringify(data.field);//定义临时变量获取表单提交过来的数据，非json格式
+                    //测试是否获取到表单数据，调试模式下在页面控制台查看
+                    $.ajax({
+                        url: "msg/updateToRead",
+                        type: 'post',//method请求方式，get或者post
+                        dataType: 'json',//预期服务器返回的数据类型
+                        data: {
+                            "id":n.id
+                        },
+                        //表格数据序列化
+                        success: function (res) {//res为相应体,function为回调函数
+                            layer.close(layer.index);
+                            if (res.success == true) {
+                                layer.alert('成功', {icon: 1});
+                                //$("#res").click();//调用重置按钮将表单数据清空
+                                setTimeout(function () {
+                                    $("#main").load("msg/unreadMsg");
+                                },200)
+
+                            } else {
+                                layer.alert(data.msg, {icon: 2});
+                            }
+                        },
+                        error: function () {
+                            layer.close(layer.index);
+                            layer.alert('操作失败！！！', {icon: 5});
+                        }
+
+                    });
+                    return false;
+                });
             }
         });
+
+
 
         var  active = {
             getCheckData: function(){//获取选中数据

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lh.dao.MsgMapper">
     <sql id="msgItem">
-        id,send_id,receive_id,type,content,sendTime,url
+        id,send_id,receive_id,type,content,sendTime,url,isRead
     </sql>
     <insert id="addMsg" parameterType="Message">
         INSERT
@@ -34,6 +34,8 @@
         messages
       WHERE
         isDeleted=0
+      AND
+        type='消息'
       AND
         isRead=#{isRead}
       <if test="null!=id">

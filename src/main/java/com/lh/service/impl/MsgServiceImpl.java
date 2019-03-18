@@ -74,8 +74,16 @@ public class MsgServiceImpl implements IMsgService {
     }
 
     @Override
-    public int updateToRead(String id) {
-        return msgMapper.updateToRead(id);
+    public String updateToRead(String id) {
+        JSONObject result=new JSONObject();
+        if(msgMapper.updateToRead(id)>0){
+            result.put("success",true);
+            result.put("msg","");
+        }else{
+            result.put("success",false);
+            result.put("msg","更新信息失败");
+        }
+        return JSON.toJSONString(result);
     }
 
     @Override
