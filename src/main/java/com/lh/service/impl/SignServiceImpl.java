@@ -78,9 +78,13 @@ public class SignServiceImpl implements ISignService {
     }
 
     @Override
-    public String queryMemo(String account, String keyWord) {
-        List<Memo> list=signMapper.queryMemo(account,keyWord);
-
+    public String queryMemo(String account, String keyWord,String isNew) {
+        List<Memo> list=new ArrayList<>();
+        if(isNew.equals("1")){
+            list=signMapper.queryNewMemo(account,keyWord);
+        }else if(isNew.equals("0")){
+            list=signMapper.queryOldMemo(account,keyWord);
+        }
         return JSON.toJSONString(list);
     }
 

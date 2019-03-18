@@ -6,7 +6,6 @@ import com.lh.dao.MsgMapper;
 import com.lh.dao.UserMapper;
 import com.lh.model.Message;
 import com.lh.model.Page;
-import com.lh.model.User;
 import com.lh.scoket.SocketHandler;
 import com.lh.service.IMsgService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class MsgServiceImpl implements IMsgService {
         msg.setContent(message.getContent());
         SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         msg.setSendTime(fmt.format(new Date()));
-        msg.setUrl(message.getUrl());
+
         int result=msgMapper.addMsg(msg);
         if(result>0) {
             msg.setSendName(message.getSend_id());

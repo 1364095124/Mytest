@@ -1,5 +1,6 @@
 package com.lh.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.lh.model.Memo;
 import com.lh.model.Sign;
 import com.lh.service.ISignService;
@@ -70,14 +71,17 @@ public class SignController {
     }
 
     /**
-     * @Param memo,keyWord
+     * @Param memo,keyWord,isNew
      * 查询备忘录数据
      */
     @ResponseBody
-    @RequestMapping(value="/oaTools/memoMannger/queryMemo")
-    public String queryMemo(@RequestParam("account") String account,@RequestParam("keyWord") String keyWord){
-        return signService.queryMemo(account,keyWord);
+    @RequestMapping(value="/oaTools/memoMannger/queryMemo",produces = "text/plain;charset=utf-8")
+    public String queryMemo(@RequestParam("account") String account,@RequestParam("keyWord") String keyWord,
+                            @RequestParam("isNew") String isNew){
+        return signService.queryMemo(account,keyWord,isNew);
     }
+
+
 
     /**
      * @Param memo

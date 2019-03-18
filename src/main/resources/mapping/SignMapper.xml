@@ -37,7 +37,23 @@
 
     </select>
 
-    <select id="queryMemo" parameterType="string"  resultType="Memo">
+    <select id="queryAllMemo" resultType="Memo">
+        SELECT
+          *
+        FROM
+          memos
+    </select>
+
+    <select id="queryAvalMemo" resultType="Memo">
+        SELECT
+          *
+        FROM
+          memos
+        WHERE
+          TIMESTAMPDIFF(MINUTE,NOW(),tigger_Time)&lt;5
+    </select>
+
+    <select id="queryNewMemo" parameterType="string"  resultType="Memo">
         SELECT
           *
         FROM
@@ -48,6 +64,8 @@
             memos
           WHERE
             isDeleted=0
+          AND
+            TIMESTAMPDIFF(MINUTE,NOW(),tigger_Time)&lt;5
           AND
             account=#{account}
         )
@@ -62,6 +80,33 @@
         </where>
 
 
+    </select>
+
+    <select id="queryOldMemo" parameterType="string" resultType="Memo">
+        SELECT
+          *
+        FROM
+        (
+          SELECT
+            *
+          FROM
+            memos
+          WHERE
+            isDeleted=0
+          AND
+            TIMESTAMPDIFF(MINUTE,NOW(),tigger_Time)&gt;5
+          AND
+          account=#{account}
+        )
+        AS
+        a
+        <where>
+            <if test="keyWord!=null and keyWord!=''">
+                a.title like concat('%',#{keyWord},'%')
+                OR
+                a.tigger_Time like concat('%',#{keyWord},'%')
+            </if>
+        </where>
     </select>
 
     <insert id="addMemo" parameterType="Memo">

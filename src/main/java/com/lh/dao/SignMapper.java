@@ -15,7 +15,13 @@ public interface SignMapper {
 
     Integer addMemo(Memo memo);
 
-    List<Memo> queryMemo(@Param("account") String account, @Param("keyWord") String keyWord);
+    List<Memo> queryNewMemo(@Param("account") String account, @Param("keyWord") String keyWord);
+
+    List<Memo> queryAllMemo();
+
+    List<Memo> queryOldMemo(@Param("account") String account,@Param("keyWord") String keyWord);
+
+    List<Memo> queryAvalMemo();
 
     Integer updateMemo(Memo memo);
 

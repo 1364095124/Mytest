@@ -15,7 +15,7 @@ public interface ISignService {
 
     String addMemo(Memo memo);
 
-    String queryMemo(String account,String keyWord);
+    String queryMemo(String account,String keyWord,String isNew);
 
     String updateMemo(Memo memo);
 

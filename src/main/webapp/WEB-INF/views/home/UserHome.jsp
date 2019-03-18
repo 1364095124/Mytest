@@ -233,9 +233,13 @@
             $('.layui-side.layui-bg-black').width(50); //设置宽度
             $('.kit-side-fold ').css('left', '50px');//修改图标的位置
             //将footer和body的宽度修改
+            $('.layui-body').css('transition', 0.2+'s');
+            $('.layui-footer').css('transition',0.2+'s');
+            $('.layui-fluid').css('transition', 0.2+'s');
             $('.layui-body').css('left', 50+'px');
             $('.layui-footer').css('left', 50+'px');
             $('.layui-fluid').css('padding-left',100+'px');
+
             //将二级导航栏隐藏
             $('dd span').each(function(){
                 $(this).hide();
@@ -266,7 +270,7 @@
             $("#curUser").html(data);
         },
         error:function(){
-            alert("获取当前登陆人信息异常！");
+            alert("身份信息已过期，请重新登陆");
         }
     });
 

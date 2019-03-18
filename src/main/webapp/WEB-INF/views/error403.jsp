@@ -21,7 +21,9 @@
     </div>
     <script>
         $("button[name='backhome']").on('click',function(){
-           window.location.href="home";
+            alert("点击下方确认按钮刷新页面", "温馨提示","确定",function(){
+                window.location.href="login";
+            });
         });
     </script>
 </body>
