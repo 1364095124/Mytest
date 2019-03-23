@@ -37,4 +37,10 @@ public interface MsgMapper {
      */
     public Integer selectPageCount(Page page);
 
+    /**
+     * @Param id
+     * 删除消息
+     */
+    public Integer delMsg(String id);
+
 }

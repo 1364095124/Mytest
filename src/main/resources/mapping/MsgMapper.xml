@@ -103,4 +103,13 @@
             AND content like binary CONCAT('%',#{keyWord},'%')
         </if>
     </select>
+
+    <update id="delMsg" parameterType="string">
+        UPDATE
+          messages
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
 </mapper>

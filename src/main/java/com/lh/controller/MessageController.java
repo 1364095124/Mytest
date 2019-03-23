@@ -28,11 +28,8 @@ public class MessageController {
     @RequestMapping(value="/msg/addMsg",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String addMsg(@RequestBody Message message){
-         msgService.sendMsg(message);
-         Map<String,Object> map=new HashMap<>();
-         map.put("state","200");
-         map.put("message","success!");
-         return JSON.toJSONString(map);
+
+         return msgService.sendMsg(message);
     }
     //跳转到未读消息界面
     @RequestMapping("msg/unreadMsg")
@@ -72,5 +69,15 @@ public class MessageController {
         int totals=msgService.selectPageCount(page);
         page.setTotalRecord(totals);
         return new ResultMap<List<Message>>("",contentList,0,totals);
+    }
+
+    /**
+     * @Param id
+     * 删除信息
+     */
+    @RequestMapping(value="/msg/delMsg")
+    @ResponseBody
+    public String delMsg(@RequestParam("id") String id){
+        return msgService.delMsg(id);
     }
 }

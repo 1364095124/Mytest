@@ -26,15 +26,17 @@
 <table id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">回复</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="Readstate">
 
     {{#  if(d.isRead == 0){ }}
-    <span class="layui-badge layui-bg-green">未读</span>
+    <input type="checkbox" name="isRead" value="{{d.isRead}}" lay-skin="switch"
+           lay-text="已读|未读" lay-filter="isShow" >
     {{#  } else { }}
-    <span class="layui-badge layui-bg-gray">已读</span>
+    <input type="checkbox" name="isRead" value="{{d.isRead}}" lay-skin="switch"
+           lay-text="已读|未读" lay-filter="isShow" checked>
     {{#  } }}
 </script>
 
@@ -64,10 +66,10 @@
             ,toolbar: '#toolbarDemo'
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                ,{field:'sendTime', align:'center',title:'时间', width:210, fixed: 'left', unresize: true, sort: true}
-                ,{field:'send_id', align:'center',title:'发送人', width:180, edit: 'text'}
-                ,{field:'content', title:'内容', width:250, edit: 'text'}
-                ,{field:'isRead', title:'状态', width:80,templet:'#Readstate'}
+                ,{field:'sendTime', align:'center',title:'时间', width:250, fixed: 'left', unresize: true, sort: true}
+                ,{field:'send_id', align:'center',title:'发送人', width:220, edit: 'text'}
+                ,{field:'content', title:'内容', width:300, edit: 'text'}
+                ,{field:'isRead', title:'状态', width:170,templet:'#Readstate'}
                 ,{fixed: 'right', align:'center', toolbar: '#barDemo'}
             ]]
         });
@@ -101,21 +103,64 @@
         //监听工具条
         table.on('tool(test)', function(obj){
             var data = obj.data;
-            console.log(data);
             n=data;
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
-                    obj.del();
+                    $.ajax({
+                        type:"post",
+                        url:"msg/delMsg",
+                        resultType:"json",
+                        data:{
+                            "id":data.id
+                        },
+                        success:function(data){
+                            if(data!=""&&data!=null){
+                                if(data.success=true){
+                                    layer.msg("删除成功！");
+                                    obj.del();
+                                }else{
+                                    layer.msg("删除失败！");
+                                }
+                            }
+                        },
+                        error:function(){
+                            alert("删除异常！");
+                        }
+                    })
+
                     layer.close(index);
                 });
             } else if(obj.event === 'edit'){
+
                 layer.prompt({
                     formType: 2
-                    ,value: data.username
+                    ,value: ""
                 }, function(value, index){
-                    obj.update({
-                        username: value
-                    });
+                    var msg={
+                        "send_id":$("#curUser").html(),
+                        "receive_id":data.send_id,
+                        "content":value
+                    }
+                    $.ajax({
+                        type:"post",
+                        url:"msg/addMsg",
+                        resultType:'json',
+                        dataType:"json",
+                        contentType: "application/json;charset=utf-8",
+                        data:JSON.stringify(msg),
+                        success:function(data){
+                            if(data!=""){
+                                if(data.success==true){
+                                    layer.msg("发送成功！");
+                                }else{
+                                    layer.msg("发送失败");
+                                }
+                            }
+                        },
+                        error:function(){
+                            alert("失败！");
+                        }
+                    })
                     layer.close(index);
                 });
             }else if(obj.event === 'detail'){

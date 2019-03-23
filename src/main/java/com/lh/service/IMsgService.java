@@ -10,7 +10,7 @@ public interface IMsgService {
     *@Param message 消息
     * 发送消息
      */
-    public void sendMsg(Message message);
+    public String sendMsg(Message message);
 
     /*
     *@Param message 消息
@@ -29,4 +29,10 @@ public interface IMsgService {
     List<Message> selectPageList(Page page);
     //分页数据总数
     Integer selectPageCount(Page page);
+
+    /**
+     * @Param id
+     * 删除消息
+     */
+    String delMsg(String id);
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +43,14 @@ public class MsgServiceImpl implements IMsgService {
 
 
     @Override
-    public void sendMsg(Message message) {
+    public String sendMsg(Message message) {
+        JSONObject resultStr=new JSONObject();
         Message msg=new Message();
         msg.setSend_id(message.getSend_id());
         msg.setReceive_id(message.getReceive_id());
         msg.setType(message.getType());
         msg.setContent(message.getContent());
+
         SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         msg.setSendTime(fmt.format(new Date()));
 
@@ -57,7 +60,13 @@ public class MsgServiceImpl implements IMsgService {
             Map<String, Object> map = new HashMap<>();
             map.put("MSG", msg);
             socketHandler.sendMessageToUser(message.getReceive_id(), JSONObject.toJSONString(map));
+            resultStr.put("success",true);
+            resultStr.put("msg","");
+        }else{
+            resultStr.put("success",false);
+            resultStr.put("msg","失败");
         }
+        return JSON.toJSONString(resultStr);
     }
 
     @Override
@@ -94,5 +103,18 @@ public class MsgServiceImpl implements IMsgService {
     @Override
     public Integer selectPageCount(Page page) {
         return msgMapper.selectPageCount(page);
+    }
+
+    @Override
+    public String delMsg(String id){
+        JSONObject result=new JSONObject();
+        if(msgMapper.delMsg(id)>0){
+            result.put("success",true);
+            result.put("msg","");
+        }else{
+            result.put("success",false);
+            result.put("msg","删除失败");
+        }
+        return JSON.toJSONString(result);
     }
 }
