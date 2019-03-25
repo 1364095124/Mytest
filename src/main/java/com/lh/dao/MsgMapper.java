@@ -25,7 +25,7 @@ public interface MsgMapper {
      */
     public int updateToRead(String id);
 
-    /*
+    /**
     @Param page
     通过关键字查询分页查询数据列表
      */

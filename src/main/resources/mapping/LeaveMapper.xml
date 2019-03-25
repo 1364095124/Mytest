@@ -2,34 +2,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lh.dao.LeaveMapper">
     <sql id="leaveItme">
-        leave_id,department_Name,account,start_place,end_place,start_time,end_time,init_time,
+        leave_id,department_Name,account,applyTime,start_place,end_place,start_time,end_time,
         type,sum,note,state,processInstanceId,isDeleted
     </sql>
 
     <insert id="addLeave" parameterType="LeaveForm">
         INSERT
         INTO
-          leaveForms
+          leaveForms(
+            leave_id,
+            department_Name,
+            account,
+            applyTime,
+            start_place,
+            end_place,
+            start_time,
+            end_time,
+            type,
+            sum,
+            note,
+            state,
+            processInstanceId,
+            isDeleted
+          )
         VALUES
           (
             uuid(),
             #{department_Name},
             #{account},
+            #{applyTime},
             #{start_place},
             #{end_place},
             #{start_time},
             #{end_time},
-            #{init_time},
             #{type},
             #{sum},
             #{note},
-            '审核中',
-            null,
+            #{state},
+            #{processInstanceId},
             0
           )
 
 
     </insert>
+
+    <select id="queryLeaveById" parameterType="string" resultType="LeaveForm">
+        SELECT
+          *
+        FROM
+          leaveForms
+        WHERE
+          isDeleted=0
+        AND
+          leave_id=#{leave_id}
+    </select>
 
     <select id="queryLeave" parameterType="LeaveForm" resultType="LeaveForm">
         SELECT
@@ -44,8 +70,8 @@
         <if test="account!=null">
             AND account=#{account}
         </if>
-        <if test="init_time!=null">
-            AND init_time=#{init_time}
+        <if test="applyTime!=null">
+            AND applyTime=#{applyTime}
         </if>
     </select>
 
@@ -66,7 +92,7 @@
                 leave_id=#{leave_id}
             </if>
             <if test="account!=null">
-                account=#{account}
+              AND  account=#{account}
             </if>
         </where>
 
@@ -80,4 +106,47 @@
         WHERE
           leave_id=#{leave_id}
     </update>
+
+    <select id="selectLeaveList" parameterType="Page" resultType="LeaveForm">
+        SELECT
+          *
+        FROM
+          leaveforms
+        WHERE
+          isDeleted=0
+
+          <if test="account!=null and account!=''">
+            AND account=#{account}
+          </if>
+
+          <if test="keyWord!=null and keyWord!='' and keyType=='applyTime'">
+              AND applyTime like concat('%',#{keyWord},'%')
+          </if>
+          <if test="keyWord!=null and keyWord!='' and keyType=='state'">
+              AND state=#{keyWord}
+          </if>
+        order by applyTime desc
+        limit #{start},#{rows}
+
+    </select>
+
+    <select id="selectLeavePage" parameterType="Page" resultType="java.lang.Integer">
+        SELECT
+          count(1)
+        from
+          leaveforms
+        WHERE
+          isDeleted=0
+
+        <if test="account!=null and account!=''">
+            AND account=#{account}
+        </if>
+
+        <if test="keyWord!=null and keyWord!='' and keyType=='applyTime'">
+            AND applyTime like concat('%',#{keyWord},'%')
+        </if>
+        <if test="keyWord!=null and keyWord!='' and keyType=='state'">
+            AND state=#{keyWord}
+        </if>
+    </select>
 </mapper>

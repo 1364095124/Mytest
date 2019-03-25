@@ -60,7 +60,7 @@
     <div class="layui-side-scroll">
 
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <ul class="layui-nav  layui-nav-tree"  lay-filter="test">
+        <ul class="layui-nav  layui-nav-tree"  lay-filter="test" >
             <li class="layui-nav-item myleftnav" style="height:60px;background-color:rgba(255,255,255,0.1);"><span style="margin-left:16px;font-size:35px;"><i style="color:#1890ff !important;" class="fa fa-twitter"></i>&nbsp;<strong>OA协同办公系统</strong></span></li>
             <li class="layui-nav-item layui-nav-itemed myleftnav">
                 <a class="" href="javascript:;"><i class="fa fa-user-circle-o fa-lg"></i> <span >&nbsp;&nbsp;事项管理</span></a>
@@ -68,7 +68,7 @@
                     <dd><a class="loadPage" whichPage="task/newTask" href="javascript:;">
                         <i class="fa fa-pencil fa-lg"></i> <span >&nbsp;&nbsp;新建事项</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="task/tasklist" href="javascript:;">
                         <i class="fa fa-clipboard fa-lg"></i> <span >&nbsp;&nbsp;已发事项</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="" href="javascript:;">
@@ -381,13 +381,15 @@
                             type:0,
                             title:msg.sendName,
                             content:msg.content,
-                            offset:'rb'
+                            offset:'rb',
+                            shade:0
                         });
                     }else if(msg.type=="代办"){
                         layer.open({
                             type:0,
                             title:msg.sendName,
                             content:msg.content,
+                            shade:0,
                             offset:'rb'
                         });
                     }else if(msg.type=="公告"){

@@ -77,7 +77,7 @@
 
 
 
-        //监听表格行点击
+       /* //监听表格行点击
         table.on('tr', function(obj){
             console.log(obj)
         });
@@ -98,7 +98,7 @@
                 ,data = obj.data //得到所在行所有键值
                 ,field = obj.field; //得到字段
 
-        });
+        });*/
 
         //监听工具条
         table.on('tool(test)', function(obj){
@@ -139,7 +139,8 @@
                     var msg={
                         "send_id":$("#curUser").html(),
                         "receive_id":data.send_id,
-                        "content":value
+                        "content":value,
+                        "type":"消息"
                     }
                     $.ajax({
                         type:"post",
@@ -185,15 +186,28 @@
                     "            <div class=\"layui-input-block\" name=\"\" style=\"width:800px;\">\n" +
                     "                <textarea id=\"content\" name=\"content\" readonly  class=\"layui-textarea\">"+data.content+"</textarea>\n" +
                     "            </div>\n" +
-                    "        </div>\n" +
-                    "        <div class=\"layui-form-item\">\n" +
-                    "            <div class=\"layui-input-block\">\n" +
-                    "                <button  class=\"layui-btn\" lay-submit lay-filter=\"SubForm\">已读</button>\n" +
-                    "            </div>\n" +
-                    "        </div>\n" +
-                    "        <br/>\n" +
-                    "        <br/>\n" +
-                    "    </form>";
+                    "        </div>\n" ;
+                if(data.isRead==0){
+                    temp+= "        <div class=\"layui-form-item\">\n" +
+                        "            <div class=\"layui-input-block\">\n" +
+                        "                <button  class=\"layui-btn\" lay-submit lay-filter=\"SubForm\">已读</button>\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "        <br/>\n" +
+                        "        <br/>\n" +
+                        "    </form>";
+                }else{
+                    temp+=
+                        "        <div class=\"layui-form-item\">\n" +
+                        "            <div class=\"layui-input-block\">\n" +
+                        "                <button  class=\"layui-btn layui-btn-disabled\" lay-submit lay-filter=\"SubForm\">已读</button>\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "        <br/>\n" +
+                        "        <br/>\n" +
+                        "    </form>";
+                }
+
                 var index=layer.open({
                     type: 1,//类型
                     offset: '150px',

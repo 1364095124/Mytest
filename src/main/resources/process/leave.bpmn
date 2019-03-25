@@ -5,7 +5,7 @@
     <userTask activiti:assignee="张三" activiti:exclusive="true" id="_3" name="员工发起报销单"/>
     <endEvent id="_4" name="EndEvent"/>
     <sequenceFlow id="_5" sourceRef="_2" targetRef="_3"/>
-    <userTask activiti:exclusive="true" id="_7" name="部门经理审批"/>
+    <userTask activiti:assignee="zhangsan" activiti:exclusive="true" id="_7" name="部门经理审批"/>
     <sequenceFlow id="_8" sourceRef="_3" targetRef="_7"/>
     <sequenceFlow id="_9" sourceRef="_7" targetRef="_4"/>
     <userTask activiti:exclusive="true" id="_10" name="部门经理审批"/>

@@ -61,13 +61,10 @@ public class MessageController {
     @RequestMapping("/msg/msgList")
     @ResponseBody
     public ResultMap<List<Message>> backContent(Page page, @RequestParam("limit") int limit){
-        System.out.println("backContent========================"+limit);
         page.setRows(limit);
-        System.out.println("page:"+page.toString());
         List<Message> contentList=msgService.selectPageList(page);
-        System.out.println(JSONObject.toJSONString(contentList));
         int totals=msgService.selectPageCount(page);
-        page.setTotalRecord(totals);
+//        page.setTotalRecord(totals);
         return new ResultMap<List<Message>>("",contentList,0,totals);
     }
 

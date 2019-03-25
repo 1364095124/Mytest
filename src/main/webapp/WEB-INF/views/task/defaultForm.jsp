@@ -27,14 +27,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">报销人所属部门：</label>
                 <div class="layui-input-block" style="width: 400px;">
-                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门"
-                           class="layui-input">
+                    <input type="text" name="department_Name" id="department_Name" lay-verify="required"
+                           autocomplete="off" placeholder="请输入部门" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">报销人</label>
                 <div class="layui-input-block" style="width: 500px;">
-                    <input type="text" name="username" lay-verify="required" placeholder="请输入姓名"
+                    <input type="text" name="account" id="account"  lay-verify="required" placeholder="请输入账号"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -43,7 +43,8 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">出发地点</label>
                     <div class="layui-input-inline">
-                        <input type="tel" name="start_place" lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="tel" name="start_place"  lay-verify="required"
+                               autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -78,7 +79,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">费用类型</label>
                 <div class="layui-input-block" style="width:300px !important;">
-                    <select name="interest" lay-filter="aihao" >
+                    <select name="type"  >
                         <option value=""></option>
                         <option value="0" selected="">车费</option>
                         <option value="1" >住宿费</option>
@@ -91,7 +92,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">合计：</label>
                 <div class="layui-input-block" style="width: 500px;">
-                    <input type="text" name="money" lay-verify="required|number" placeholder="请输入金额"
+                    <input type="text" name="sum" lay-verify="required|number" placeholder="请输入金额"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -99,20 +100,21 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">具体事项</label>
                 <div class="layui-input-block" style="width:800px;">
-                    <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea placeholder="请输入内容" name="note" class="layui-textarea"></textarea>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button  class="layui-btn" lay-submit lay-filter="SubForm">立即提交</button>
+                    <button  type="button" name="saveForm" class="layui-btn layui-btn-primary">存为草稿</button>
                 </div>
             </div>
             <br/>
             <br/>
         </form>
     </div>
+
 <script>
     layui.use(['form', 'layedit', 'laydate','layer'], function() {
         var form = layui.form
@@ -128,7 +130,57 @@
             elem: '#end_time'
         });
         form.render();
+
+        $("button[name='saveForm']").on('click',function(){
+            $.ajax({
+                type:'post',
+                url:'task/saveTask',
+                data:$("#test").serialize(),
+                dataType:'json',
+                success:function(data){
+                    if(data.success==true){
+                        layer.alert('保存成功', {icon: 1});
+                    }else{
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                },
+                error:function(){
+                    layer.alert('操作异常！！！', {icon: 5});
+                }
+            });
+        });
+
+        form.on('submit(SubForm)', function(data) {
+            var param = JSON.stringify(data.field);//定义临时变量获取表单提交过来的数据，非json格式
+            console.log(param);//测试是否获取到表单数据，调试模式下在页面控制台查看
+            $.ajax({
+                url: "task/autoStartApply",
+                type: 'post',//method请求方式，get或者post
+                dataType: 'json',//预期服务器返回的数据类型
+                contentType: "application/json; charset=utf-8",
+                data: param,
+                //表格数据序列化
+                success: function (res) {//res为相应体,function为回调函数
+                    layer.close(layer.index);
+                    if (res.success == true) {
+                        layer.alert('保存信息成功', {icon: 1});
+                        //$("#res").click();//调用重置按钮将表单数据清空
+
+                    } else {
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                },
+                error: function () {
+                    layer.alert('操作异常！！！', {icon: 5});
+                }
+
+            });
+            return false;
+        });
     });
+
+
+
 </script>
 </body>
 </html>

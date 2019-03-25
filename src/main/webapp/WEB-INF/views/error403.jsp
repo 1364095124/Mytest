@@ -21,9 +21,20 @@
     </div>
     <script>
         $("button[name='backhome']").on('click',function(){
-            alert("点击下方确认按钮刷新页面", "温馨提示","确定",function(){
-                window.location.href="login";
-            });
+           $.ajax({
+              type:'post',
+              url:'deploy',
+               data:{
+                  "name":"测试流程单",
+                   "bpmn":'process/leave.bpmn',
+                   "png":"process/leave.png",
+                   "key":"leaveTest"
+               },
+               error:function(){
+                  alert("异常！");
+               }
+
+           });
         });
     </script>
 </body>

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service("fileService")
-public class FileService implements IFileService {
+public class FileServiceImpl implements IFileService {
 
     @Value("#{configProperties['upload.path']}")
     private String upload_Path;
