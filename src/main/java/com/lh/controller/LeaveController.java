@@ -90,9 +90,35 @@ public class LeaveController {
     }
 
 
+    /**
+     * 跳转到已发事项页面
+     * @return
+     */
     @RequestMapping(value="task/tasklist")
     public String tasklist(){
         return "task/taskList";
+    }
+
+    /**
+     * 分页查询存为草稿的申请
+     * @param page
+     * @param limit
+     * @return
+     */
+    @RequestMapping(value="task/trashTask")
+    @ResponseBody
+    public ResultMap<List<LeaveForm>> trashTask(Page page, @RequestParam("limit") Integer limit){
+
+        return leaveService.queryTrashLeave(page, limit);
+    }
+
+    /**
+     * 跳转到草稿页面
+     * @return
+     */
+    @RequestMapping(value="task/trashTaskJsp")
+    public String trashTaskJsp(){
+        return "task/trashTask";
     }
 
 

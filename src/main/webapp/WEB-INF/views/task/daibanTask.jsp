@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: HP
-  Date: 2019/3/25
-  Time: 16:44
+  Date: 2019/3/26
+  Time: 14:20
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -25,18 +25,14 @@
 </div>
 
 <table id="test" lay-filter="test"></table>
-<script type="text/html" id="sumState">
-    {{#  if(eval(d.sum) >=150){ }}
-    <span style="background: #FF5722;color:#ffffff;">{{d.sum}}</span>
-    {{#  } else { }}
-    <span style="background: #009688;color:#ffffff;">{{d.sum}}</span>
-    {{#  } }}
-</script>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">回复</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
+    <script type="text/html" id="sumState">
+
+    </script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">查看批注</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">查看流程</a>
+    </script>
 
 <script>
     layui.use('table', function() {
@@ -45,7 +41,7 @@
         table.render({
             elem: '#test'  //绑定table表格
             , height: 450
-            , url: 'task/trashTask' //后台springmvc接收路径
+            , url: 'task/daiban/daibanList' //后台springmvc接收路径
             , page: true    //true表示分页
             , toolbar: '#toolbarDemo'
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
@@ -64,7 +60,7 @@
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 , {
-                    field: 'applyTime',
+                    field: 'createTime',
                     align: 'center',
                     title: '申请时间',
                     width: 250,
@@ -72,15 +68,28 @@
                     unresize: true,
                     sort: true
                 }
-                , {field: 'end_place', align: 'center', title: '目的地' }
-                , {field: 'start_time', title: '出差时间'}
-                , {field: 'sum', title: '金额', width: 170,templet:'#sumState'}
-                , {field: 'note', align: 'center',title:'详情' }
-                , {field: 'state',title:'状态'}
+                , {field: 'name', align: 'center', title: '名称' }
+                , {field: 'endTime', title: '出差时间'}
+
                 , {fixed:'right',align:'cneter',templet:'#barDemo'}
             ]]
         });
+        table.on('tool(test)', function(obj) {
+            var data = obj.data;
+            n = data;
+            if (obj.event === 'detail') {
+                var data = obj.data;
 
+                var index=layer.open({
+                    type: 1,//类型
+                    offset: '50px',
+                    area: ['1000px', '800px'],//定义宽和高
+                    title: '查看详细信息',//题目
+                    shadeClose: false,//点击遮罩层关闭
+                    content: temp//打开的内容
+                });
+            }
+        });
         var  active = {
             getCheckData: function(){//获取选中数据
                 var checkStatus = table.checkStatus('test')

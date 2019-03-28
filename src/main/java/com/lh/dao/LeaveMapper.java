@@ -21,4 +21,8 @@ public interface LeaveMapper {
     public List<LeaveForm> selectLeaveList(Page page);
 
     public Integer selectLeavePage(Page page);
+
+    public List<LeaveForm> selectTrashLeave(Page page);
+
+    public Integer selectTrashPage(Page page);
 }

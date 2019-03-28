@@ -34,8 +34,8 @@
     </script>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">回复</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">查看批注</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">查看流程</a>
     </script>
 
     <script>
@@ -80,7 +80,110 @@
                     , {fixed:'right',align:'cneter',templet:'#barDemo'}
                 ]]
             });
-
+            table.on('tool(test)', function(obj) {
+                var data = obj.data;
+                n = data;
+                if (obj.event === 'detail') {
+                    var data = obj.data;
+                    var temp='<div class="form " style="background: #ffffff;">\n' +
+                        '    <h2 style="text-align: center">差旅费报销单</h2>\n' +
+                        '        <br/>\n' +
+                        '        <form class="layui-form" action="" id="test">\n' +
+                        '            <div class="layui-form-item">\n' +
+                        '                <label class="layui-form-label">报销人所属部门：</label>\n' +
+                        '                <div class="layui-input-block" style="width: 400px;">\n' +
+                        '                    <input type="text" name="department_Name" value='+data.department_Name+' readonly\n' +
+                        '                           autocomplete="off" placeholder="请输入部门" class="layui-input">\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '            <div class="layui-form-item">\n' +
+                        '                <label class="layui-form-label">报销人</label>\n' +
+                        '                <div class="layui-input-block" style="width: 500px;">\n' +
+                        '                    <input type="text" name="account" value='+data.account+'   readonly \n' +
+                        '                           autocomplete="off" class="layui-input">\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '\n' +
+                        '            <div class="layui-form-item">\n' +
+                        '                <div class="layui-inline">\n' +
+                        '                    <label class="layui-form-label">出发地点</label>\n' +
+                        '                    <div class="layui-input-inline">\n' +
+                        '                        <input type="tel" name="start_place"  value='+data.start_place+' readonly\n' +
+                        '                               autocomplete="off" class="layui-input">\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '                <div class="layui-inline">\n' +
+                        '                    <label class="layui-form-label">到达地点</label>\n' +
+                        '                    <div class="layui-input-inline">\n' +
+                        '                        <input type="text" name="end_place" value='+data.end_place+' readonly ' +
+                        '                            class="layui-input">\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '\n' +
+                        '            <div class="layui-form-item">\n' +
+                        '                <div class="layui-inline">\n' +
+                        '                    <label class="layui-form-label">出发时间</label>\n' +
+                        '                    <div class="layui-input-inline">\n' +
+                        '                        <input type="tel" name="start_time" value='+data.start_time+' readonly\n' +
+                        '                               autocomplete="off" class="layui-input">\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '                <div class="layui-inline">\n' +
+                        '                    <label class="layui-form-label">到达时间</label>\n' +
+                        '                    <div class="layui-input-inline">\n' +
+                        '                        <input type="text" name="end_time" value='+data.end_time+' readonly\n' +
+                        '                                class="layui-input">\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '\n' +
+                        '\n' +
+                        '\n' +
+                        '\n' +
+                        '\n' +
+                        '            <div class="layui-form-item">\n' +
+                        '                <label class="layui-form-label">费用类型</label>\n' +
+                        '                <div class="layui-input-block" style="width:300px !important;">\n' +
+                        '                    <select name="type"  >\n' +
+                        '                        <option value=""></option>\n' +
+                        '                        <option value="0" selected="">车费</option>\n' +
+                        '                        <option value="1" >住宿费</option>\n' +
+                        '                        <option value="2">伙食费</option>\n' +
+                        '                        <option value="3">其他综合</option>\n' +
+                        '                    </select>\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '\n' +
+                        '            <div class="layui-form-item">\n' +
+                        '                <label class="layui-form-label">合计：</label>\n' +
+                        '                <div class="layui-input-block" style="width: 500px;">\n' +
+                        '                    <input type="text" name="sum" value='+data.sum+' readonly\n' +
+                        '                            class="layui-input">\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '\n' +
+                        '            <div class="layui-form-item layui-form-text">\n' +
+                        '                <label class="layui-form-label">具体事项</label>\n' +
+                        '                <div class="layui-input-block" style="width:800px;">\n' +
+                        '                    <textarea  name="note" class="layui-textarea">'+data.note+'</textarea>\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '\n' +
+                        '            <br/>\n' +
+                        '            <br/>\n' +
+                        '        </form>\n' +
+                        '    </div>';
+                    var index=layer.open({
+                        type: 1,//类型
+                        offset: '50px',
+                        area: ['1000px', '800px'],//定义宽和高
+                        title: '查看详细信息',//题目
+                        shadeClose: false,//点击遮罩层关闭
+                        content: temp//打开的内容
+                    });
+                }
+            });
             var  active = {
                 getCheckData: function(){//获取选中数据
                     var checkStatus = table.checkStatus('test')

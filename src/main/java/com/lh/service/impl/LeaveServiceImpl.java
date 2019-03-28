@@ -95,6 +95,19 @@ public class LeaveServiceImpl implements ILeaveService {
         return new ResultMap<List<LeaveForm>>("",contentList,0,totals);
     }
 
+    /**
+     * 分页查询存为草稿的申请
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public ResultMap<List<LeaveForm>> queryTrashLeave(Page page, Integer limit) {
+        page.setRows(limit);
+        List<LeaveForm> contentList=leaveMapper.selectTrashLeave(page);
+        int totals=leaveMapper.selectTrashPage(page);
+        return new ResultMap<List<LeaveForm>>("",contentList,0,totals);
+    }
 
 
     /**

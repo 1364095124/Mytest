@@ -72,9 +72,9 @@
                         <i class="fa fa-clipboard fa-lg"></i> <span >&nbsp;&nbsp;已发事项</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="" href="javascript:;">
-                        <i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;已办事项</span>
+                        <i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;代办事项</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="task/trashTaskJsp" href="javascript:;">
                         <i class="fa fa-trash fa-lg"></i> <span >&nbsp;&nbsp;草稿箱</span>
                     </a></dd>
                 </dl>
@@ -82,7 +82,7 @@
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-hourglass-1 fa-lg"></i> <span >&nbsp;&nbsp;代办消息</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="task/daibanjsp" href="javascript:;">
                         <i class="fa fa-book fa-lg"></i> <span >&nbsp;&nbsp;我的代办</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="msg/unreadMsg"  href="javascript:;">

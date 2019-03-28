@@ -114,7 +114,8 @@
           leaveforms
         WHERE
           isDeleted=0
-
+        AND
+          state &lt;&gt;'编辑中'
           <if test="account!=null and account!=''">
             AND account=#{account}
           </if>
@@ -137,7 +138,53 @@
           leaveforms
         WHERE
           isDeleted=0
+        AND
+          state &lt;&gt;'编辑中'
+        <if test="account!=null and account!=''">
+            AND account=#{account}
+        </if>
 
+        <if test="keyWord!=null and keyWord!='' and keyType=='applyTime'">
+            AND applyTime like concat('%',#{keyWord},'%')
+        </if>
+        <if test="keyWord!=null and keyWord!='' and keyType=='state'">
+            AND state=#{keyWord}
+        </if>
+    </select>
+
+    <select id="selectTrashLeave" parameterType="Page" resultType="LeaveForm">
+        SELECT
+          *
+        FROM
+          leaveforms
+        WHERE
+          isDeleted=0
+        AND
+          state ='编辑中'
+        <if test="account!=null and account!=''">
+            AND account=#{account}
+        </if>
+
+        <if test="keyWord!=null and keyWord!='' and keyType=='applyTime'">
+            AND applyTime like concat('%',#{keyWord},'%')
+        </if>
+        <if test="keyWord!=null and keyWord!='' and keyType=='state'">
+            AND state=#{keyWord}
+        </if>
+        order by applyTime desc
+        limit #{start},#{rows}
+
+    </select>
+
+    <select id="selectTrashPage" parameterType="Page" resultType="java.lang.Integer">
+        SELECT
+          count(1)
+        from
+          leaveforms
+        WHERE
+          isDeleted=0
+        AND
+          state='编辑中'
         <if test="account!=null and account!=''">
             AND account=#{account}
         </if>

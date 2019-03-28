@@ -14,6 +14,8 @@ public interface ILeaveService {
 
     ResultMap<List<LeaveForm>> queryLeave(Page page, Integer limit);
 
+    ResultMap<List<LeaveForm>> queryTrashLeave(Page page,Integer limit);
+
     String queryLeaveById(String leave_id);
 
     String autoStartApply(LeaveForm leaveForm);
@@ -23,6 +25,8 @@ public interface ILeaveService {
     String save(LeaveForm leaveForm);
 
     String startApply(String leave_id,String account);
+
+    
 
 
 }
