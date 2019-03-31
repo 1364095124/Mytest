@@ -44,7 +44,7 @@ public class FileServiceImpl implements IFileService {
             SimpleDateFormat sm=new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
             String date=sm.format(new Date());
             //String truefileName=upload_Path+"/Images/"+date+"_"+fileName;
-            String truefileName="H:/ideaworkspace/Mytest/src/main/webapp/upload/images/"+date+"_"+fileName;
+            String truefileName="H:/upload/images/"+date+"_"+fileName;
             try {
                 //创建输入流
                 InputStream inputStream=file.getInputStream();

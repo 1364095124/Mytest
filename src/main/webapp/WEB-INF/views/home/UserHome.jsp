@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/iziToast/iziToast.css">
     <script src="js/jquery/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery/jquery.cookie.min.js"></script>
     <script src="layui/layui.js" charset="utf-8"></script>
 
     <script src="js/iziToast/iziToast.min.js"></script>
@@ -276,6 +277,7 @@
         },
         error:function(){
             alert("身份信息已过期，请重新登陆");
+            window.location.href="/login";
         }
     });
 
