@@ -69,7 +69,7 @@
                     sort: true
                 }
                 , {field: 'name', align: 'center', title: '名称' }
-                , {field: 'endTime', title: '出差时间'}
+                , {field: 'applyName', title: '申请人'}
 
                 , {fixed:'right',align:'cneter',templet:'#barDemo'}
             ]]

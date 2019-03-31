@@ -10,6 +10,8 @@ public interface LeaveMapper {
 
     public LeaveForm queryLeaveById(String leave_id);
 
+    public LeaveForm queryLeaveByPid(String processInstanceId);
+
     public List<LeaveForm> queryLeave(LeaveForm leaveForm);
 
     public Integer updateLeave(LeaveForm leaveForm);

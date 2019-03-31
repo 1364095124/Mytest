@@ -32,5 +32,7 @@ public interface UserMapper {
 
     public List<String>  queryPermissionByRole(String roleName);
 
+    
+
 
 }

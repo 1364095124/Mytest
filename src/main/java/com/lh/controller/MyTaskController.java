@@ -30,7 +30,7 @@ public class MyTaskController {
      * @param limit
      * @return
      */
-    @RequestMapping(value="/task/daiban/daibanList")
+    @RequestMapping(value="/task/daiban/daibanList",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String daibanList(Page page, @RequestParam("limit") Integer limit){
         return myTaskService.daibanTask(page,limit);

@@ -13,6 +13,15 @@ public class Person {
     private String phone; //电话号码
     private String email;  //电子邮件
     private String photo_url; //头像链接
+    private Integer isDeleted; //是否删除
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
     public String getSex() {
         return sex;

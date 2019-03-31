@@ -152,6 +152,17 @@
         </if>
     </select>
 
+    <select id="queryLeaveByPid" parameterType="string" resultType="LeaveForm">
+        SELECT
+          *
+        FROM
+          leaveForms
+        WHERE
+          isDeleted=0
+        AND
+          processInstanceId=#{processInstanceId}
+    </select>
+
     <select id="selectTrashLeave" parameterType="Page" resultType="LeaveForm">
         SELECT
           *
