@@ -32,7 +32,7 @@ public interface UserMapper {
 
     public List<String>  queryPermissionByRole(String roleName);
 
-    
+    public Integer insertUser(User user);
 
 
 }

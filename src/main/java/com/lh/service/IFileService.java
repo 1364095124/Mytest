@@ -13,4 +13,6 @@ public interface IFileService {
     String uploadImg(MultipartFile file);
 
     void download(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+    String changeAvatar(MultipartFile file);
 }

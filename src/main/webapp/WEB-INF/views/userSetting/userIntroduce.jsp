@@ -26,7 +26,7 @@
     <br/>
     <div style="background-color:#ffffff;">
         <p style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;padding-top:25px;">
-            <img src="//t.cn/RCzsdCq" id="pic" id="myPhoto" class="layui-circle"/>
+            <img src="upload/images/2019-03-31-09-36-30_t.png"  id="myPhoto" class="layui-circle"/>
         </p>
         <br/>
         <br/>
@@ -53,14 +53,18 @@
         <br/>
         <br/>
     </div>
+
     <script>
+
+        var url=$("img[name='curUser']").attr('src');
+        $("#myPhoto").attr('src',url);
         layui.use('upload', function(){
             var upload = layui.upload;
 
             //执行实例
             var uploadInst = upload.render({
                 elem: '#changeImg' //绑定元素
-                ,url: '/file/uploadImg' //上传接口
+                ,url: '/file/changeAvatar' //上传接口
                 ,auto:true
                 ,accept:'images'
                 ,drag:false
@@ -71,6 +75,13 @@
                     //上传完毕回调
                     layer.closeAll('loading');
                     console.log(res);
+                    if(res.success){
+                        $("img[name='curUser']").attr('src',res.msg);
+                        $("#myPhoto").attr('src',res.msg);
+                    }else{
+                        layer.alert(data.msg, {icon: 2});
+
+                    }
 
                 }
                 ,error: function(){

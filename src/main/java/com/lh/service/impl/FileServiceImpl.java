@@ -2,7 +2,12 @@ package com.lh.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lh.dao.PersonMapper;
+import com.lh.model.Person;
+import com.lh.model.User;
 import com.lh.service.IFileService;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +25,9 @@ public class FileServiceImpl implements IFileService {
     @Value("#{configProperties['upload.path']}")
     private String upload_Path;
 
+    @Autowired
+    private PersonMapper personMapper;
+
     @Override
     public String uploadImg(MultipartFile file) {
         JSONObject result=new JSONObject();
@@ -33,9 +41,10 @@ public class FileServiceImpl implements IFileService {
                 uploadFile.mkdirs();
             }
             String fileName=file.getOriginalFilename();
-            SimpleDateFormat sm=new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+            SimpleDateFormat sm=new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
             String date=sm.format(new Date());
-            String truefileName=upload_Path+"/Images/"+date+"_"+fileName;
+            //String truefileName=upload_Path+"/Images/"+date+"_"+fileName;
+            String truefileName="H:/ideaworkspace/Mytest/src/main/webapp/upload/images/"+date+"_"+fileName;
             try {
                 //创建输入流
                 InputStream inputStream=file.getInputStream();
@@ -83,5 +92,33 @@ public class FileServiceImpl implements IFileService {
             inputStream.close();
 
         }
+    }
+
+    @Override
+    public String changeAvatar(MultipartFile file) {
+        IFileService f=new FileServiceImpl();
+        String result=f.uploadImg(file);
+        JSONObject rs=new JSONObject();
+        JSONObject jsonObject=JSONObject.parseObject(result);
+        if(jsonObject.get("state").toString().equals("200")){
+            String urlPath=jsonObject.get("message").toString();
+            String filename=urlPath.substring(urlPath.lastIndexOf("/")+1);
+            System.out.println(filename);
+            User user=(User) SecurityUtils.getSubject().getPrincipal();
+            Person person=new Person();
+            person.setAccount(user.getAccount());
+            person.setPhoto_url("upload/images/"+filename);
+            if(personMapper.updatePerson(person)>0){
+                rs.put("success",true);
+                rs.put("msg","upload/images/"+filename);
+            }else{
+                rs.put("success",false);
+                rs.put("msg","更新数据库失败！");
+            }
+        }else{
+            rs.put("success",true);
+            rs.put("msg","图片上传失败");
+        }
+        return JSON.toJSONString(rs);
     }
 }

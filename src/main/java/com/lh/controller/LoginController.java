@@ -1,8 +1,10 @@
 package com.lh.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.lh.common.JedisUtils;
 import com.lh.model.User;
+import com.lh.service.IPersonService;
 import com.lh.service.IUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -26,7 +28,12 @@ public class LoginController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IPersonService personService;
+
     private Map<String,Object> resultMap=new HashMap<>();
+
+
 
 
     //跳转到登录页
@@ -81,7 +88,16 @@ public class LoginController {
     @ResponseBody
     public String getCurrentUser(HttpServletRequest request){
        User user=(User)SecurityUtils.getSubject().getPrincipal();
-        return user.getAccount();
+       String url=personService.getUserAvatar(user.getAccount());
+        JSONObject result=new JSONObject();
+        result.put("account",user.getAccount());
+        if(url==null){
+            result.put("url","");
+        }else{
+            result.put("url",url);
+        }
+
+        return JSON.toJSONString(result);
     }
 
     @RequestMapping(value="/getTest")

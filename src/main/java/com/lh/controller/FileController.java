@@ -38,6 +38,13 @@ public class FileController {
         return fileService.uploadImg(file);
     }
 
+    @ResponseBody
+    @RequestMapping(value="/file/changeAvatar")
+    public String changeAvatar(MultipartFile file){
+        return fileService.changeAvatar(file);
+    }
+
+
     /*
     @Param path
     图片下载

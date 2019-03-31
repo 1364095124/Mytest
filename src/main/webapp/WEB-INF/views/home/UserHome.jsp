@@ -266,8 +266,13 @@
         url:"getCurrentUser",
         data:"",
         success:function(data){
+            console.log(data.account);
+            data=JSON.parse(data);
+            $("#curUser").html(data.account);
+            if(data.url!=""&&data!=null){
+                $("img[name='curUser']").attr('src',data.url);
+            }
 
-            $("#curUser").html(data);
         },
         error:function(){
             alert("身份信息已过期，请重新登陆");

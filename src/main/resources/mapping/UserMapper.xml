@@ -9,7 +9,25 @@
     </sql>
     
 
-    
+    <insert id="insertUser" parameterType="User">
+        INSERT
+        INTO
+          users
+        (
+          <include refid="userItem"/>
+        )
+        VALUES
+        (
+          uuid(),
+          #{account},
+          #{password},
+          '',
+          #{isAdmin},
+          0,
+          0
+        )
+    </insert>
+
     <select id="login" parameterType="User" resultType="User">
         SELECT
           <include refid="userItem"/>
