@@ -2,12 +2,14 @@ package com.lh.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lh.common.EmailUtils;
 import com.lh.dao.MsgMapper;
+import com.lh.dao.PersonMapper;
 import com.lh.dao.UserMapper;
-import com.lh.model.Message;
-import com.lh.model.Page;
+import com.lh.model.*;
 import com.lh.scoket.SocketHandler;
 import com.lh.service.IMsgService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ public class MsgServiceImpl implements IMsgService {
     private MsgMapper msgMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    private PersonMapper personMapper;
 
 /**
  * @Title: sendMessage
@@ -56,7 +58,7 @@ public class MsgServiceImpl implements IMsgService {
 
         int result=msgMapper.addMsg(msg);
         if(result>0) {
-            msg.setSendName(message.getSend_id());
+            msg.setSend_id(message.getSend_id());
             Map<String, Object> map = new HashMap<>();
             map.put("MSG", msg);
             socketHandler.sendMessageToUser(message.getReceive_id(), JSONObject.toJSONString(map));
@@ -116,5 +118,67 @@ public class MsgServiceImpl implements IMsgService {
             result.put("msg","删除失败");
         }
         return JSON.toJSONString(result);
+    }
+
+
+    /**
+     * 发送邮件
+     * @param account
+     * @param content
+     * @return
+     */
+    @Override
+    public String sendEmail(String account, String content) {
+        User user=(User) SecurityUtils.getSubject().getPrincipal();
+        Person sender=personMapper.queryPersonByAccount(user.getAccount());
+        Person recevier=personMapper.queryPersonByAccount(account);
+        JSONObject rs=new JSONObject();
+        MailParameters p=new MailParameters();
+        p.setSenderAccount(sender.getEmail());
+        p.setSenderPassword("ghlggflzzsayijcc");
+        p.setSenderAddress(sender.getEmail());
+        p.setMailSubject("OA系统消息-----"+sender.getName());
+        p.setMailContent(content);
+        p.setRecipientAddress(recevier.getEmail());
+        try{
+            EmailUtils.send(p);
+            rs.put("success",true);
+            rs.put("msg","");
+        }catch(Exception e){
+            rs.put("success",false);
+            rs.put("msg",e);
+        }
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     * 发送消息
+     * @param account
+     * @param content
+     * @return
+     */
+    @Override
+    public String sendMsg(String account, String content) {
+        JSONObject rs=new JSONObject();
+        User user=(User)SecurityUtils.getSubject().getPrincipal();
+        Message message=new Message();
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        message.setSendTime(sf.format(new Date()));
+        message.setSend_id(user.getAccount());
+        message.setReceive_id(account);
+        message.setContent(content);
+        message.setType("消息");
+        if(msgMapper.addMsg(message)>0){
+            Map<String, Object> map = new HashMap<>();
+            map.put("MSG", message);
+            socketHandler.sendMessageToUser(account, JSONObject.toJSONString(map));
+            rs.put("success",true);
+            rs.put("msg","");
+        }else{
+            rs.put("success",false);
+            rs.put("msg","更新数据库失败！");
+        }
+
+        return JSON.toJSONString(rs);
     }
 }

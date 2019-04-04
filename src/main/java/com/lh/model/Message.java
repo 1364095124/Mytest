@@ -11,7 +11,7 @@ public class Message implements Serializable {
     private String id;  //主键
     private String send_id;  //发送者的账户
     private String receive_id;  //接收者的账户
-    private String sendName;  //
+
     private String type; //类型  可以“消息”，“代办”，“公告”
     private String content;   //信息主体
     private String sendTime;   //发送的时间
@@ -35,13 +35,7 @@ public class Message implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public String getSendName() {
-        return sendName;
-    }
 
-    public void setSendName(String sendName) {
-        this.sendName = sendName;
-    }
 
     public String getId() {
         return id;

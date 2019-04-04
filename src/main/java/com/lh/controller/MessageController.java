@@ -1,7 +1,5 @@
 package com.lh.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.lh.model.Message;
 import com.lh.model.Page;
 import com.lh.model.ResultMap;
@@ -13,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MessageController {
@@ -46,6 +42,28 @@ public class MessageController {
     public String selectUnMsg(Message message){
 
         return msgService.queryMsg(message);
+    }
+
+    /**
+     * 跳转到通讯录页面
+     * @return
+     */
+    @RequestMapping(value="msg/allFriend")
+    public String allFriend(){
+        return "friend/friendJsp";
+    }
+
+    @ResponseBody
+    @RequestMapping(value="msg/send")
+    public String send(@RequestParam("recevier") String recevier,@RequestParam("content") String content,
+                       @RequestParam("type") String type){
+        String rs="";
+        if(type.equals("Msg")){
+            rs=msgService.sendMsg(recevier,content);
+        }else if(type.equals("Email")){
+            rs=msgService.sendEmail(recevier,content);
+        }
+        return rs;
     }
 
     /*

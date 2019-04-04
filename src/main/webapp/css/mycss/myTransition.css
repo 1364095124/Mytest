@@ -1,0 +1,22 @@
+.myTransition::after, .myTransition::before {
+    /* these are the 2 half blocks which cover the content once the animation is triggered */
+    height: 50vh;
+    width: 100%;
+    position: fixed;
+    left: 0;
+}
+.myTransition::before {
+    top: 0;
+    transform: translateY(-100%);
+}
+.myTransition::after {
+    bottom: 0;
+    transform: translateY(100%);
+}
+.myTransition.page-is-changing::after, .myTransition.page-is-changing::before {
+    transform: translateY(0);
+}
+
+.myli{
+
+}

@@ -74,4 +74,13 @@
         WHERE
           account=#{account}
     </update>
+
+    <select id="queryAllPerson" resultType="Person">
+        SELECT
+          <include refid="personItem"/>
+        FROM
+          persons
+    </select>
+
+
 </mapper>

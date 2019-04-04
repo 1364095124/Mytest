@@ -60,4 +60,16 @@ public class UserController {
     public String updatePerson(Person person){
         return userService.updatePerson(person);
     }
+
+    /**
+     * 聊天工具信息初始化
+     * @param account
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/user/getInit")
+    public String getInit(@RequestParam("account") String account){
+        return null;
+    }
+
 }

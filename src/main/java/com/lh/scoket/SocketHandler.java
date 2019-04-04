@@ -29,11 +29,15 @@ import javax.servlet.http.HttpSession;
 @Component("socketHandler")
 public class SocketHandler implements WebSocketHandler{
     private final static Logger log=Logger.getLogger(SocketHandler.class);
-    private final static Map<String,WebSocketSession> userMap;
+
+
+    public final static Map<String,WebSocketSession> userMap;
     //在线用户
     static {
         userMap = new HashMap<String,WebSocketSession>();
     }
+
+
 
     /*
     * 建立连接后
@@ -51,6 +55,7 @@ public class SocketHandler implements WebSocketHandler{
 
         if(userMap.get(user.getAccount()) ==null ){
             userMap.put(user.getAccount(), webSocketSession);
+
             log.info("Websocket："+user.getAccount()+"用户建立连接成功！");
         }else{
             log.info("Websocket："+user.getAccount()+"用户已经连接！");

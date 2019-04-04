@@ -12,6 +12,10 @@ public interface IMsgService {
      */
     public String sendMsg(Message message);
 
+    String sendEmail(String account,String content);
+
+    String sendMsg(String account,String content);
+
     /*
     *@Param message 消息
     * 查询消息
