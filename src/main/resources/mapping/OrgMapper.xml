@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.OrgMapper">
+    <sql id="orgItem">
+        a.id,a.name,a.number,a.pid,b.name as 'pname',a.createTime,a.createAccount,a.isDeleted
+    </sql>
+    <sql id="depItem">
+        a.id,a.name,a.number,a.pid,b.name as 'pname',a.createTime,a.createAccount,a.isDeleted
+    </sql>
+    <sql id="jobItem">
+        a.id,a.name,a.number,a.pid,b.name as 'pname',a.createTime,a.createAccount,a.isDeleted
+    </sql>
+
+    <select id="queryAllOrg" resultType="Organization">
+      SELECT
+        <include refid="orgItem"/>
+      FROM
+        organizations a
+      LEFT
+      JOIN
+        organizations b
+      ON
+        a.pid=b.id
+      WHERE
+        a.isDeleted=0
+    </select>
+
+    <select id="queryOrgCount" resultType="integer">
+        SELECT
+          count(*)
+        FROM
+          organizations
+        WHERE
+          isDeleted=0
+    </select>
+
+    <select id="queryOrgById"  parameterType="string" resultType="Organization">
+        SELECT
+          <include refid="orgItem"/>
+        FROM
+          organizations a
+        LEFT
+        JOIN
+          organizations b
+        ON
+          a.pid=b.id
+        WHERE
+          a.isDeleted=0
+        AND
+          a.id=#{id}
+    </select>
+
+    <insert id="addOrg" parameterType="Organization" >
+        INSERT
+        INTO
+          organizations(
+            id,
+            number,
+            name,
+            pid,
+            createTime,
+            createAccount,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{number},
+          #{name},
+          #{pid},
+          NOW(),
+          #{createAccount},
+          0
+        )
+
+    </insert>
+
+    <update id="updateOrg" parameterType="Organization">
+        UPDATE
+          organizations
+        <set>
+          <if test="number!=null and number!=''">
+              number=#{number},
+          </if>
+          <if test="name!=null and name!=''">
+              name=#{name},
+          </if>
+          <if test="pid!=null and pid!=''">
+              pid=#{pid},
+          </if>
+        </set>
+        WHERE
+          id=#{id}
+    </update>
+
+    <update id="delOrg" parameterType="string">
+        UPDATE
+          organizations
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="queryDepCount" resultType="integer">
+        SELECT
+          count(*)
+        FROM
+          departments
+        WHERE
+          isDeleted=0
+    </select>
+
+    <insert id="addDep" parameterType="Department">
+        INSERT
+        INTO
+          departments(
+            id,
+            number,
+            name,
+            pid,
+            createTime,
+            createAccount,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{number},
+          #{name},
+          #{pid},
+          NOW(),
+          #{createAccount},
+          0
+        )
+    </insert>
+
+    <select id="queryAllDep" resultType="Department">
+        SELECT
+          <include refid="depItem"/>
+        FROM
+          departments a
+        LEFT
+        JOIN
+          departments b
+        ON
+          a.pid=b.id
+        WHERE
+          a.isDeleted=0
+    </select>
+
+    <select id="queryDepById" parameterType="string" resultType="Department">
+        SELECT
+          <include refid="depItem"/>
+        FROM
+          departments a
+        LEFT
+        JOIN
+          departments b
+        ON
+          a.pid=b.id
+        WHERE
+          a.id=#{id}
+        AND
+          a.isDeleted=0
+    </select>
+
+    <update id="updateDep" parameterType="Department">
+        UPDATE
+          departments
+        <set>
+            <if test="number!=null and number!=''">
+                number=#{number},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="pid!=null and pid!=''">
+                pid=#{pid},
+            </if>
+        </set>
+        WHERE
+          id=#{id}
+    </update>
+
+    <update id="delDep" parameterType="string">
+        UPDATE
+          departments
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="queryJobCount" resultType="integer">
+        SELECT
+          count(*)
+        FROM
+          jobs
+        WHERE
+          isDeleted=0
+    </select>
+
+    <insert id="addJob" parameterType="Job">
+        INSERT
+        INTO
+          jobs(
+            id,
+            number,
+            name,
+            pid,
+            createTime,
+            createAccount,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{number},
+          #{name},
+          #{pid},
+          NOW(),
+          #{createAccount},
+          0
+        )
+    </insert>
+
+    <select id="queryAllJob" resultType="Job">
+        SELECT
+          <include refid="jobItem"/>
+        FROM
+          jobs a
+        LEFT
+        JOIN
+          jobs b
+        ON
+          a.pid=b.id
+        WHERE
+          a.isDeleted=0
+    </select>
+
+    <select id="queryJobById" parameterType="string" resultType="Job">
+        SELECT
+          <include refid="jobItem"/>
+        FROM
+          jobs a
+        LEFT
+        JOIN
+          jobs b
+        ON
+          a.pid=b.id
+        WHERE
+          a.id=#{id}
+        AND
+          a.isDeleted=0
+    </select>
+
+    <update id="updateJob" parameterType="Job">
+        UPDATE
+          jobs
+        <set>
+            <if test="number!=null and number!=''">
+                number=#{number},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="pid!=null and pid!=''">
+                pid=#{pid},
+            </if>
+        </set>
+        WHERE
+          id=#{id}
+    </update>
+
+    <update id="delJob" parameterType="string">
+        UPDATE
+          jobs
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+</mapper>

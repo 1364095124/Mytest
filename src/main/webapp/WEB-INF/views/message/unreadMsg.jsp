@@ -200,7 +200,7 @@
                     temp+=
                         "        <div class=\"layui-form-item\">\n" +
                         "            <div class=\"layui-input-block\">\n" +
-                        "                <button  class=\"layui-btn layui-btn-disabled\" lay-submit lay-filter=\"SubForm\">已读</button>\n" +
+                        "                <button  class=\"layui-btn layui-btn-disabled\" >已读</button>\n" +
                         "            </div>\n" +
                         "        </div>\n" +
                         "        <br/>\n" +

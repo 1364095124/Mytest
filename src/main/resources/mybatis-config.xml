@@ -24,6 +24,9 @@
         <typeAlias type="com.lh.model.LeaveForm" alias="LeaveForm"/>
         <typeAlias type="com.lh.model.Sign" alias="Sign"/>
         <typeAlias type="com.lh.model.Memo" alias="Memo"/>
+        <typeAlias type="com.lh.model.Organization" alias="Organization"/>
+        <typeAlias type="com.lh.model.Department" alias="Department"/>
+        <typeAlias type="com.lh.model.Job" alias="Job"/>
     </typeAliases> 
 <!--
       <mappers>  
