@@ -3,7 +3,7 @@ package com.lh.dao;
 import com.lh.model.Department;
 import com.lh.model.Job;
 import com.lh.model.Organization;
-import org.omg.PortableServer.LIFESPAN_POLICY_ID;
+import com.lh.model.PersonJob;
 
 import java.util.List;
 
@@ -34,6 +34,14 @@ public interface OrgMapper {
      * @return
      */
     public Organization queryOrgById(String id);
+
+
+    /**
+     * 根据name查询组织信息
+     * @param name
+     * @return
+     */
+    public Organization queryOrgByName(String name);
 
     /**
      * 更新组织信息
@@ -75,6 +83,13 @@ public interface OrgMapper {
     public Department queryDepById(String id);
 
     /**
+     *根据name查询部门
+     * @param name
+     * @return
+     */
+    public Department queryDepByName(String name);
+
+    /**
      * 更新部门信息
      * @param department
      * @return
@@ -114,6 +129,13 @@ public interface OrgMapper {
     public Job queryJobById(String id);
 
     /**
+     * 根据name查询职位
+     * @param name
+     * @return
+     */
+    public Job queryJobByName(String name);
+
+    /**
      * 更新职位信息
      * @param job
      * @return
@@ -126,4 +148,53 @@ public interface OrgMapper {
      * @return
      */
     public Integer delJob(String id);
+
+    /**
+     * 查询所有的职位匹配信息
+     * @return
+     */
+    public List<PersonJob> getAllJobInfo();
+
+    /**
+     * 查询账号的职位详细信息
+     * @param account
+     * @return
+     */
+    public List<PersonJob> getJobInfo(String account);
+
+    /**
+     * 查询是否有重复的职位匹配信息，防止重复插入
+     * @param personJob
+     * @return
+     */
+    public Integer querySameJobInfo(PersonJob personJob);
+
+    /**
+     * 查询所有职位匹配信息的总行数
+     * @return
+     */
+    public Integer queryJobInfoCount();
+
+    /**
+     * 更新账号的职位详细信息
+     * @param personJob
+     * @return
+     */
+    public Integer updateJobInfo(PersonJob personJob);
+
+    /**
+     * 根据id删除职位信息
+     * @param id
+     * @return
+     */
+    public Integer delJobInfo(String id);
+
+    /**
+     * 新增职位信息
+     * @param personJob
+     * @return
+     */
+    public Integer addJobInfo(PersonJob personJob);
+
+
 }

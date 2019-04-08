@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.lh.model.Department;
 import com.lh.model.Job;
 import com.lh.model.Organization;
+import com.lh.model.PersonJob;
 import com.lh.service.IOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -171,6 +172,58 @@ public class OrgController {
     @RequestMapping("org/updateJob")
     public String updateJob(Job job){
         return orgService.updateJob(job);
+    }
+
+    /**
+     * 跳转到人员管理界面
+     * @return
+     */
+    @RequestMapping(value="org/personJobList")
+    public String personJobList(){
+        return "orgManager/personManager";
+    }
+
+    /**
+     * 得到所有的账号匹配信息
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="org/getAllPersonJobList",produces = "text/plain;charset=utf-8")
+    public String getAllPersonJobList(){
+        return JSON.toJSONString(orgService.getAllJobInfo());
+    }
+
+    /**
+     * 根据id删除职位匹配
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="org/delPersonJob")
+    public String delPersonJob(@RequestParam("id") String id){
+        return orgService.delJobInfoById(id);
+    }
+
+    /**
+     * 新增职位人员匹配信息
+     * @param personJob
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="org/addPersonJob",produces = "text/plain;charset=utf-8")
+    public String addPersonJob(PersonJob personJob){
+        return orgService.addJobInfo(personJob);
+    }
+
+    /**
+     * 更新职位人员匹配信息
+     * @param personJob
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="org/updatePersonJob",produces = "text/plain;charset=utf-8")
+    public String updatePersonJob(PersonJob personJob){
+        return orgService.updateJobInfo(personJob);
     }
 
 }

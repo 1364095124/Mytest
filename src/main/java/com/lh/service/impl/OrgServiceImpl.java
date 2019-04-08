@@ -54,16 +54,23 @@ public class OrgServiceImpl implements IOrgService {
      */
     @Override
     public String addDep(Department department) {
-        User user=(User) SecurityUtils.getSubject().getPrincipal();
-        department.setCreateAccount(user.getAccount());
         JSONObject rs=new JSONObject();
-        if(orgMapper.addDep(department)>0){
-            rs.put("success",true);
-            rs.put("msg","");
-        }else{
+        if(orgMapper.queryDepByName(department.getName())!=null){
             rs.put("success",false);
-            rs.put("msg","数据库操作失败！");
+            rs.put("msg","部门名冲突！");
+        }else{
+            User user=(User) SecurityUtils.getSubject().getPrincipal();
+            department.setCreateAccount(user.getAccount());
+
+            if(orgMapper.addDep(department)>0){
+                rs.put("success",true);
+                rs.put("msg","");
+            }else{
+                rs.put("success",false);
+                rs.put("msg","数据库操作失败！");
+            }
         }
+
         return JSON.toJSONString(rs);
     }
 
@@ -121,15 +128,21 @@ public class OrgServiceImpl implements IOrgService {
      */
     @Override
     public String addOrg(Organization organization) {
-        User user=(User) SecurityUtils.getSubject().getPrincipal();
-        organization.setCreateAccount(user.getAccount());
         JSONObject rs=new JSONObject();
-        if(orgMapper.addOrg(organization)>0){
-            rs.put("success",true);
-            rs.put("msg","");
-        }else{
+        if(orgMapper.queryOrgByName(organization.getName())!=null){
             rs.put("success",false);
-            rs.put("msg","数据库操作失败！");
+            rs.put("msg","组织名已存在！");
+        }else{
+            User user=(User) SecurityUtils.getSubject().getPrincipal();
+            organization.setCreateAccount(user.getAccount());
+
+            if(orgMapper.addOrg(organization)>0){
+                rs.put("success",true);
+                rs.put("msg","");
+            }else{
+                rs.put("success",false);
+                rs.put("msg","数据库操作失败！");
+            }
         }
         return JSON.toJSONString(rs);
     }
@@ -188,16 +201,23 @@ public class OrgServiceImpl implements IOrgService {
      */
     @Override
     public String addJob(Job job) {
-        User user=(User) SecurityUtils.getSubject().getPrincipal();
-        job.setCreateAccount(user.getAccount());
         JSONObject rs=new JSONObject();
-        if(orgMapper.addJob(job)>0){
-            rs.put("success",true);
-            rs.put("msg","");
-        }else{
+        if(orgMapper.queryJobByName(job.getName())!=null){
             rs.put("success",false);
-            rs.put("msg","数据库操作失败！");
+            rs.put("msg","职位名已存在！");
+        }else{
+            User user=(User) SecurityUtils.getSubject().getPrincipal();
+            job.setCreateAccount(user.getAccount());
+
+            if(orgMapper.addJob(job)>0){
+                rs.put("success",true);
+                rs.put("msg","");
+            }else{
+                rs.put("success",false);
+                rs.put("msg","数据库操作失败！");
+            }
         }
+
         return JSON.toJSONString(rs);
     }
 
@@ -215,6 +235,94 @@ public class OrgServiceImpl implements IOrgService {
         }else{
             rs.put("success",false);
             rs.put("msg","数据库操作失败！");
+        }
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     * 查询所有职位匹配信息
+     * @return
+     */
+    @Override
+    public ResultMap<List<PersonJob>> getAllJobInfo() {
+        List<PersonJob> list=orgMapper.getAllJobInfo();
+        Integer count=orgMapper.queryJobInfoCount();
+        return new ResultMap<List<PersonJob>>("",list,0,count);
+
+    }
+
+    /**
+     * 新增职位匹配信息
+     * @param personJob
+     * @return
+     */
+    @Override
+    public String addJobInfo(PersonJob personJob) {
+        JSONObject rs=new JSONObject();
+        if(personJob.getAccount()==null||("").equals(personJob.getAccount())){
+            rs.put("success",false);
+            rs.put("msg","账号不能为空！");
+        }else if(personJob.getDepartmentid()==null||("").equals(personJob.getDepartmentid())){
+            rs.put("success",false);
+            rs.put("msg","所属部门不能为空！");
+        }else if(personJob.getOrganizationid()==null||("").equals(personJob.getOrganizationid())){
+            rs.put("success",false);
+            rs.put("msg","所属组织不能为空！");
+        }
+        else if(personJob.getJobid()==null || ("").equals(personJob.getJobid())){
+            rs.put("success",false);
+            rs.put("msg","所属职位不能为空！");
+        }else{
+            if(orgMapper.querySameJobInfo(personJob)>0){
+                rs.put("success",false);
+                rs.put("msg","新增的职位信息重复！");
+            }else{
+                if(orgMapper.addJobInfo(personJob)>0){
+                    rs.put("success",true);
+                    rs.put("msg","");
+                }else{
+                    rs.put("success",false);
+                    rs.put("msg","更新数据库失败！");
+                }
+            }
+        }
+
+
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     * 更新职位匹配信息
+     * @param personJob
+     * @return
+     */
+    @Override
+    public String updateJobInfo(PersonJob personJob) {
+        JSONObject rs=new JSONObject();
+        if(orgMapper.updateJobInfo(personJob)>0){
+            rs.put("success",true);
+            rs.put("msg","");
+        }else{
+            rs.put("success",false);
+            rs.put("msg","更新数据库失败！");
+        }
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     * 根据id删除职位匹配信息
+     * @param id
+     * @return
+     */
+    @Override
+    public String delJobInfoById(String id) {
+        JSONObject rs=new JSONObject();
+        if(orgMapper.delJobInfo(id)>0){
+            rs.put("success",true);
+            rs.put("msg","");
+        }else{
+            rs.put("success",false);
+            rs.put("msg","更新数据库失败！");
         }
         return JSON.toJSONString(rs);
     }

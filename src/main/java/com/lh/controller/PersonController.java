@@ -1,5 +1,6 @@
 package com.lh.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.lh.service.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,5 +24,15 @@ public class PersonController {
     @RequestMapping(value="/person/getInit",produces = "text/plain;charset=utf-8")
     public String getInit(@RequestParam("account") String account){
         return personService.getInit(account);
+    }
+
+    /**
+     * 查询所有账号信息
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="person/getAllPerson",produces = "text/plain;charset=utf-8")
+    public String getAllPerson(){
+        return JSON.toJSONString(personService.getAllPerson());
     }
 }

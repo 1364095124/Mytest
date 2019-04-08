@@ -8,10 +8,20 @@
     <insert id="insertPerson" parameterType="Person">
         INSERT
         INTO
-          persons
-          <include refid="personItem"/>
-        VALUES
-        (
+          persons(
+            id,
+            account,
+            name,
+            sex,
+            age,
+            phone,
+            email,
+            photo_url,
+            note,
+            isDeleted
+          )
+
+        VALUES(
           uuid(),
           #{account},
           #{name},
@@ -25,7 +35,7 @@
         )
     </insert>
 
-    <select id="queryPersonByAccount" parameterType="Person" resultType="Person">
+    <select id="queryPersonByAccount" parameterType="string" resultType="Person">
         SELECT
           <include refid="personItem"/>
         FROM
@@ -33,6 +43,15 @@
         WHERE
           account=#{account}
         AND
+          isDeleted=0
+    </select>
+
+    <select id="queryPersonCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          persons
+        WHERE
           isDeleted=0
     </select>
 
@@ -80,6 +99,8 @@
           <include refid="personItem"/>
         FROM
           persons
+        WHERE
+          isDeleted=0
     </select>
 
 

@@ -11,7 +11,6 @@
 <body>
 
 
-
 <table id="myTable" lay-filter="myTable"></table>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -25,7 +24,83 @@
     </div>
 </script>
 <script>
-    var list;//保存所有已经注册的职位
+    var accountList;//保存所有已经注册的账号
+    var jobList; //保存所有已经注册的职位
+    var depList; //保存所有已经注册的部门
+    var orgList; //保存所有已经注册的组织
+
+    //初始化组织列表
+    $.ajax({
+        type:'post',
+        url:'org/getAllOrg',
+        data:{},
+        dataType:'json',
+        success:function (result) {
+            var list=result.data;
+            orgList='<option value=""></option>';
+            for (var i = 0; i < list.length; i++) {
+                orgList += '<option value="' + list[i].id + '">' + list[i].name + '</option>';
+            }
+        },
+        error:function(){
+            alert("初始化组织列表失败！");
+        }
+    });
+
+    //初始化职位列表
+    $.ajax({
+        type:'post',
+        url:'org/getAllJob',
+        data:{},
+        dataType:'json',
+        success:function (result) {
+            var list=result.data;
+            jobList='<option value=""></option>';
+            for (var i = 0; i < list.length; i++) {
+                jobList += '<option value="' + list[i].id + '">' + list[i].name + '</option>';
+            }
+        },
+        error:function(){
+            alert("初始化职位列表失败！");
+        }
+    });
+
+    //初始化部门列表
+    $.ajax({
+        type:'post',
+        url:'org/getAllDep',
+        data:{},
+        dataType:'json',
+        success:function (result) {
+            var list=result.data;
+            depList='<option value=""></option>';
+            for (var i = 0; i < list.length; i++) {
+                depList += '<option value="' + list[i].id + '">' + list[i].name + '</option>';
+            }
+        },
+        error:function(){
+            alert("初始化部门列表失败！");
+        }
+    });
+
+    //初始化账号列表
+    $.ajax({
+        type:'post',
+        url:'person/getAllPerson',
+        data:{},
+        dataType:'json',
+        success:function (result) {
+            var list=result.data;
+            accountList='<option value=""></option>';
+            for (var i = 0; i < list.length; i++) {
+                accountList += '<option value="' + list[i].account + '">'+list[i].account+'_' + list[i].name + '</option>';
+            }
+        },
+        error:function(){
+            alert("初始化账号列表失败！");
+        }
+    });
+
     // 自定义模块
     layui.config({
         base: 'ext/'   // 模块目录
@@ -44,11 +119,11 @@
             ,toolbar: '#toolbarDemo'
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'},
-                {field: 'name', title: '名称', width: 250, sort: true, filter: true},
-                {field: 'number', title: '编码', width: 150, sort: true, filter: true},
-                {field: 'pname', title: '上级职位', width: 265 , filter: true},
-                {field: 'createTime', title: '创建时间', width: 270, filter: {type: 'date[yyyy-MM-dd HH:mm:ss]'}},
-                {field: 'createAccount', title: '创建人', width: 150,  filter: true, sort:true},
+                {field: 'account', title: '账号', width: 250, sort: true, filter: true},
+                {field: 'name', title: '姓名', width:250,sort:true,filter: true},
+                {field: 'jobName', title: '职位名称', width: 150, sort: true, filter: true},
+                {field: 'departmentName', title: '部门名称', width: 265 , filter: true},
+                {field: 'organizationName', title: '组织名称', width: 270, filter: true},
                 {title: '操作',  templet: '#bar'}
             ]]
             ,done: function () {
@@ -59,7 +134,7 @@
         function search(data) {
             var loading = layer.load(2);
             $.ajax({
-                url: 'org/getAllJob',
+                url: 'org/getAllPersonJobList',
                 data: data,
                 dataType: 'json',
                 success: function (res) {
@@ -85,57 +160,68 @@
             var checkStatus = table.checkStatus(obj.config.id);
             if(obj.event=='add') {
 
-                var str = '<option value=""></option>';
-                for (var i = 0; i < list.length; i++) {
-                    str += '<option value="' + list[i].id + '">' + list[i].name + '</option>';
-                }
-                var ht = ' <form class="layui-form" id="myForm" action="">\n' +
-                    '        <br/><br/><div class="layui-form-item">\n' +
-                    '            <label class="layui-form-label">职位名称</label>\n' +
-                    '            <div class="layui-input-block">\n' +
-                    '                <input type="text" name="name"  id="name" required  lay-verify="required" ' +
-                    '                   placeholder="请输入名称" style="width:500px;" autocomplete="off" class="layui-input">\n' +
-                    '            </div>\n' +
-                    '        </div>\n' +
-                    '        <div class="layui-form-item">\n' +
-                    '            <label class="layui-form-label">职位编码</label>\n' +
-                    '            <div class="layui-input-block">\n' +
-                    '                <input type="text" name="number"  id="number" style="width:500px;"  placeholder="请输入编码"\n' +
-                    '                       autocomplete="off" class="layui-input">\n' +
+
+                var ht = '<form class="layui-form" id="myForm" action="">\n' +
+                    '        <br/><br/><div class="layui-form-item" style="width:500px;">\n' +
+                    '            <label class="layui-form-label">账号</label>\n' +
+                    '            <div class="layui-input-block" >\n' +
+                    '                <select name="account" id="account" lay-verify="required">\n' ;
+                    ht+=accountList;
+                    ht+='                </select>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
                     '        <div class="layui-form-item" style="width:500px;">\n' +
-                    '            <label class="layui-form-label">上级职位</label>\n' +
+                    '            <label class="layui-form-label">所属组织</label>\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <select name="pid" id="pid" >\n';
-                ht += str;
-                ht += '                </select>\n' +
+                    '                <select name="organizationid" id="organizationid" lay-verify="required">\n' ;
+                    ht+=orgList;
+                    ht+='                </select>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
-                    '        <div class="layui-form-item">\n' +
+                    '        <div class="layui-form-item" style="width:500px;">\n' +
+                    '            <label class="layui-form-label">所属部门</label>\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <button type="button" name="sub" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
-                    '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                    '                <select name="departmentid" id="departmentid" lay-verify="required">\n';
+                    ht+=depList;
+                    ht+='                </select>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
-                    '\n' +
+                    '        <div class="layui-form-item" style="width:500px;">\n' +
+                    '            <label class="layui-form-label">所属职位</label>\n' +
+                    '            <div class="layui-input-block">\n' +
+                    '                <select name="jobid" id="jobid" lay-verify="required">\n';
+                    ht+=jobList;
+                    ht+='                </select>\n' +
+                    '            </div>\n' +
+                    '        </div><br/>\n' +
+                    '<div class="layui-form-item">\n' +
+                    '    <div class="layui-input-block">\n' +
+                    '      <button type="button" name="sub" class="layui-btn" >立即提交</button>\n' +
+                    '      <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                    '    </div>\n' +
+                    '  </div>'
                     '    </form>';
 
                 var index = layer.open({
                     type: 1,//类型
                     offset: '150px',
-                    area: ['1000px', '500px'],//定义宽和高
-                    title: '查看详细信息',//题目
+                    area: ['700px', '480px'],//定义宽和高
+                    title: '新增人员职位信息',//题目
                     shadeClose: false,//点击遮罩层关闭
                     content: ht//打开的内容
                 });
                 form.render();
                 $(document).on('click','button[name="sub"]',function(){
                     $.ajax({
-                        url: "org/addJob",
+                        url: "org/addPersonJob",
                         type: 'post',//method请求方式，get或者post
                         dataType: 'json',//预期服务器返回的数据类型
-                        data:  $("#myForm").serialize(),
+                        data:  {
+                            "account":$("#account").val(),
+                            "organizationid":$("#organizationid").val(),
+                            "departmentid":$("#departmentid").val(),
+                            "jobid":$("#jobid").val()
+                        },
                         //表格数据序列化
                         success: function (res) {//res为相应体,function为回调函数
                             layer.close(layer.index);
@@ -143,12 +229,12 @@
                                 layer.alert('成功', {icon: 1});
                                 //$("#res").click();//调用重置按钮将表单数据清空
                                 setTimeout(function () {
-                                    $("#main").load("org/jobList");
+                                    $("#main").load("org/personJobList");
                                 }, 200)
 
 
                             } else {
-                                layer.alert(data.msg, {icon: 2});
+                                layer.alert(res.msg, {icon: 2});
                             }
                         },
                         error: function () {
@@ -166,12 +252,12 @@
             var data = obj.data;
 
             if (obj.event === 'del') {
-                layer.confirm('确定要删除'+data.name+'吗？', {
+                layer.confirm('确定要删除'+data.name+'-'+data.jobName+'吗？', {
                     btn: ['确定','取消'] //按钮
                 }, function(){
                     $.ajax({
                         type:'post',
-                        url:'org/delJob',
+                        url:'org/delPersonJob',
                         data:{
                             "id":data.id
                         },
@@ -180,7 +266,7 @@
                             if(rs.success){
                                 layer.msg(data.name+'删除成功', {icon: 1});
                                 setTimeout(function(){
-                                    $("#main").load("org/jobList");
+                                    $("#main").load("org/personJobList");
                                 },200)
                             }else{
                                 layer.msg(data.name+'删除失败',{icon:2});
@@ -195,55 +281,52 @@
                     layer.closeAll();
                 });
             }else if(obj.event== 'edit'){
-                var str = '<option value=""></option>';
-                for (var i = 0; i < list.length; i++) {
-                    if(data.pid==list[i].pid){
-                        str+='<option value="' + list[i].id + '" selected="selected">' + list[i].name + '</option>';
-                    }else{
-                        str += '<option value="' + list[i].id + '">' + list[i].name + '</option>';
-                    }
-                }
-                var ht = ' <form class="layui-form" id="myForm" action="">\n' +
-                    '        <br/><br/><div class="layui-form-item">\n' +
-                    '            <label class="layui-form-label">职位名称</label>\n' +
-                    '            <div class="layui-input-block">\n' +
-                    '                <input type="text" name="name"  id="name" value="'+data.name+'" required  lay-verify="required" ' +
-                    '                    style="width:500px;" autocomplete="off" class="layui-input">\n' +
-                    '            </div>\n' +
-                    '        </div>\n' +
-                    '        <div class="layui-form-item">\n' +
-                    '            <label class="layui-form-label">职位编码</label>\n' +
-                    '            <div class="layui-input-block">\n' ;
-                if(data.number==undefined){
-                    ht+='<input type="text" name="number"  id="number" style="width:500px;"  \n' +
-                        '    autocomplete="off" class="layui-input">\n' ;
-                }else {
-                    ht += '<input type="text" name="number"  id="number" style="width:500px;"  value="' + data.number + '"\n' +
-                        '   autocomplete="off" class="layui-input">\n';
-                }
-                ht+='            </div>\n' +
+                var ht = '<form class="layui-form" id="myForm" action="">\n' +
+                    '        <br/><br/><div class="layui-form-item" style="width:500px;">\n' +
+                    '            <label class="layui-form-label">账号</label>\n' +
+                    '            <div class="layui-input-block" >\n' +
+                    '             <input type="text" name="account" id="account" readonly value="'+data.account+'_'+data.name+'" ' +
+                    ' class="layui-input"></div>'+
                     '        </div>\n' +
                     '        <div class="layui-form-item" style="width:500px;">\n' +
-                    '            <label class="layui-form-label">上级职位</label>\n' +
+                    '            <label class="layui-form-label">所属组织</label>\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <select name="pid" id="pid" >\n';
-                ht += str;
-                ht += '                </select>\n' +
+                    '                <select name="organizationid" id="organizationid" lay-verify="required">\n' +
+                    '                    <option value='+data.organizationid+' selected="selected">'+data.organizationName+'</option>';
+                ht+=orgList;
+                ht+='                </select>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
-                    '        <div class="layui-form-item">\n' +
+                    '        <div class="layui-form-item" style="width:500px;">\n' +
+                    '            <label class="layui-form-label">所属部门</label>\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <button type="button" name="subEdit" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
-                    '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                    '                <select name="departmentid" id="departmentid" lay-verify="required">\n'+
+                    '                    <option value='+data.departmentid+' selected="selected">'+data.departmentName+'</option>';
+                ht+=depList;
+                ht+='                </select>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
-                    '\n' +
-                    '    </form>';
+                    '        <div class="layui-form-item" style="width:500px;">\n' +
+                    '            <label class="layui-form-label">所属职位</label>\n' +
+                    '            <div class="layui-input-block">\n' +
+                    '                <select name="jobid" id="jobid" lay-verify="required">\n'+
+                    '                    <option value='+data.jobid+' selected="selected">'+data.jobName+'</option>';
+                ht+=jobList;
+                ht+='                </select>\n' +
+                    '            </div>\n' +
+                    '        </div><br/>\n' +
+                    '<div class="layui-form-item">\n' +
+                    '    <div class="layui-input-block">\n' +
+                    '      <button type="button" name="subEdit" class="layui-btn" >立即提交</button>\n' +
+                    '      <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                    '    </div>\n' +
+                    '  </div>'
+                '    </form>';
 
                 var index = layer.open({
                     type: 1,//类型
                     offset: '150px',
-                    area: ['1000px', '500px'],//定义宽和高
+                    area: ['700px', '480px'],//定义宽和高
                     title: '查看详细信息',//题目
                     shadeClose: false,//点击遮罩层关闭
                     content: ht//打开的内容
@@ -253,28 +336,27 @@
                 form.render();
                 $(document).on('click','button[name="subEdit"]',function(){
                     $.ajax({
-                        url: "org/updateJob",
+                        url: "org/updatePersonJob",
                         type: 'post',//method请求方式，get或者post
                         dataType: 'json',//预期服务器返回的数据类型
                         data:  {
                             "id":data.id,
-                            "name":$("#name").val(),
-                            "number":$("#number").val(),
-                            "pid":$("#pid").val()
+                            "account":$("#account").val(),
+                            "departmentid":$("#departmentid").val(),
+                            "organizationid":$("#organizationid").val(),
+                            "jobid":$("#jobid").val()
                         },
                         //表格数据序列化
                         success: function (res) {//res为相应体,function为回调函数
                             layer.close(layer.index);
                             if (res.success == true) {
-
-                                //$("#res").click();//调用重置按钮将表单数据清空
                                 setTimeout(function () {
-                                    $("#main").load("org/jobList");
+                                    $("#main").load("org/personJobList");
                                 }, 200)
                                 layer.alert('成功', {icon: 1});
 
                             } else {
-                                layer.alert(data.msg, {icon: 2});
+                                layer.alert(res.msg, {icon: 2});
                             }
                         },
                         error: function () {
@@ -286,52 +368,7 @@
                 });
             }
         });
-        $("button[name='add']").on('click',function () {
-            var str='<option value=""></option>';
-            for(var i=0; i < list.length; i++) {
-                str+='<option value="'+list[i].id+'">'+list[i].name+'</option>';
-            }
-            var ht=' <form class="layui-form" action="">\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <label class="layui-form-label">职位名称</label>\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <input type="text" name="name" required  lay-verify="required" placeholder="请输入名称"\n' +
-                '                       autocomplete="off" class="layui-input">\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <label class="layui-form-label">职位编码</label>\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <input type="text" name="number"    placeholder="请输入编码"\n' +
-                '                       autocomplete="off" class="layui-input">\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <label class="layui-form-label">上级职位</label>\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <select name="city" lay-verify="required">\n' ;
-            ht+=str;
 
-            ht+='                </select>\n'+
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>\n' +
-                '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '\n' +
-                '    </form>';
-            var index=layer.open({
-                type: 1,//类型
-                offset: '150px',
-                area: ['1000px', '700px'],//定义宽和高
-                title: '查看详细信息',//题目
-                shadeClose: false,//点击遮罩层关闭
-                content: ht//打开的内容
-            });
-        })
     })
 </script>
 

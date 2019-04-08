@@ -2,6 +2,9 @@ package com.lh.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lh.model.Person;
+import com.lh.model.ResultMap;
+
+import java.util.List;
 
 public interface IPersonService {
 
@@ -13,5 +16,5 @@ public interface IPersonService {
 
     JSONObject setInfo(Person person);
 
-
+    ResultMap<List<Person>> getAllPerson();
 }

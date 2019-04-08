@@ -1,9 +1,6 @@
 package com.lh.service;
 
-import com.lh.model.Department;
-import com.lh.model.Job;
-import com.lh.model.Organization;
-import com.lh.model.ResultMap;
+import com.lh.model.*;
 
 import java.util.List;
 
@@ -32,4 +29,13 @@ public interface IOrgService {
     public String addJob(Job job);
 
     public String updateJob(Job job);
+
+    public ResultMap<List<PersonJob>> getAllJobInfo();
+
+
+    public String addJobInfo(PersonJob personJob);
+
+    public String updateJobInfo(PersonJob personJob);
+
+    public String delJobInfoById(String id);
 }

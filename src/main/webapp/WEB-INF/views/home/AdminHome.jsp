@@ -93,22 +93,20 @@
                     <dd><a class="loadPage" whichPage="org/jobList" href="javascript:;">
                         <i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;职位管理</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="task/trashTaskJsp" href="javascript:;">
-                        <i class="fa fa-trash fa-lg"></i> <span >&nbsp;&nbsp;人员管理</span>
+                    <dd><a class="loadPage" whichPage="org/personJobList" href="javascript:;">
+                        <i class="fa fa-trash fa-lg"></i> <span >&nbsp;&nbsp;职员管理</span>
                     </a></dd>
+
                 </dl>
             </li>
             <li class="layui-nav-item myleftnav">
-                <a href="javascript:;"><i class="fa fa-hourglass-1 fa-lg"></i> <span >&nbsp;&nbsp;代办消息</span></a>
+                <a href="javascript:;"><i class="fa fa-hourglass-1 fa-lg"></i> <span >&nbsp;&nbsp;账号管理</span></a>
                 <dl class="layui-nav-child">
                     <dd><a class="loadPage" whichPage="task/daibanjsp" href="javascript:;">
-                        <i class="fa fa-book fa-lg"></i> <span >&nbsp;&nbsp;我的代办</span>
+                        <i class="fa fa-book fa-lg"></i> <span >&nbsp;&nbsp;账号管理</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="msg/unreadMsg"  href="javascript:;">
-                        <i class="fa fa-comments-o fa-lg"></i> <span >&nbsp;&nbsp;我的消息</span>
-                    </a></dd>
-                    <dd><a class="loadPage" whichPage="msg/allFriend"  href="javascript:;">
-                        <i class="fa fa-comments-o fa-lg"></i> <span >&nbsp;&nbsp;通讯录</span>
+                        <i class="fa fa-comments-o fa-lg"></i> <span >&nbsp;&nbsp;异常账号</span>
                     </a></dd>
                 </dl>
             </li>

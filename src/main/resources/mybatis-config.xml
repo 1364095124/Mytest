@@ -27,6 +27,7 @@
         <typeAlias type="com.lh.model.Organization" alias="Organization"/>
         <typeAlias type="com.lh.model.Department" alias="Department"/>
         <typeAlias type="com.lh.model.Job" alias="Job"/>
+        <typeAlias type="com.lh.model.PersonJob" alias="PersonJob"/>
     </typeAliases> 
 <!--
       <mappers>  

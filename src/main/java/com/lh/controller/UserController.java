@@ -1,6 +1,7 @@
 package com.lh.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.lh.model.Person;
 import com.lh.model.User;
 import com.lh.service.IUserService;
@@ -70,6 +71,16 @@ public class UserController {
     @RequestMapping(value="/user/getInit")
     public String getInit(@RequestParam("account") String account){
         return null;
+    }
+
+    /**
+     * 查询所有账号信息
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="user/getAllUser")
+    public String getAllUser(){
+        return JSON.toJSONString(userService.getAllUser());
     }
 
 }

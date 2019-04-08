@@ -1,6 +1,7 @@
 package com.lh.service;
 
 import com.lh.model.Person;
+import com.lh.model.ResultMap;
 import com.lh.model.User;
 
 
@@ -26,6 +27,8 @@ public interface IUserService {
     public String updatePerson(Person person);
 
     public Map<String,Object> queryPermissionByUser(String account);
+
+    public ResultMap<List<User>> getAllUser();
 
 
 }

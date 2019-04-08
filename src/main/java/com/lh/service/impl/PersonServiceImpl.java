@@ -7,10 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lh.common.EmailUtils;
 import com.lh.dao.MsgMapper;
 import com.lh.dao.PersonMapper;
-import com.lh.model.MailParameters;
-import com.lh.model.Message;
-import com.lh.model.Person;
-import com.lh.model.User;
+import com.lh.model.*;
 import com.lh.scoket.SocketHandler;
 import com.lh.service.IPersonService;
 import org.apache.shiro.SecurityUtils;
@@ -102,6 +99,11 @@ public class PersonServiceImpl implements IPersonService {
 
     }
 
+    /**
+     *
+     * @param person
+     * @return
+     */
     @Override
     public JSONObject setInfo(Person person) {
         JSONObject jsonObject=new JSONObject();
@@ -116,6 +118,16 @@ public class PersonServiceImpl implements IPersonService {
         return jsonObject;
     }
 
+    /**
+     * 查询所有个人信息
+     * @return
+     */
+    @Override
+    public ResultMap<List<Person>> getAllPerson() {
+        List<Person> list=personMapper.queryAllPerson();
+        Integer count=personMapper.queryPersonCount();
+        return new ResultMap<List<Person>>("",list,0,count);
+    }
 
 
 }

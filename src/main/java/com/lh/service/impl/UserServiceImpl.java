@@ -7,6 +7,7 @@ import com.lh.common.JedisUtils;
 import com.lh.dao.UserMapper;
 import com.lh.model.MailParameters;
 import com.lh.model.Person;
+import com.lh.model.ResultMap;
 import com.lh.model.User;
 import com.lh.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,12 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
-
+    /**
+     * 登陆验证
+     * @param account
+     * @param password
+     * @return
+     */
     @Override
     public List<User> login(String account, String password) {
         User user=new User();
@@ -30,17 +36,33 @@ public class UserServiceImpl implements IUserService {
         return userMapper.login(user);
     }
 
+    /**
+     * 启用/禁用账号
+     * @param account
+     * @param isDisabled
+     * @return
+     */
     @Override
     public int updateIsDisabled(String account, Integer isDisabled) {
 
         return userMapper.updateIsDisabled(account,isDisabled);
     }
 
+    /**
+     * 查询指定账号信息
+     * @param user
+     * @return
+     */
     @Override
     public User selectUser(User user) {
         return userMapper.selectUser(user);
     }
 
+    /**
+     * 获取验证码
+     * @param account
+     * @return
+     */
     @Override
     public String getCode(String account) {
         JSONObject resultMap=new JSONObject();
@@ -77,6 +99,12 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    /**
+     * 检查验证码
+     * @param code
+     * @param account
+     * @return
+     */
     @Override
     public String checkCode(String code, String account) {
         JSONObject resultMap=new JSONObject();
@@ -105,13 +133,22 @@ public class UserServiceImpl implements IUserService {
         return JSON.toJSONString(resultMap);
     }
 
-
+    /**
+     * 根据账号查询个人信息
+     * @param account
+     * @return
+     */
     @Override
     public String findPersonByAccount(String account) {
         Person person= userMapper.selectPersonByAccount(account);
         return JSON.toJSONString(person);
     }
 
+    /**
+     * 更新账号密码
+     * @param user
+     * @return
+     */
     @Override
     public String updatePwd(User user) {
         JSONObject resultMap=new JSONObject();
@@ -125,6 +162,11 @@ public class UserServiceImpl implements IUserService {
         return JSON.toJSONString(resultMap);
     }
 
+    /**
+     * 更新个人信息
+     * @param person
+     * @return
+     */
     @Override
     public String updatePerson(Person person) {
         JSONObject resultMap=new JSONObject();
@@ -139,7 +181,11 @@ public class UserServiceImpl implements IUserService {
     }
 
 
-
+    /**
+     * 根据账号查询权限信息
+     * @param account
+     * @return
+     */
     @Override
     public Map<String, Object> queryPermissionByUser(String account) {
         Map<String,Object> map=new HashMap();
@@ -157,7 +203,16 @@ public class UserServiceImpl implements IUserService {
         return map;
     }
 
-
+    /**
+     * 获取所有账号信息
+     * @return
+     */
+    @Override
+    public ResultMap<List<User>> getAllUser() {
+        List<User> list=userMapper.getAllUser();
+        Integer count=userMapper.queryUserCount();
+        return new ResultMap<List<User>>("",list,0,count);
+    }
 
 
 }

@@ -154,4 +154,22 @@
         AND
           rp.roleName=#{roleName}
     </select>
+
+    <select id="getAllUser" resultType="User">
+        SELECT
+          <include refid="userItem"/>
+        FROM
+          users
+        WHERE
+          isDeleted=0
+    </select>
+
+    <select id="queryUserCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          users
+        WHERE
+          isDeleted=0
+    </select>
 </mapper>

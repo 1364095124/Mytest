@@ -148,7 +148,7 @@
 
 
                             } else {
-                                layer.alert(data.msg, {icon: 2});
+                                layer.alert(res.msg, {icon: 2});
                             }
                         },
                         error: function () {
@@ -274,7 +274,7 @@
                                 layer.alert('成功', {icon: 1});
 
                             } else {
-                                layer.alert(data.msg, {icon: 2});
+                                layer.alert(res.msg, {icon: 2});
                             }
                         },
                         error: function () {
@@ -286,52 +286,7 @@
                 });
             }
         });
-        $("button[name='add']").on('click',function () {
-            var str='<option value=""></option>';
-            for(var i=0; i < list.length; i++) {
-                str+='<option value="'+list[i].id+'">'+list[i].name+'</option>';
-            }
-            var ht=' <form class="layui-form" action="">\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <label class="layui-form-label">职位名称</label>\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <input type="text" name="name" required  lay-verify="required" placeholder="请输入名称"\n' +
-                '                       autocomplete="off" class="layui-input">\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <label class="layui-form-label">职位编码</label>\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <input type="text" name="number"    placeholder="请输入编码"\n' +
-                '                       autocomplete="off" class="layui-input">\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <label class="layui-form-label">上级职位</label>\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <select name="city" lay-verify="required">\n' ;
-            ht+=str;
 
-            ht+='                </select>\n'+
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="layui-form-item">\n' +
-                '            <div class="layui-input-block">\n' +
-                '                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>\n' +
-                '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '\n' +
-                '    </form>';
-            var index=layer.open({
-                type: 1,//类型
-                offset: '150px',
-                area: ['1000px', '700px'],//定义宽和高
-                title: '查看详细信息',//题目
-                shadeClose: false,//点击遮罩层关闭
-                content: ht//打开的内容
-            });
-        })
     })
 </script>
 
