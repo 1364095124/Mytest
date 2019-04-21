@@ -1,6 +1,8 @@
 package com.lh.dao;
 
+import com.lh.model.ErrorUser;
 import com.lh.model.Person;
+import com.lh.model.Rest;
 import com.lh.model.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -44,12 +46,7 @@ public interface UserMapper {
      */
     public User selectUserByAccount(String account);
 
-    /**
-     * 根据账号查询个人信息
-     * @param account
-     * @return
-     */
-    public Person  selectPersonByAccount(String account);
+
 
     /**
      * 修改账号密码
@@ -58,12 +55,7 @@ public interface UserMapper {
      */
     public int updatePwd(User user);
 
-    /**
-     * 修改个人信息
-     * @param person
-     * @return
-     */
-    public int updatePerson(Person person);
+
 
     /**
      * 根据账号查询角色信息
@@ -97,5 +89,46 @@ public interface UserMapper {
      * @return
      */
     public Integer queryUserCount();
+
+    /**
+     * 查询得到所有账号异常的信息
+     * @return
+     */
+    public List<ErrorUser> getAllErrUser();
+
+    /**
+     * 得到异常账号的数目
+     * @return
+     */
+    public Integer queryErrUserCount();
+
+    /**
+     * 新增账号异常信息
+     * @param errorUser
+     * @return
+     */
+    public Integer addErrUser(ErrorUser errorUser);
+
+
+    /**
+     * 删除异常信息
+     * @param id
+     * @return
+     */
+    public Integer delErrUser(String id);
+
+    /**
+     * 根据账号删除用户
+     * @param account
+     * @return
+     */
+    public Integer delUser(String account);
+
+    /**
+     * rest账户验证
+     * @param rest
+     * @return
+     */
+    public Integer getRest(Rest rest);
 
 }

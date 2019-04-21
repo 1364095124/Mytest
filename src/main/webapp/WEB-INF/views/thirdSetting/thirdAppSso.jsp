@@ -10,10 +10,18 @@
 <head>
     <title>单点登陆</title>
 </head>
+<style type="text/css">
+    a{
+        text-decoration: none !important;
+    }
+</style>
 <body>
+<link rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
+<script src="js/bootstrap/bootstrap.js"></script>
+
 <p style="font-size:18px;">第三方集成&nbsp;--->&nbsp;<span style="font-size:13px;color:#696969;">单点登陆</span></p>
 <hr/>
-    <form id="thirdSsoForm">
+    <form id="thirdSsoForm" style="background-color:#ffffff;">
         <br/>
         <div class="form-group">
             <label >应用编码</label>
@@ -51,9 +59,12 @@
         </div>
         <br/>
 
-        <div class="form-group">
-            <label for="isDisabled">是否启用</label>
-            <input type="checkbox"  name="isDisabled" id="isDisabled"/>
+        <div class="form-group" >
+            <label class="control-label">是否启用</label>
+            <select class="form-control " name="isDisabled" id="isDisabled">
+                <option value="0" selected = "selected" >启用</option>
+                <option value="1">禁用</option>
+            </select>
         </div>
         <br/>
         <hr/>
@@ -67,14 +78,7 @@
 
 
 
-            $('input[type=checkbox]').bootstrapSwitch({
-                size: "large" ,
-                onColor:"success",
-                offColor:"default",
-                onText:"启用",
-                offText:"不启用",
 
-            });
 
             $.ajax({
                 type:'post',

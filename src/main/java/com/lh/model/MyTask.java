@@ -1,6 +1,5 @@
 package com.lh.model;
 
-import java.util.Date;
 
 public class MyTask {
 
@@ -9,6 +8,16 @@ public class MyTask {
     private String createTime;  // 创建日期
     private String  endTime; // 结束日期
     private String applyName;//申请人
+    private LeaveForm leaveForm; //
+
+    public LeaveForm getLeaveForm() {
+        return leaveForm;
+    }
+
+    public void setLeaveForm(LeaveForm leaveForm) {
+        this.leaveForm = leaveForm;
+    }
+
     public String getId() {
         return id;
     }

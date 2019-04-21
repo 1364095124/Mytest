@@ -4,10 +4,7 @@ package com.lh.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lh.dao.LeaveMapper;
-import com.lh.model.LeaveForm;
-import com.lh.model.Page;
-import com.lh.model.ResultMap;
-import com.lh.model.User;
+import com.lh.model.*;
 import com.lh.service.ILeaveService;
 import org.activiti.engine.*;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -67,9 +64,7 @@ public class LeaveServiceImpl implements ILeaveService {
                 .addClasspathResource(bpmn)
                 .addClasspathResource(png)
                 .deploy();
-        ProcessInstance pi=runtimeService
-                .startProcessInstanceByKey(key);
-        System.out.println("pid:" + pi.getId());
+
     }
 
 
@@ -127,9 +122,11 @@ public class LeaveServiceImpl implements ILeaveService {
             LeaveForm leaveForm1=leaveMapper.queryLeave(leaveForm).get(0);
             Map<String,Object> variables=new HashMap<String,Object>();
             variables.put("leaveId", leaveForm1.getLeave_id());
-            variables.put("account",leaveForm1.getAccount());
+            variables.put("applyAccount",leaveForm1.getAccount());
+            variables.put("money",leaveForm.getSum());
+            variables.put("depManager",leaveForm.getDepartment_Name()+"_部门主管");
             // 启动流程
-            ProcessInstance pi= runtimeService.startProcessInstanceByKey("leaveTest",variables);
+            ProcessInstance pi= runtimeService.startProcessInstanceByKey("ExpenseProcess",variables);
             // 根据流程实例Id查询任务
             Task task=taskService.createTaskQuery().processInstanceId(pi.getProcessInstanceId()).singleResult();
             // 完成 学生填写请假单任务
@@ -181,13 +178,15 @@ public class LeaveServiceImpl implements ILeaveService {
      * @return
      */
     @Override
-    public String startApply(String leave_id,String account){
+    public String startApply(String leave_id,String account,String department_Name,double sum){
         JSONObject result=new JSONObject();
         Map<String,Object> variables=new HashMap<String,Object>();
         variables.put("leaveId", leave_id);
         variables.put("account",account);
+        variables.put("money",sum);
+        variables.put("depManager",department_Name+"_部门主管");
         // 启动流程
-        ProcessInstance pi= runtimeService.startProcessInstanceByKey("LeaveExpense",variables);
+        ProcessInstance pi= runtimeService.startProcessInstanceByKey("ExpenseProcess",variables);
         // 根据流程实例Id查询任务
         Task task=taskService.createTaskQuery().processInstanceId(pi.getProcessInstanceId()).singleResult();
         // 完成 学生填写请假单任务
@@ -198,6 +197,17 @@ public class LeaveServiceImpl implements ILeaveService {
         leaveForm.setProcessInstanceId(pi.getProcessInstanceId());
         leaveMapper.updateLeave(leaveForm);
         return JSON.toJSONString(result);
+    }
+
+    /**
+     * 查询表单列表
+     * @return
+     */
+    @Override
+    public ResultMap<List<TaskList>> getAllTaskList() {
+        List<TaskList> lists=leaveMapper.getAllTaskList();
+        Integer count=leaveMapper.queryTaskCount();
+        return new ResultMap<List<TaskList>>("",lists,0,count);
     }
 
     /**

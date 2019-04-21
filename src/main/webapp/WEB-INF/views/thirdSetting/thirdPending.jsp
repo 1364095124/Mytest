@@ -9,7 +9,14 @@
 <html>
 <head>
     <title>代办集成</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
+    <script src="js/bootstrap/bootstrap.js"></script>
 </head>
+<style type="text/css">
+    a{
+        text-decoration: none !important;
+    }
+</style>
 <body>
 <p style="font-size:18px;">第三方集成&nbsp;--->&nbsp;<span style="font-size:13px;color:#696969;">代办集成</span></p>
 <hr/>

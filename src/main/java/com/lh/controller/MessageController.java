@@ -54,7 +54,7 @@ public class MessageController {
     }
 
     @ResponseBody
-    @RequestMapping(value="msg/send")
+    @RequestMapping(value="msg/send",produces = "text/plain;charset=utf-8")
     public String send(@RequestParam("recevier") String recevier,@RequestParam("content") String content,
                        @RequestParam("type") String type){
         String rs="";
@@ -82,7 +82,6 @@ public class MessageController {
         page.setRows(limit);
         List<Message> contentList=msgService.selectPageList(page);
         int totals=msgService.selectPageCount(page);
-//        page.setTotalRecord(totals);
         return new ResultMap<List<Message>>("",contentList,0,totals);
     }
 

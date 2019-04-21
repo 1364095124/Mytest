@@ -35,6 +35,7 @@
     </script>
 
 <script>
+    var n;
     layui.use('table', function() {
         var table = layui.table;
         //渲染
@@ -79,7 +80,99 @@
             n = data;
             if (obj.event === 'detail') {
                 var data = obj.data;
+                var leaveForm=data.leaveForm;
+                var temp='<div class="form " style="background: #ffffff;">\n' +
+                    '    <h2 style="text-align: center">差旅费报销单</h2>\n' +
+                    '        <br/>\n' +
+                    '        <form class="layui-form" action="" id="test">\n' +
+                    '            <div class="layui-form-item">\n' +
+                    '                <label class="layui-form-label">报销人所属部门：</label>\n' +
+                    '                <div class="layui-input-block" style="width: 400px;">\n' +
+                    '                    <input type="text" name="department_Name" value='+leaveForm.department_Name+' readonly\n' +
+                    '                           autocomplete="off" placeholder="请输入部门" class="layui-input">\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="layui-form-item">\n' +
+                    '                <label class="layui-form-label">报销人</label>\n' +
+                    '                <div class="layui-input-block" style="width: 500px;">\n' +
+                    '                    <input type="text" name="account" value='+leaveForm.account+'   readonly \n' +
+                    '                           autocomplete="off" class="layui-input">\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="layui-form-item">\n' +
+                    '                <div class="layui-inline">\n' +
+                    '                    <label class="layui-form-label">出发地点</label>\n' +
+                    '                    <div class="layui-input-inline">\n' +
+                    '                        <input type="tel" name="start_place"  value='+leaveForm.start_place+' readonly\n' +
+                    '                               autocomplete="off" class="layui-input">\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="layui-inline">\n' +
+                    '                    <label class="layui-form-label">到达地点</label>\n' +
+                    '                    <div class="layui-input-inline">\n' +
+                    '                        <input type="text" name="end_place" value='+leaveForm.end_place+' readonly ' +
+                    '                            class="layui-input">\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="layui-form-item">\n' +
+                    '                <div class="layui-inline">\n' +
+                    '                    <label class="layui-form-label">出发时间</label>\n' +
+                    '                    <div class="layui-input-inline">\n' +
+                    '                        <input type="tel" name="start_time" value='+leaveForm.start_time+' readonly\n' +
+                    '                               autocomplete="off" class="layui-input">\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="layui-inline">\n' +
+                    '                    <label class="layui-form-label">到达时间</label>\n' +
+                    '                    <div class="layui-input-inline">\n' +
+                    '                        <input type="text" name="end_time" value='+leaveForm.end_time+' readonly\n' +
+                    '                                class="layui-input">\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="layui-form-item">\n' +
+                    '                <label class="layui-form-label">费用类型</label>\n' +
+                    '                <div class="layui-input-block" style="width:300px !important;">\n' +
+                    '                    <select name="type"  >\n' +
+                    '                        <option value="'+leaveForm.type+'">'+leaveForm.type+'</option>\n' +
+                    '                        <option value="0" selected="">车费</option>\n' +
+                    '                        <option value="1" >住宿费</option>\n' +
+                    '                        <option value="2">伙食费</option>\n' +
+                    '                        <option value="3">其他综合</option>\n' +
+                    '                    </select>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="layui-form-item">\n' +
+                    '                <label class="layui-form-label">合计：</label>\n' +
+                    '                <div class="layui-input-block" style="width: 500px;">\n' +
+                    '                    <input type="text" name="sum" value='+leaveForm.sum+' readonly\n' +
+                    '                            class="layui-input">\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <div class="layui-form-item layui-form-text">\n' +
+                    '                <label class="layui-form-label">具体事项</label>\n' +
+                    '                <div class="layui-input-block" style="width:800px;">\n' +
+                    '                    <textarea  name="note" class="layui-textarea">'+leaveForm.note+'</textarea>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '            <br/>\n' +
+                    '            <br/><hr/><br/>\n' +
+                    '            <div class="layui-form-item layui-form-text">\n' +
+                    '                <label class="layui-form-label">批注</label>\n' +
+                    '                <div class="layui-input-block" style="width:800px;">\n' +
+                    '                    <textarea  name="comment" id="comment" class="layui-textarea">没意见</textarea>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '        <div class="layui-form-item">\n' +
+                    '            <div class="layui-input-block">\n' +
+                    '                <button lay-submit lay-filter="SubForm" state="1" class="layui-btn" >同意</button>\n' +
+                    '                <button lay-submit lay-filter="SubForm"  state="0" class="layui-btn layui-btn-primary">不同意</button>\n' +
+                    '            </div>\n' +
+                    '        </div>\n' +
+                    '        </form>\n' +
 
+                    '    </div>';
                 var index=layer.open({
                     type: 1,//类型
                     offset: '50px',
@@ -88,45 +181,39 @@
                     shadeClose: false,//点击遮罩层关闭
                     content: temp//打开的内容
                 });
+                form.render();
+                form.on('submit(SubForm)', function(data) {
+                   var comment=$("#comment").val();
+                   var state=$(this).attr("state");
+                   console.log("state"+state);
+                   $.ajax({
+                      type:'post',
+                      url:'task/doAuditing',
+                      data:{
+                          "taskId":n.id,
+                          "comment":comment,
+                          "state":state
+                      },
+                       dataType:'json',
+                      success:function(rs){
+                          if(rs.success){
+                              layer.close(index);
+                              layer.alert('成功', {icon: 1});
+                              setTimeout(function(){
+                                  $("#main").load("task/daibanjsp");
+                              },200);
+                          }else{
+                              layer.alert(rs.msg, {icon: 2});
+                          }
+                      },
+                      error:function(){
+                          layer.alert('异常！', {icon: 2});
+                      }
+                   });
+                   return false;
+                });
             }
         });
-        var  active = {
-            getCheckData: function(){//获取选中数据
-                var checkStatus = table.checkStatus('test')
-                    ,data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
-            }
-            ,getCheckLength: function(){//获取选中数目
-                var checkStatus = table.checkStatus('test')
-                    ,data = checkStatus.data;
-                layer.msg('选中了：'+ data.length + ' 个');
-            }
-            ,isAll: function(){验证是否全选
-                var checkStatus = table.checkStatus('test');
-                layer.msg(checkStatus.isAll ? '全选': '未全选')
-            }
-            ,parseTable: function(){
-                table.init('parse-table-demo', {
-                    limit: 3
-                });
-            }
-            ,add: function(){
-                table.addRow('test')
-            }
-            ,delete: function(){
-                layer.confirm('确认删除吗？', function(index){
-                    table.deleteRow('test')
-                    layer.close(index);
-                });
-            }
-            ,reload:function () {
-                var keyWord=$("#keyWord").val();
-                var keyType=$("#key_type option:selected").val();
-                table.reload('contenttable',{
-                    where:{keyWord:keyWord,keyType:keyType}
-                });
-            }
-        };
     });
 </script>
 </body>

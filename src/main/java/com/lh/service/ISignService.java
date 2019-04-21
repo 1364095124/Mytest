@@ -20,4 +20,6 @@ public interface ISignService {
     String updateMemo(Memo memo);
 
     String deleteMemo(String id);
+
+    Integer newMemoCount(String account);
 }

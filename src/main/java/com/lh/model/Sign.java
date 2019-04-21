@@ -1,6 +1,6 @@
 package com.lh.model;
 
-import java.util.Date;
+
 
 /**
  *签到表类
@@ -10,7 +10,16 @@ public class Sign {
     private String id;  //主键
     private String account;  //账户
     private String signTime; //签到时间
+    private String address;//签到地点
     private Integer isDeleted;  //是否删除
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getId() {
         return id;

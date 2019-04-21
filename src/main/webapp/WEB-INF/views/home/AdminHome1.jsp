@@ -108,7 +108,7 @@
                                 <li><a name="thirdSso" >单点登陆</a></li>
                                 <li><a name="thirdMessage" >消息集成</a></li>
                                 <li><a name="thirdPending" >代办集成</a></li>
-                                <li><a name="thirdManager">应用管理</a> </li>
+                                <li><a name="thirdManagerthirdManager">应用管理</a> </li>
                             </ul>
                         </div>
                     </li>

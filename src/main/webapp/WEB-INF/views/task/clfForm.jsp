@@ -16,7 +16,7 @@
         <br/>
 
         <br/>
-        <p style="color:#696969;margin-left:15px;">新建事项&nbsp;/&nbsp;<span style="font-size:22px;">填写表单</span></p>
+        <p style="color:#696969;margin-left:15px;">新建事项&nbsp;/&nbsp;<span style="font-size:22px;">填写差旅费表单</span></p>
         <hr/>
     </div>
 
@@ -25,16 +25,16 @@
         <br/>
         <form class="layui-form" action="" id="test">
             <div class="layui-form-item">
-                <label class="layui-form-label">报销人所属部门：</label>
-                <div class="layui-input-block" style="width: 400px;">
-                    <input type="text" name="department_Name" id="department_Name" lay-verify="required"
-                           autocomplete="off" placeholder="请输入部门" class="layui-input">
+                <label class="layui-form-label">所属部门</label>
+                <div class="layui-input-block">
+                    <input type="text" name="department_Name" id="department_Name"  lay-verify="required"  readonly
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">报销人</label>
                 <div class="layui-input-block" style="width: 500px;">
-                    <input type="text" name="account" id="account"  lay-verify="required" placeholder="请输入账号"
+                    <input type="text" name="account" id="account"  lay-verify="required"  readonly
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -100,7 +100,7 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">具体事项</label>
                 <div class="layui-input-block" style="width:800px;">
-                    <textarea placeholder="请输入内容" name="note" class="layui-textarea"></textarea>
+                    <textarea placeholder="请输入内容" name="note" id="note" class="layui-textarea"></textarea>
                 </div>
             </div>
 
@@ -116,6 +116,23 @@
     </div>
 
 <script>
+    $("#account").val($("#curUser").html());
+    //初始化部门列表
+    $.ajax({
+        type:'post',
+        url:'org/queryJobInfoByAccount',
+        data:{
+            "account":$("#curUser").html()
+        },
+        dataType:'json',
+        success:function(rs){
+            $("#department_Name").val(rs.departmentName);
+        },
+        error:function(){
+            alert("获取用户职位信息异常！");
+        }
+    });
+
     layui.use(['form', 'layedit', 'laydate','layer'], function() {
         var form = layui.form
             , layer = layui.layer
@@ -152,7 +169,7 @@
 
         form.on('submit(SubForm)', function(data) {
             var param = JSON.stringify(data.field);//定义临时变量获取表单提交过来的数据，非json格式
-            console.log(param);//测试是否获取到表单数据，调试模式下在页面控制台查看
+            console.log(param);
             $.ajax({
                 url: "task/autoStartApply",
                 type: 'post',//method请求方式，get或者post
@@ -163,8 +180,10 @@
                 success: function (res) {//res为相应体,function为回调函数
                     layer.close(layer.index);
                     if (res.success == true) {
-                        layer.alert('保存信息成功', {icon: 1});
-                        //$("#res").click();//调用重置按钮将表单数据清空
+                        layer.alert('发送成功', {icon: 1});
+                        setTimeout(function(){
+                            $("#main").load("task/allTaskList");
+                        },200);
 
                     } else {
                         layer.alert(data.msg, {icon: 2});

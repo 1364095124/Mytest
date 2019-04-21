@@ -15,7 +15,7 @@ public class LeaveForm {
     private String start_time; //出差开始时间
     private String end_time; //出差结束时间
     private String type;  //报销类型
-    private String sum;  //报销总金额
+    private double sum;  //报销总金额
     private String note;  //报销项目详细
     private String state;  //是否审核
     private String processInstanceId; // 流程实例Id
@@ -93,11 +93,11 @@ public class LeaveForm {
         this.type = type;
     }
 
-    public String getSum() {
+    public double getSum() {
         return sum;
     }
 
-    public void setSum(String sum) {
+    public void setSum(double sum) {
         this.sum = sum;
     }
 

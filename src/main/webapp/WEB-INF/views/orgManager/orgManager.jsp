@@ -114,7 +114,7 @@
                     '        </div>\n' +
                     '        <div class="layui-form-item">\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <button type="button" name="sub" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
+                    '                <button  name="sub" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
                     '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
@@ -130,7 +130,7 @@
                     content: ht//打开的内容
                 });
                 form.render();
-                $(document).on('click','button[name="sub"]',function(){
+                form.on('submit(subForm)',function(rs){
                     $.ajax({
                         url: "org/addOrg",
                         type: 'post',//method请求方式，get或者post
@@ -156,6 +156,7 @@
                         }
 
                     });
+                    return false;
                 });
             }
         });
@@ -232,7 +233,7 @@
                     '        </div>\n' +
                     '        <div class="layui-form-item">\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <button type="button" name="subEdit" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
+                    '                <button  name="subEdit" class="layui-btn" lay-submit lay-filter="sub">立即提交</button>\n' +
                     '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
@@ -250,7 +251,7 @@
 
                 $("#pid").val(data.pid);
                 form.render();
-                $(document).on('click','button[name="subEdit"]',function(){
+                form.on('submit(sub)',function(rs){
                     $.ajax({
                         url: "org/updateOrg",
                         type: 'post',//method请求方式，get或者post
@@ -282,6 +283,7 @@
                         }
 
                     });
+                    return false;
                 });
             }
         });

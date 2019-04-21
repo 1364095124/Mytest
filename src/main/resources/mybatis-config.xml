@@ -28,6 +28,14 @@
         <typeAlias type="com.lh.model.Department" alias="Department"/>
         <typeAlias type="com.lh.model.Job" alias="Job"/>
         <typeAlias type="com.lh.model.PersonJob" alias="PersonJob"/>
+        <typeAlias type="com.lh.model.ErrorUser" alias="ErrorUser"/>
+        <typeAlias type="com.lh.model.TaskList" alias="TaskList"/>
+        <typeAlias type="com.lh.model.Authorization" alias="Authorization"/>
+        <typeAlias type="com.lh.model.Metting" alias="Metting"/>
+        <typeAlias type="com.lh.model.Notice" alias="Notice"/>
+        <typeAlias type="com.lh.model.Rest" alias="Rest"/>
+        <typeAlias type="com.lh.model.FileFloder" alias="FileFloder"/>
+        <typeAlias type="com.lh.model.MyFile" alias="MyFile"/>
     </typeAliases> 
 <!--
       <mappers>  

@@ -1,6 +1,8 @@
 package com.lh.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.lh.model.FileFloder;
 import com.lh.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,5 +61,43 @@ public class FileController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 跳转到文件夹管理页面
+     * @return
+     */
+    @RequestMapping("file/fileFloderList")
+    public String fileFloderList(){
+        return "fileManager/fileFloderManager";
+    }
+
+    @ResponseBody
+    @RequestMapping(value="file/getAllFileFloder",produces = "text/plain;charset=utf-8")
+    public String getAllFileFloder(){
+        return JSON.toJSONString(fileService.getAllFileFloder());
+    }
+
+    @RequestMapping("file/fileList")
+    public String fileList(){
+        return "fileManager/fileManager";
+    }
+
+    @ResponseBody
+    @RequestMapping(value="file/getAllFile",produces = "text/plain;charset=utf-8")
+    public String getAllFile(){
+      return  JSON.toJSONString(fileService.getAllFile());
+    }
+
+    @ResponseBody
+    @RequestMapping(value="file/addFileFloder",produces = "text/plain;charset=utf-8")
+    public String addFileFloder(FileFloder fileFloder){
+        return fileService.addFileFloder(fileFloder);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="file/queryAllFileFloder",produces = "text/plain;charset=utf-8")
+    public String queryAllFileFloder(){
+     return fileService.queryAllFileFloder();
     }
 }

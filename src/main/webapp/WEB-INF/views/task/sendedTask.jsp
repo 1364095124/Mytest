@@ -55,7 +55,7 @@
             table.render({
                 elem: '#test'  //绑定table表格
                 ,height: 450
-                ,url: '<%=request.getContextPath()%>/message/messageList' //后台springmvc接收路径
+                ,url: 'message/messageList' //后台springmvc接收路径
                 ,page:true    //true表示分页
                 /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                  layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局

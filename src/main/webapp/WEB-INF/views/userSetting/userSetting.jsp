@@ -81,21 +81,21 @@
             <br/>
             <p><strong>账户密码</strong></p>
             <br/>
-            <p>当前密码强度：<span style="color:green;">强</span>
+            <p>当前密码强度：<span style="color:#1E9FFF;">弱</span>
                 <a href="javascript:;" name="updatePwd" data-toggle="modal" data-target="#myModal"
                    style="float:right;color:#1E9FFF;">修改</a>
             </p>
             <hr/>
             <p><strong>绑定手机</strong></p>
             <br/>
-            <p>已绑定手机：<span name="personPhone">183****7369</span>
+            <p>已绑定手机：<span name="personPhone" style="color:#1E9FFF;">183****7369</span>
                 <a href="javascript:;" name="updatePhone" data-toggle="modal" data-target="#myModal"
                    style="float:right;color:#1E9FFF;">修改</a>
             </p>
             <hr/>
             <p><strong>绑定邮箱</strong></p>
             <br/>
-            <p>已绑定邮箱：<span name="personEmail">13****@qq.com</span>
+            <p>已绑定邮箱：<span name="personEmail" style="color:#1E9FFF;">13****@qq.com</span>
                 <a href="javascript:;" name="updateEmail" data-toggle="modal" data-target="#myModal"
                    style="float:right;color:#1E9FFF;">修改</a>
             </p>

@@ -2,12 +2,11 @@ package com.lh.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lh.common.HttpUtils;
 import com.lh.dao.SignMapper;
 import com.lh.model.Memo;
 import com.lh.model.Sign;
-import com.lh.model.User;
 import com.lh.service.ISignService;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service("signService")
 public class SignServiceImpl implements ISignService {
@@ -27,9 +27,13 @@ public class SignServiceImpl implements ISignService {
         SimpleDateFormat fm=new SimpleDateFormat("yyyy-MM-dd");
         sign.setSignTime(fm.format(new Date()));
         JSONObject result=new JSONObject();
+        String rs= HttpUtils.doFormPost("http://api.map.baidu.com/location/ip?ak=Bf9nlqn95ja8f5k3HDlU2D2nSefKxriK");
+        JSONObject json= JSON.parseObject(rs);
+        Map<String,Object> content=(Map<String,Object>)json.get("content");
+        sign.setAddress(content.get("point").toString());
         if(signMapper.addSign(sign)>0){
             result.put("success",true);
-            result.put("msg","签到成功!");
+            result.put("msg","在"+content.get("address")+"签到成功!");
         }else{
             result.put("success",false);
             result.put("msg","签到失败!");
@@ -112,5 +116,15 @@ public class SignServiceImpl implements ISignService {
             result.put("msg","删除备忘录失败");
         }
         return JSON.toJSONString(result);
+    }
+
+    /**
+     * 查询未过期提醒的个数
+     * @param account 账号
+     * @return
+     */
+    @Override
+    public Integer newMemoCount(String account) {
+        return signMapper.newMemoCount(account);
     }
 }

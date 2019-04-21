@@ -327,5 +327,16 @@ public class OrgServiceImpl implements IOrgService {
         return JSON.toJSONString(rs);
     }
 
+    /**
+     * 根据账号查询职位匹配信息
+     * @param account
+     * @return
+     */
+    @Override
+    public String queryJobInfoByAccount(String account) {
+         PersonJob personJob=orgMapper.queryJobInfoByAccount(account);
+        return JSON.toJSONString(personJob);
+    }
+
 
 }

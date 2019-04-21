@@ -76,30 +76,6 @@
 
 
 
-
-       /* //监听表格行点击
-        table.on('tr', function(obj){
-            console.log(obj)
-        });
-
-        //监听表格复选框选择
-        table.on('checkbox(test)', function(obj){
-            console.log(obj)
-        });
-
-        //监听表格单选框选择
-        table.on('radio(test2)', function(obj){
-            console.log(obj)
-        });
-
-        //监听单元格编辑
-        table.on('edit(test2)', function(obj){
-            var value = obj.value //得到修改后的值
-                ,data = obj.data //得到所在行所有键值
-                ,field = obj.field; //得到字段
-
-        });*/
-
         //监听工具条
         table.on('tool(test)', function(obj){
             var data = obj.data;
@@ -216,8 +192,8 @@
                     shadeClose: false,//点击遮罩层关闭
                     content: temp//打开的内容
                 });
-                form.on('submit(SubForm)', function(data) {
-                    var param = JSON.stringify(data.field);//定义临时变量获取表单提交过来的数据，非json格式
+                form.on('submit(SubForm)', function(rs) {
+                    var param = JSON.stringify(rs.field);//定义临时变量获取表单提交过来的数据，非json格式
                     //测试是否获取到表单数据，调试模式下在页面控制台查看
                     $.ajax({
                         url: "msg/updateToRead",

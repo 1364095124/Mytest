@@ -35,7 +35,7 @@ public class SignController {
      * 执行签到
      */
     @ResponseBody
-    @RequestMapping(value="/oaTools/signManager/doSign")
+    @RequestMapping(value="/oaTools/signManager/doSign",produces = "text/plain;charset=utf-8")
     public String doSign(Sign sign){
         return signService.doSign(sign);
     }
@@ -101,6 +101,17 @@ public class SignController {
     @RequestMapping(value="/oaTools/memoMannger/deleteMemo")
     public String deleteMemo(@RequestParam("id") String id){
         return signService.deleteMemo(id);
+    }
+
+    /**
+     * 查询未过期提醒的次数
+     * @param account 账号
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("oaTools/memoManager/getNewMemoCount")
+    public Integer getNewMemoCount(String account){
+        return signService.newMemoCount(account);
     }
 
 }

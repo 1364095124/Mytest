@@ -114,7 +114,7 @@
                     '        </div>\n' +
                     '        <div class="layui-form-item">\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <button type="button" name="sub" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
+                    '                <button  name="sub" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
                     '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
@@ -130,7 +130,7 @@
                     content: ht//打开的内容
                 });
                 form.render();
-                $(document).on('click','button[name="sub"]',function(){
+                form.on('submit(subForm)',function(rs){
                     $.ajax({
                         url: "org/addJob",
                         type: 'post',//method请求方式，get或者post
@@ -157,6 +157,7 @@
                         }
 
                     });
+                    return false;
                 });
             }
         });
@@ -233,7 +234,7 @@
                     '        </div>\n' +
                     '        <div class="layui-form-item">\n' +
                     '            <div class="layui-input-block">\n' +
-                    '                <button type="button" name="subEdit" class="layui-btn" lay-submit lay-filter="subForm">立即提交</button>\n' +
+                    '                <button  name="subEdit" class="layui-btn" lay-submit lay-filter="sub">立即提交</button>\n' +
                     '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
                     '            </div>\n' +
                     '        </div>\n' +
@@ -251,7 +252,7 @@
 
 
                 form.render();
-                $(document).on('click','button[name="subEdit"]',function(){
+                form.on('submit(sub)',function(){
                     $.ajax({
                         url: "org/updateJob",
                         type: 'post',//method请求方式，get或者post
@@ -266,12 +267,12 @@
                         success: function (res) {//res为相应体,function为回调函数
                             layer.close(layer.index);
                             if (res.success == true) {
-
+                                layer.alert('成功', {icon: 1});
                                 //$("#res").click();//调用重置按钮将表单数据清空
                                 setTimeout(function () {
                                     $("#main").load("org/jobList");
                                 }, 200)
-                                layer.alert('成功', {icon: 1});
+
 
                             } else {
                                 layer.alert(res.msg, {icon: 2});
@@ -283,6 +284,7 @@
                         }
 
                     });
+                    return false;
                 });
             }
         });

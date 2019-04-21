@@ -6,15 +6,16 @@ import java.util.List;
 
 public interface PersonMapper {
 
-    public Integer insertPerson(Person person);
+     Integer insertPerson(Person person);
 
-    public Person queryPersonByAccount(String account);
+     Person queryPersonByAccount(String account);
 
-    public List<Person> queryAllPerson();
+     List<Person> queryAllPerson();
 
-    public Integer queryPersonCount();
+     Integer queryPersonCount();
 
-    public Integer updatePerson(Person person);
+     Integer updatePerson(Person person);
 
-    public Integer delPerson(String account);
+     Integer delPerson(String account);
+
 }

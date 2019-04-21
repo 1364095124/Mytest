@@ -226,4 +226,15 @@ public class OrgController {
         return orgService.updateJobInfo(personJob);
     }
 
+    /**
+     * 根据账号查询职位匹配信息
+     * @param account
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="org/queryJobInfoByAccount",produces = "text/plain;charset=utf-8")
+    public String queryJobInfoByAccount(String account){
+        return orgService.queryJobInfoByAccount(account);
+    }
+
 }

@@ -134,15 +134,15 @@
                     data:{
                         "account":$("#curUser").html()
                     },
+                    dataType:'json',
                     success:function(data){
                         if(data!=null&&data!=''){
-                            data=JSON.parse(data);
                             console.log(data);
                             if(data.success){
-                                layer.msg('签到成功');
+                                layer.msg(data.msg);
                                 CheckIn(value);
                             }else{
-                                layer.msg('签到失败');
+                                layer.msg(data.msg);
                             }
                         }
                     },

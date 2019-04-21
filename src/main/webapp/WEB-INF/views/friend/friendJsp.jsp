@@ -43,8 +43,9 @@
     }
     .myli .title{
         font-size: 12px;
-        position:relative;
+
         top:30px;
+        position: relative;
 
         color:rgba(105,105,105,0.8);
     }
@@ -64,53 +65,51 @@
             <span class="layui-icon layui-icon-search"></span>
         </button>
     </div>
-    <ul>
-        <li class="myli">
-            <img src="//t.cn/RCzsdCq"/>
-            <span class="account">zhangsan</span>
-            <span class="title">业务部-经理</span>
-            <span class="mytooler">
-                <a value="zhangsan" name="sendMsg" whichType="Msg"><span class="fa fa-commenting"></span>消息&nbsp;&nbsp;</a>
-                <a  value="zhangsan" name="sendMsg" whichType="Email"><span class="fa fa-envelope-open"></span>邮件</a>
-            </span>
-        </li>
-        <li class="myli">
-            <img src="//t.cn/RCzsdCq"/>
-            <span class="account">liuhai</span>
-            <span class="title">业务部-经理</span>
-            <span class="mytooler">
-                <a ><span class="fa fa-commenting"></span>消息&nbsp;&nbsp;</a>
-                <a><span class="fa fa-envelope-open"></span>邮件</a>
-            </span>
-        </li>
-        <li class="myli">
-            <img src="//t.cn/RCzsdCq"/>
-            <span class="account">liuhai</span>
-            <span class="title">业务部-经理</span>
-            <span class="mytooler">
-                <a ><span class="fa fa-commenting"></span>消息&nbsp;&nbsp;</a>
-                <a><span class="fa fa-envelope-open"></span>邮件</a>
-            </span>
-        </li>
-        <li class="myli">
-            <img src="//t.cn/RCzsdCq"/>
-            <span class="account">liuhai</span>
-            <span class="title">业务部-经理</span>
-            <span class="mytooler">
-                <a ><span class="fa fa-commenting"></span>消息&nbsp;&nbsp;</a>
-                <a><span class="fa fa-envelope-open"></span>邮件</a>
-            </span>
-        </li>
+    <ul id="plist">
+
 
     </ul>
 
 
     <script>
+
+        //初始化列表
+        $.ajax({
+            type:'post',
+            url:'person/getAllPerson',
+            data:{},
+            dataType:'json',
+            success:function(rs){
+                var data=rs.data;
+                var str='';
+                for(var i=0;i<data.length;i++){
+                    str+='<li class="myli">\n' ;
+                    if(data[i].photo_url==null||data[i].photo_url=='' ){
+                        str+='<img src="//t.cn/RCzsdCq"/>\n' ;
+                    }else{
+                        str+='<img src="'+data[i].photo_url+'"/>';
+                    }
+                     str+='<span class="account">'+data[i].account+'</span>\n' +
+                        '   <span class="title">'+data[i].name+'</span>\n' +
+                        '   <span class="mytooler">\n' +
+                        '   <a name="sendMsg" value="'+data[i].account+'" whichType="Msg">' +
+                         '<span class="fa fa-commenting"></span>消息&nbsp;&nbsp;</a>\n' +
+                        '   <a name="sendMsg" value="'+data[i].account+'" whichType="Msg">' +
+                         '<span class="fa fa-envelope-open"></span>邮件</a>\n' +
+                        '  </span>\n' +
+                        '</li>';
+                }
+                $("#plist").append(str);
+            },
+            error:function(){
+                alert("部门列表初始化失败！");
+            }
+        })
         layui.use(['layer','form'],function(){
             var layer=layui.layer;
             var form=layui.form;
 
-            $("a[name='sendMsg']").on('click',function () {
+            $(document).on('click','a[name="sendMsg"]',function(){
                 var w=$(this).attr("whichType");
                 var v=$(this).attr("value");
                 var temp=" <form class=\"layui-form\" action=\"\" >\n" +

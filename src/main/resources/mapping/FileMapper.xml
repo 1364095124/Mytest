@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.FileMapper">
+    <insert id="addFileFloder" parameterType="FileFloder">
+        INSERT
+        INTO
+          fileFloders(
+            id,
+            name,
+            pid,
+            createAccount,
+            createTime,
+            password,
+            note,
+            url,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{name},
+          #{pid},
+          #{createAccount},
+          NOW(),
+          #{password},
+          #{note},
+          #{url},
+          0
+        )
+    </insert>
+
+    <update id="delFileFloder" parameterType="string">
+        UPDATE
+          fileFloders
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <update id="updateFileFloder" parameterType="FileFloder">
+        UPDATE
+          fileFloders
+        <set>
+          <if test="name!=null">
+              name=#{name},
+          </if>
+          <if test="password!=null">
+              password=#{password},
+          </if>
+          <if test="note!=null">
+              note=#{note},
+          </if>
+        </set>
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="getAllFileFloder" resultType="FileFloder">
+        SELECT
+          a.id,
+          a.name,
+          a.pid,
+          c.name as pname,
+          a.createAccount,
+          b.name as createName,
+          a.createTime,
+          a.password,
+          a.isDeleted,
+          a.url,
+          a.note
+        FROM
+          fileFloders a
+        JOIN
+          persons b
+        ON
+          a.createAccount=b.account
+        JOIN
+          fileFloders c
+        ON
+          a.pid=c.id
+        WHERE
+          a.isDeleted=0
+    </select>
+
+    <select id="queryFileFloderCount" resultType="integer">
+        SELECT
+          count(*)
+        FROM
+          fileFloders
+        WHERE
+          isDeleted=0
+    </select>
+
+    <insert id="addFile" parameterType="MyFile">
+        INSERT
+        INTO
+          files(
+            id,
+            name,
+            pid,
+            createAccount,
+            createTime,
+            password,
+            note,
+            url,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{name},
+          #{pid},
+          #{createAccount},
+          NOW(),
+          #{password},
+          #{note},
+          #{url},
+          0
+        )
+    </insert>
+
+    <update id="delFile" parameterType="string">
+        UPDATE
+          files
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <update id="updateFile" parameterType="MyFile">
+        UPDATE
+          files
+        <set>
+          <if test="name!=null">
+              name=#{name},
+          </if>
+          <if test="pid!=null">
+              pid=#{pid},
+          </if>
+          <if test="password!=null">
+              password=#{password},
+          </if>
+          <if test="note!=null">
+              note=#{note},
+          </if>
+        </set>
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="getAllFile" resultType="MyFile">
+        SELECT
+          a.id,
+          a.name,
+          a.pid,
+          c.name as pname,
+          a.createAccount,
+          b.name as createName,
+          a.createTime,
+          a.password,
+          a.note,
+          a.url,
+          a.isDeleted
+        FROM
+          files a
+        JOIN
+          persons b
+        ON
+          a.createAccount=b.account
+        JOIN
+          fileFloders c
+        ON
+          a.pid=c.id
+        WHERE
+          a.isDeleted=0
+        AND
+          c.isDeleted=0
+
+    </select>
+
+    <select id="queryFileCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          files
+        WHERE
+          isDeleted=0
+    </select>
+
+    <select id="queryFileByFlodId" parameterType="string" resultType="MyFile">
+        SELECT
+          a.id,
+          a.name,
+          a.pid,
+          c.name as pname,
+          a.createAccount,
+          b.name as createName,
+          a.createTime,
+          a.password,
+          a.note,
+          a.url,
+          a.isDeleted
+        FROM
+          files a
+        JOIN
+          persons b
+        ON
+          a.createAccount=b.account
+        JOIN
+          fileFloders c
+        ON
+          a.pid=c.id
+        WHERE
+          a.isDeleted=0
+        AND
+          c.isDeleted=0
+        AND
+          a.pid=#{id}
+    </select>
+
+    <select id="queryFileFlodById" parameterType="string" resultType="FileFloder">
+        SELECT
+          id,
+          name,
+          pid,
+          createAccount,
+          createTime,
+          password,
+          note
+        FROM
+          fileFloders
+        WHERE
+          id=#{id}
+        AND
+          isDeleted=0
+    </select>
+
+</mapper>

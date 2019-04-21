@@ -2,29 +2,37 @@ package com.lh.dao;
 
 import com.lh.model.LeaveForm;
 import com.lh.model.Page;
-import org.apache.ibatis.annotations.Param;
+import com.lh.model.TaskList;
+
 
 import java.util.List;
 
 public interface LeaveMapper {
 
-    public LeaveForm queryLeaveById(String leave_id);
+     LeaveForm queryLeaveById(String leave_id);
 
-    public LeaveForm queryLeaveByPid(String processInstanceId);
+     LeaveForm queryLeaveByPid(String processInstanceId);
 
-    public List<LeaveForm> queryLeave(LeaveForm leaveForm);
+     List<LeaveForm> queryLeave(LeaveForm leaveForm);
 
-    public Integer updateLeave(LeaveForm leaveForm);
+     Integer updateLeave(LeaveForm leaveForm);
 
-    public Integer addLeave(LeaveForm leaveForm);
+     Integer addLeave(LeaveForm leaveForm);
 
-    public Integer deleteLeave(String leave_id);
+     Integer deleteLeave(String leave_id);
 
-    public List<LeaveForm> selectLeaveList(Page page);
+     List<LeaveForm> selectLeaveList(Page page);
 
-    public Integer selectLeavePage(Page page);
+     Integer selectLeavePage(Page page);
 
-    public List<LeaveForm> selectTrashLeave(Page page);
+     List<LeaveForm> selectTrashLeave(Page page);
 
-    public Integer selectTrashPage(Page page);
+     Integer selectTrashPage(Page page);
+
+     List<TaskList> getAllTaskList();
+
+     Integer queryTaskCount();
+
+
+
 }

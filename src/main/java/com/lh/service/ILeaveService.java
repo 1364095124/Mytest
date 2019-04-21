@@ -3,6 +3,7 @@ package com.lh.service;
 import com.lh.model.LeaveForm;
 import com.lh.model.Page;
 import com.lh.model.ResultMap;
+import com.lh.model.TaskList;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -24,9 +25,9 @@ public interface ILeaveService {
 
     String save(LeaveForm leaveForm);
 
-    String startApply(String leave_id,String account);
+    String startApply(String leave_id,String account,String department_Name,double sum);
 
-    
+    ResultMap<List<TaskList>> getAllTaskList();
 
 
 }

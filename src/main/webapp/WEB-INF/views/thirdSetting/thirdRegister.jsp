@@ -9,8 +9,16 @@
 <html>
 <head>
     <title>第三方应用介入注册</title>
+    <link rel="stylesheet" href="css/bootstrapValidator/bootstrapValidator.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
+    <script src="js/bootstrap/bootstrap.js"></script>
+    <script src="js/bootstrapValidator/bootstrapValidator.min.js"></script>
 </head>
-
+<style type="text/css">
+    a{
+        text-decoration: none !important;
+    }
+</style>
 <body>
     <div id="fakeLoader">
     </div>

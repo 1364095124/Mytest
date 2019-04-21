@@ -4,14 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lh.common.EmailUtils;
 import com.lh.common.JedisUtils;
+import com.lh.dao.PersonMapper;
 import com.lh.dao.UserMapper;
-import com.lh.model.MailParameters;
-import com.lh.model.Person;
-import com.lh.model.ResultMap;
-import com.lh.model.User;
+import com.lh.model.*;
 import com.lh.service.IUserService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
@@ -20,6 +20,9 @@ import java.util.*;
 public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PersonMapper personMapper;
 
     /**
      * 登陆验证
@@ -43,9 +46,16 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public int updateIsDisabled(String account, Integer isDisabled) {
-
-        return userMapper.updateIsDisabled(account,isDisabled);
+    public String updateIsDisabled(String account, Integer isDisabled) {
+        JSONObject rs=new JSONObject();
+        if(userMapper.updateIsDisabled(account,isDisabled)>0){
+            rs.put("success",true);
+            rs.put("msg","");
+        }else{
+            rs.put("success",false);
+            rs.put("msg","更新数据库失败！");
+        }
+        return JSON.toJSONString(rs);
     }
 
     /**
@@ -66,11 +76,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public String getCode(String account) {
         JSONObject resultMap=new JSONObject();
-        String code=EmailUtils.produceCode();
-        JedisUtils.setex(account+"code",60*3,code);
-
-        Person person =userMapper.selectPersonByAccount(account);
+        Person person =personMapper.queryPersonByAccount(account);
+        System.out.println("----person:"+person);
         if(person!=null){
+            String code=EmailUtils.produceCode();
+            JedisUtils.setex(account+"code",60*3,code);
             MailParameters p=new MailParameters();
             p.setSenderAddress("1364095124@qq.com");
             p.setRecipientAddress(person.getEmail());
@@ -81,18 +91,18 @@ public class UserServiceImpl implements IUserService {
             System.out.println("-------"+JSON.toJSONString(p));
             try {
                 EmailUtils.send(p);
-                resultMap.put("state","200");
-                resultMap.put("message","成功！");
+                resultMap.put("success",true);
+                resultMap.put("msg","");
             } catch (Exception e) {
                 e.printStackTrace();
-                resultMap.put("state","500");
-                resultMap.put("message","失败");
+                resultMap.put("success",false);
+                resultMap.put("msg","发送验证码失败,请重试！");
             }finally{
                 return JSON.toJSONString(resultMap);
             }
         }else{
-            resultMap.put("state","400");
-            resultMap.put("message","账号不存在");
+            resultMap.put("success",false);
+            resultMap.put("msg","账号不存在!");
             return JSON.toJSONString(resultMap);
         }
 
@@ -133,16 +143,7 @@ public class UserServiceImpl implements IUserService {
         return JSON.toJSONString(resultMap);
     }
 
-    /**
-     * 根据账号查询个人信息
-     * @param account
-     * @return
-     */
-    @Override
-    public String findPersonByAccount(String account) {
-        Person person= userMapper.selectPersonByAccount(account);
-        return JSON.toJSONString(person);
-    }
+
 
     /**
      * 更新账号密码
@@ -162,23 +163,7 @@ public class UserServiceImpl implements IUserService {
         return JSON.toJSONString(resultMap);
     }
 
-    /**
-     * 更新个人信息
-     * @param person
-     * @return
-     */
-    @Override
-    public String updatePerson(Person person) {
-        JSONObject resultMap=new JSONObject();
-        if(userMapper.updatePerson(person)>0){
-            resultMap.put("state","200");
-            resultMap.put("message","个人资料更新成功！");
-        }else{
-            resultMap.put("state","500");
-            resultMap.put("message","更新失败！请重试");
-        }
-        return JSON.toJSONString(resultMap);
-    }
+
 
 
     /**
@@ -212,6 +197,122 @@ public class UserServiceImpl implements IUserService {
         List<User> list=userMapper.getAllUser();
         Integer count=userMapper.queryUserCount();
         return new ResultMap<List<User>>("",list,0,count);
+    }
+
+    /**
+     * 得到所有异常信息
+     * @return
+     */
+    @Override
+    public ResultMap<List<ErrorUser>> getAllErrUser() {
+        List<ErrorUser> list=userMapper.getAllErrUser();
+        Integer count=userMapper.queryErrUserCount();
+        return new ResultMap<List<ErrorUser>>("",list,0,count);
+    }
+
+
+
+    /**
+     * 新增异常信息
+     * @param errorUser
+     * @return
+     */
+    @Override
+    public String addErrUser(ErrorUser errorUser) {
+        JSONObject rs=new JSONObject();
+        if(userMapper.addErrUser(errorUser)>0){
+            rs.put("success",true);
+            rs.put("msg","");
+        }else{
+            rs.put("success",false);
+            rs.put("msg","数据库更新失败！");
+        }
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     * 根据id删除异常信息
+     * @param id
+     * @return
+     */
+    @Override
+    public String delErrUser(String id) {
+        JSONObject rs=new JSONObject();
+        if(userMapper.delErrUser(id)>0){
+            rs.put("success",true);
+            rs.put("msg","");
+        }else{
+            rs.put("success",false);
+            rs.put("msg","数据库更新失败！");
+        }
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     *获取token身份令牌
+     * @param rest
+     * @return
+     */
+    @Override
+    public String getToken(Rest rest) {
+        JSONObject rs=new JSONObject();
+        if(userMapper.getRest(rest)>0){
+            UUID uuid = UUID.randomUUID();
+            JedisUtils.setex("tokenId",1000*60*15,String.valueOf(uuid));
+            rs.put("success",true);
+            rs.put("msg",String.valueOf(uuid));
+        }else{
+            rs.put("success",false);
+            rs.put("msg","账号密码错误，身份验证失败！");
+        }
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     * 获取ticket信息
+     * @return
+     */
+    @Override
+    public String getTicket() {
+        JSONObject rs=new JSONObject();
+        User user=(User) SecurityUtils.getSubject().getPrincipal();
+        UUID uuid = UUID.randomUUID();
+        JedisUtils.setex("ticket",1000*60*15,String.valueOf(uuid)+"_"+user.getAccount());
+        return JSON.toJSONString(rs);
+    }
+
+    /**
+     * 根据ticket获取用户身份
+     * @param tokenId
+     * @param ticket
+     * @return
+     */
+    @Override
+    public String getPersonByTicket(String tokenId, String ticket) {
+        JSONObject rs=new JSONObject();
+        String tokenId0=JedisUtils.get("tokenId");
+        if(null==tokenId0){
+            rs.put("success",false);
+            rs.put("msg","token信息失效！");
+        }else{
+            String ticket0=JedisUtils.get("ticket");
+            if(null==ticket){
+                rs.put("success",false);
+                rs.put("msg","ticketId信息失效！");
+            }else{
+                String ticket1=tokenId0.substring(0,ticket0.lastIndexOf("_"));
+                String account=tokenId0.substring(ticket0.lastIndexOf("_")+1);
+                if(ticket.equals(ticket1)&&tokenId.equals(tokenId0)){
+                    Person person=personMapper.queryPersonByAccount(account);
+                    rs.put("success",true);
+                    rs.put("msg",JSON.toJSONString(person));
+                }else{
+                    rs.put("success",false);
+                    rs.put("msg","身份验证失败！");
+                }
+            }
+        }
+        return JSON.toJSONString(rs);
     }
 
 

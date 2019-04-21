@@ -32,15 +32,7 @@ public class UserController {
         return "userSetting/userSetting";
     }
 
-    /*
-    @Param account 账号
-    响应ajax请求，得到当前人的个人信息
-     */
-    @ResponseBody
-    @RequestMapping(value="/user/userSetting/getInfo",produces = "text/plain;charset=utf-8")
-    public String getInfo(@RequestParam("account") String account){
-        return userService.findPersonByAccount(account);
-    }
+
 
     /*
     @Param user
@@ -52,15 +44,7 @@ public class UserController {
         return userService.updatePwd(user);
     }
 
-    /*
-    @Param person
-    修改用户个人信息
-     */
-    @ResponseBody
-    @RequestMapping(value="/user/userSetting/updatePerson",produces = "text/plain;charset=utf-8")
-    public String updatePerson(Person person){
-        return userService.updatePerson(person);
-    }
+
 
     /**
      * 聊天工具信息初始化
@@ -81,6 +65,48 @@ public class UserController {
     @RequestMapping(value="user/getAllUser")
     public String getAllUser(){
         return JSON.toJSONString(userService.getAllUser());
+    }
+
+    /**
+     * 跳转到异常信息列表页面
+     * @return
+     */
+    @RequestMapping(value="user/errUserList")
+    public String errUserList(){
+        return "user/errUserManager";
+    }
+
+    /**
+     * 查询所有异常信息
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="user/getAllErrUser",produces = "text/plain;charset=utf-8")
+    public String getAllErrUser(){
+        return JSON.toJSONString(userService.getAllErrUser());
+    }
+
+    /**
+     * 删除异常信息
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="user/delErrUser")
+    public String delErrUser(@RequestParam("id") String id){
+        return userService.delErrUser(id);
+    }
+
+    /**
+     * 更新用户禁用状态
+     * @param account
+     * @param isDisabled
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="user/updateDisToR")
+    public String updateDisToR(@RequestParam("account") String account,@RequestParam("isDisabled") Integer isDisabled){
+        return userService.updateIsDisabled(account,isDisabled);
     }
 
 }

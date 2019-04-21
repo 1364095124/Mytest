@@ -6,36 +6,40 @@ import java.util.List;
 
 public interface IOrgService {
 
-    public ResultMap<List<Department>> getAllDep();
+     ResultMap<List<Department>> getAllDep();
 
-    public String delDepById(String id);
+     String delDepById(String id);
 
-    public String addDep(Department department);
+     String addDep(Department department);
 
-    public String updateDep(Department department);
+     String updateDep(Department department);
 
-    public ResultMap<List<Organization>> getAllOrg();
+     ResultMap<List<Organization>> getAllOrg();
 
-    public String delOrgById(String id);
+     String delOrgById(String id);
 
-    public String addOrg(Organization organization);
+     String addOrg(Organization organization);
 
-    public String updateOrg(Organization organization);
+     String updateOrg(Organization organization);
 
-    public ResultMap<List<Job>> getAllJob();
+     ResultMap<List<Job>> getAllJob();
 
-    public String delJobById(String id);
+     String delJobById(String id);
 
-    public String addJob(Job job);
+     String addJob(Job job);
 
-    public String updateJob(Job job);
+     String updateJob(Job job);
 
-    public ResultMap<List<PersonJob>> getAllJobInfo();
+     ResultMap<List<PersonJob>> getAllJobInfo();
 
 
-    public String addJobInfo(PersonJob personJob);
+     String addJobInfo(PersonJob personJob);
 
-    public String updateJobInfo(PersonJob personJob);
+     String updateJobInfo(PersonJob personJob);
 
-    public String delJobInfoById(String id);
+     String delJobInfoById(String id);
+
+     String queryJobInfoByAccount(String account);
+
+
 }

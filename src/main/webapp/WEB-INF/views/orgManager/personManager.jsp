@@ -28,7 +28,7 @@
     var jobList; //保存所有已经注册的职位
     var depList; //保存所有已经注册的部门
     var orgList; //保存所有已经注册的组织
-
+    var n;
     //初始化组织列表
     $.ajax({
         type:'post',
@@ -249,9 +249,12 @@
 
         //监听行工具条
         table.on('tool(myTable)', function(obj) {
-            var data = obj.data;
 
+            var data = obj.data;
+            n=data;
+            console.log(data);
             if (obj.event === 'del') {
+
                 layer.confirm('确定要删除'+data.name+'-'+data.jobName+'吗？', {
                     btn: ['确定','取消'] //按钮
                 }, function(){
@@ -281,6 +284,7 @@
                     layer.closeAll();
                 });
             }else if(obj.event== 'edit'){
+
                 var ht = '<form class="layui-form" id="myForm" action="">\n' +
                     '        <br/><br/><div class="layui-form-item" style="width:500px;">\n' +
                     '            <label class="layui-form-label">账号</label>\n' +
@@ -317,7 +321,7 @@
                     '        </div><br/>\n' +
                     '<div class="layui-form-item">\n' +
                     '    <div class="layui-input-block">\n' +
-                    '      <button type="button" name="subEdit" class="layui-btn" >立即提交</button>\n' +
+                    '      <button  name="subEdit" class="layui-btn" lay-submit lay-filter="SubForm">立即提交</button>\n' +
                     '      <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
                     '    </div>\n' +
                     '  </div>'
@@ -334,7 +338,8 @@
 
 
                 form.render();
-                $(document).on('click','button[name="subEdit"]',function(){
+                form.on('submit(SubForm)', function(rs) {
+                    var param = JSON.stringify(rs.field);//定义临时变量获取表单提交过来的数据，非json格式
                     $.ajax({
                         url: "org/updatePersonJob",
                         type: 'post',//method请求方式，get或者post
@@ -348,23 +353,25 @@
                         },
                         //表格数据序列化
                         success: function (res) {//res为相应体,function为回调函数
-                            layer.close(layer.index);
+                            layer.close(index);
                             if (res.success == true) {
+                                layer.alert('成功', {icon: 1});
                                 setTimeout(function () {
                                     $("#main").load("org/personJobList");
                                 }, 200)
-                                layer.alert('成功', {icon: 1});
+
 
                             } else {
                                 layer.alert(res.msg, {icon: 2});
                             }
                         },
                         error: function () {
-                            layer.close(layer.index);
+                            layer.close(index);
                             layer.alert('操作失败！！！', {icon: 5});
                         }
 
                     });
+                    return false;
                 });
             }
         });

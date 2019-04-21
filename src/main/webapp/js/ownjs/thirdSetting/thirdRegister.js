@@ -1,9 +1,5 @@
 
-$("#fakeLoader").fakeLoader({
-    timeToHide:5000,
-    bgColor:"rgba(190,190,190,0.6)",
-    spinner:"spinner6"
-});
+
 $.ajax({
     type:'post',
     url:'thirdApplication/thirdRegister/getNewNumber',
@@ -37,11 +33,7 @@ $.ajax({
 
 });
 
-$("#fakeLoader").fakeLoader({
-    timeToHide:1,
-    bgColor:"rgba(190,190,190,0.6)",
-    spinner:"spinner6"
-});
+
 
 $('#thirdAppForm').bootstrapValidator({
     message: 'This value is not valid',

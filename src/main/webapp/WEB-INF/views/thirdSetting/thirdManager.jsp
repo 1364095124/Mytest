@@ -10,7 +10,16 @@
 <head>
     <title>管理第三方应用</title>
 </head>
+<style type="text/css">
+    a{
+        text-decoration: none !important;
+    }
+</style>
 <body>
+<link rel="stylesheet" href="css/bootstrap-step/style.css"/>
+<link rel="stylesheet" href="css/bootstrap/bootstrap.css"/>
+<script src="js/bootstrap/bootstrap.js"></script>
+<script src="js/bootstrap-step/bootstrap-step.js"></script>
 <div class="row">
     <button class="btn btn-success" id="tip" data-toggle='modal'
             data-target='#myModalNext'>模态框</button>
@@ -57,9 +66,12 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-6 col-xs-offset-3">
-                                        <div class="form-group">
-                                            <label for="isDisabled">是否启用</label>
-                                            <input type="checkbox"  name="isDisabled" id="isDisabled"/>
+                                        <div class="form-group" >
+                                            <label class="control-label">是否启用</label>
+                                            <select class="form-control " name="isDisabled" id="isDisabled0">
+                                                <option value="0" selected = "selected" >启用</option>
+                                                <option value="1">禁用</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -150,14 +162,7 @@
         })
     });
 
-    $('input[type=checkbox]').bootstrapSwitch({
-        size: "large" ,
-        onColor:"success",
-        offColor:"default",
-        onText:"启用",
-        offText:"不启用",
 
-    });
 </script>
 </body>
 </html>

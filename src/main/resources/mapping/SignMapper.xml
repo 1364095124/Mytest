@@ -5,10 +5,17 @@
     <insert id="addSign" parameterType="Sign" >
         INSERT
         INTO
-          signs
+          signs(
+            id,
+            account,
+            address,
+            signTime,
+            isDeleted
+          )
         VALUES(
           uuid()
           ,#{account}
+          ,#{address}
           ,#{signTime}
           ,0
         )
@@ -150,4 +157,17 @@
         WHERE
           id=#{id}
     </update>
+
+    <select id="newMemoCount" parameterType="string" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          memos
+        WHERE
+          isDeleted=0
+        AND
+          account=#{account}
+        AND
+          tigger_Time>NOW()
+    </select>
 </mapper>

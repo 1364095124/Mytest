@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="layui/css/layui.css"  media="all">
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/iziToast/iziToast.css">
-    <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/soulTable.css">
     <script src="js/jquery/jquery-3.2.1.min.js"></script>
     <script src="js/jquery/jquery.cookie.min.js"></script>
@@ -62,7 +61,7 @@
             <img name="curUser" src="//t.cn/RCzsdCq"  id="curPhoto" class="layui-nav-img"/><span id="curUser"></span>
             <i class="fa fa-sort-desc"></i>
         </a>
-        <dl class="layui-nav-child">
+        <dl class="layui-nav-child" style="z-index:999;">
 
 
             <dd><a class="loadPage" whichPage="user/userSetting"  href="javascript:;">
@@ -102,44 +101,46 @@
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-hourglass-1 fa-lg"></i> <span >&nbsp;&nbsp;账号管理</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="task/daibanjsp" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="person/personList" href="javascript:;">
                         <i class="fa fa-book fa-lg"></i> <span >&nbsp;&nbsp;账号管理</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="msg/unreadMsg"  href="javascript:;">
+                    <dd><a class="loadPage" whichPage="user/errUserList"  href="javascript:;">
                         <i class="fa fa-comments-o fa-lg"></i> <span >&nbsp;&nbsp;异常账号</span>
                     </a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item myleftnav">
-                <a href="javascript:;"><i class="fa fa-tv fa-lg"></i> <span >&nbsp;&nbsp;文化建设</span></a>
+                <a href="javascript:;"><i class="fa fa-tv fa-lg"></i> <span >&nbsp;&nbsp;集成管理</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="fileManager/personFile" href="javascript:;">
-                        <i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;私人空间</span>
+                    <dd><a class="loadPage" whichPage="thirdApplication/thirdRegister" href="javascript:;">
+                        <i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;应用接入</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
-                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;集团空间</span>
+                    <dd><a class="loadPage" whichPage="thirdApplication/thirdAppSso" href="javascript:;">
+                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;单点登陆</span>
                     </a></dd>
+                    <dd><a class="loadPage" whichPage="thirdApplication/thirdAppMessage" href="javascript:;">
+                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;消息集成</span>
+                    </a></dd>
+                    <dd><a class="loadPage" whichPage="thirdApplication/thirdAppPending" href="javascript:;">
+                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;代办集成</span>
+                    </a></dd>
+                   <%-- <dd><a class="loadPage" whichPage="thirdApplication/thirdManager" href="javascript:;">
+                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;应用管理</span>
+                    </a></dd>--%>
                 </dl>
             </li>
             <li class="layui-nav-item myleftnav">
-                <a href="javascript:;"><i class="fa fa-diamond fa-lg"></i> <span >&nbsp;&nbsp;实用工具</span></a>
+                <a href="javascript:;"><i class="fa fa-diamond fa-lg"></i> <span >&nbsp;&nbsp;授权管理</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="oaTools/memoManager" href="javascript:;">
-                        <i class="fa fa-bell fa-lg"></i> <span >&nbsp;&nbsp;提醒事项</span>
+                    <dd><a class="loadPage" whichPage="aut/noticeAutList" href="javascript:;">
+                        <i class="fa fa-bell fa-lg"></i> <span >&nbsp;&nbsp;公告授权</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="oaTools/signManager" href="javascript:;">
-                        <i class="fa fa-check-square fa-lg"></i> <span >&nbsp;&nbsp;打卡签到</span>
+                    <dd><a class="loadPage" whichPage="aut/mettingAutList" href="javascript:;">
+                        <i class="fa fa-check-square fa-lg"></i> <span >&nbsp;&nbsp;会议授权</span>
                     </a></dd>
                 </dl>
             </li>
 
-            <li class="layui-nav-item myleftnav">
-                <a  href="javascript:;"><i class="fa fa-line-chart fa-lg"></i> <span >&nbsp;&nbsp;统计分析</span></a>
-                <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="error403" href="javascript:;"><i class="fa fa-database fa-lg"></i> <span >&nbsp;&nbsp;工作效率统计</span>
-                    </a></dd>
-                </dl>
-            </li>
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;个人页</span></a>
                 <dl class="layui-nav-child">
@@ -342,7 +343,6 @@
         url:"getCurrentUser",
         data:"",
         success:function(data){
-            console.log(data.account);
             data=JSON.parse(data);
             $("#curUser").html(data.account);
             if(data.url!=""&&data!=null){

@@ -27,6 +27,7 @@ public interface SignMapper {
 
     Integer deleteMemo(String id);
 
+    Integer newMemoCount(String account);
 
 
 

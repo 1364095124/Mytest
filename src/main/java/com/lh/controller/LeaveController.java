@@ -21,12 +21,51 @@ public class LeaveController {
     private ILeaveService leaveService;
 
 
-    //跳转到新建任务页面
-    @RequestMapping("/task/newTask")
+    /**
+     * 跳转到差旅费报销界面
+     * @return
+     */
+    @RequestMapping("/task/newClfTask")
     public String newTask(){
-        return "task/defaultForm";
+        return "task/clfForm";
     }
 
+    /**
+     * 跳转到领款收据单页面
+     * @return
+     */
+    @RequestMapping("task/newLkTask")
+    public String newLkTask(){
+        return "task/lkForm";
+    }
+
+    /**
+     * 跳转到付款单
+     * @return
+     */
+    @RequestMapping("task/newFkdTask")
+    public String newFkdTask(){
+        return "task/fkdForm";
+    }
+
+    /**
+     * 跳转到表单列表
+     * @return
+     */
+    @RequestMapping("task/allTaskList")
+    public String allTaskList(){
+        return "task/newTaskList";
+    }
+
+    /**
+     * 得到所有表单
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "task/getAllTaskList",produces = "text/plain;charset=utf-8")
+    public String getAllTaskList(){
+        return JSON.toJSONString(leaveService.getAllTaskList());
+    }
 
     /**
      * 启动当前流程
@@ -35,8 +74,9 @@ public class LeaveController {
      */
     @RequestMapping(value="/startApply")
     @ResponseBody
-    public String startApply(@RequestParam("leave_id") String leave_id,@RequestParam("account") String account){
-        return leaveService.startApply(leave_id,account);
+    public String startApply(@RequestParam("leave_id") String leave_id,@RequestParam("account") String account,
+                             @RequestParam("department_Name") String department_Name,@RequestParam("sum") double sum){
+        return leaveService.startApply(leave_id,account,department_Name,sum);
     }
 
     /**

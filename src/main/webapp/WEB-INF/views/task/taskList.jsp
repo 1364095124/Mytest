@@ -7,7 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+
 <body>
+
     <div class="demoTable">
         搜索：
         <div class="layui-inline">
@@ -16,7 +18,7 @@
         <span class="input-group-btn">
             <select name="keyType" id="key_type" class="layui-btn layui-btn-normal">
                 <option value="applyTime" selected="selected">时间</option>
-                 <option value="note"  >内容</option>
+                 <option value="note">内容</option>
                 <option value="state">状态</option>
             </select>
         </span>
@@ -34,8 +36,8 @@
     </script>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">查看批注</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">查看流程</a>
+        <a class="layui-btn layui-btn-xs" lay-event="findComment">查看批注</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="findPro">查看流程</a>
     </script>
 
     <script>
@@ -48,6 +50,7 @@
                 , url: 'task/taskList' //后台springmvc接收路径
                 , page: true    //true表示分页
                 , toolbar: '#toolbarDemo'
+
                 /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                  layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                      //,curr: 5 //设定初始在第 5 页
@@ -83,7 +86,7 @@
             table.on('tool(test)', function(obj) {
                 var data = obj.data;
                 n = data;
-                if (obj.event === 'detail') {
+                if (obj.event == 'detail') {
                     var data = obj.data;
                     var temp='<div class="form " style="background: #ffffff;">\n' +
                         '    <h2 style="text-align: center">差旅费报销单</h2>\n' +
@@ -182,6 +185,55 @@
                         shadeClose: false,//点击遮罩层关闭
                         content: temp//打开的内容
                     });
+                }else if(obj.event=='findPro'){
+                    $("#main").load("task/openActivitiProccessImagePage",{"pProcessInstanceId":data.processInstanceId});
+
+                }else if(obj.event=='findComment'){
+                    console.log(data.processInstanceId);
+                    $.ajax({
+                        type:'post',
+                        url:'task/listHistoryComment',
+                        data:{
+                            "processInstanceId":data.processInstanceId
+                        },
+                        dataType:'json',
+                        success:function(rs){
+                            var ht='<form class="layui-form" action="">';
+                            for(var i=0;i<rs.length;i++){
+                                ht+='<br/><div class="layui-form-item">\n' +
+                                    '        <label class="layui-form-label">审批人</label>\n' +
+                                    '        <div class="layui-input-block">\n' +
+                                    '            <input type="text" name="name" value="'+rs[i].name+'" class="layui-input">\n' +
+                                    '        </div>\n' +
+                                    '    </div>\n' +
+                                    '    <div class="layui-form-item">\n' +
+                                    '        <label class="layui-form-label">审批时间</label>\n' +
+                                    '        <div class="layui-input-block">\n' +
+                                    '            <input type="text" name="cTime" value="'+rs[i].cTime+'" class="layui-input">\n' +
+                                    '        </div>\n' +
+                                    '    </div>\n' +
+                                    '    <div class="layui-form-item">\n' +
+                                    '        <label class="layui-form-label">审批意见</label>\n' +
+                                    '        <div class="layui-input-block">\n' +
+                                    '            <textarea name="comment"  class="layui-textarea">'+rs[i].comment+'</textarea>\n' +
+                                    '        </div>\n' +
+                                    '    </div><hr/>'
+                            }
+                            ht+='</form>';
+                            layer.open({
+                                type: 1,//类型
+                                offset: '50px',
+                                area: ['1000px', '800px'],//定义宽和高
+                                title: '查看审批意见',//题目
+                                shadeClose: false,//点击遮罩层关闭
+                                content: ht//打开的内容
+                            });
+
+                        },
+                        error:function(){
+                            layer.alert("异常！",{icon:5});
+                        }
+                    })
                 }
             });
             var  active = {

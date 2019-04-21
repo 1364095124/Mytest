@@ -30,7 +30,7 @@
 
     <li style="position:relative;left:200px;" class="layui-nav-item kit-side-fold" >
         <span title="菜单缩放" style="color:#000000;"><i class="fa fa-navicon fa-lg" aria-hidden="true"></i></span></li>
-    <li style="margin-left:1580px;"   class="layui-nav-item">
+    <li style="margin-left:1560px;"   class="layui-nav-item">
         <a style="color:rgba(0,0,0,.65);" href="home"><i class="fa fa-institution"></i></a>
     </li>
     <li class="layui-nav-item loadPage" whichPage="msg/unreadMsg">
@@ -41,7 +41,7 @@
             <img name="curUser" src="//t.cn/RCzsdCq"  id="curPhoto" class="layui-nav-img"/><span id="curUser"></span>
             <i class="fa fa-sort-desc"></i>
         </a>
-        <dl class="layui-nav-child">
+        <dl class="layui-nav-child" style="z-index:999;">
 
             <dd><a class="loadPage" whichPage="user/userIntroduce"  href="javascript:;">
                 <i class="layui-icon layui-icon-username"></i>&nbsp;我的名片</a>
@@ -65,14 +65,14 @@
             <li class="layui-nav-item layui-nav-itemed myleftnav">
                 <a class="" href="javascript:;"><i class="fa fa-user-circle-o fa-lg"></i> <span >&nbsp;&nbsp;事项管理</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="task/newTask" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="task/allTaskList" href="javascript:;">
                         <i class="fa fa-pencil fa-lg"></i> <span >&nbsp;&nbsp;新建事项</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="task/tasklist" href="javascript:;">
                         <i class="fa fa-clipboard fa-lg"></i> <span >&nbsp;&nbsp;已发事项</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="" href="javascript:;">
-                        <i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;代办事项</span>
+                        <i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;已办事项</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="task/trashTaskJsp" href="javascript:;">
                         <i class="fa fa-trash fa-lg"></i> <span >&nbsp;&nbsp;草稿箱</span>
@@ -96,11 +96,11 @@
             <li class="layui-nav-item myleftnav">
                 <a href="javascript:;"><i class="fa fa-tv fa-lg"></i> <span >&nbsp;&nbsp;文化建设</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="fileManager/personFile" href="javascript:;">
-                        <i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;私人空间</span>
+                    <dd><a class="loadPage" whichPage="file/fileFloderList" href="javascript:;">
+                        <i class="fa fa-user-o fa-lg"></i> <span >&nbsp;&nbsp;文件夹管理</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="" href="javascript:;">
-                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;集团空间</span>
+                        <i class="fa fa-university fa-lg"></i> <span >&nbsp;&nbsp;文件管理</span>
                     </a></dd>
                 </dl>
             </li>
@@ -117,9 +117,17 @@
             </li>
 
             <li class="layui-nav-item myleftnav">
-                <a  href="javascript:;"><i class="fa fa-line-chart fa-lg"></i> <span >&nbsp;&nbsp;统计分析</span></a>
+                <a  href="javascript:;"><i class="fa fa-line-chart fa-lg"></i> <span >&nbsp;&nbsp;公告管理</span></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="loadPage" whichPage="error403" href="javascript:;"><i class="fa fa-database fa-lg"></i> <span >&nbsp;&nbsp;工作效率统计</span>
+                    <dd><a class="loadPage" whichPage="notice/noticeList" href="javascript:;">
+                        <i class="fa fa-database fa-lg"></i>
+                        <span >&nbsp;&nbsp;公告管理</span>
+                    </a></dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd><a class="loadPage" whichPage="notice/mettingList" href="javascript:;">
+                        <i class="fa fa-database fa-lg"></i>
+                        <span >&nbsp;&nbsp;会议管理</span>
                     </a></dd>
                 </dl>
             </li>
@@ -143,15 +151,22 @@
 
     <div class="layui-fluid">
         <div id="main">
-            <div class="row" >
+            <div class="layui-row" >
                 <div  class="layui-col-lg12">
 
-                    <div id="AppSso" style="background-color:rgba(255,255,255,0.7);border-radius:10px;height:80px;">
+                    <div id="AppSso" style="background-color:rgba(255,255,255,0.9);border-radius:10px;height:80px;box-shadow: 3px 3px 3px #888888;">
 
                     </div>
                 </div>
             </div>
             <br/>
+            <div style="background-color:#ffffff;">
+                <div class="layui-row">
+                    <div class="">
+
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -169,6 +184,21 @@
     var element;
     var form;
     var layer;
+
+    //查询未过期提醒的次数
+    $.ajax({
+        type:'post',
+        url:'oaTools/memoManager/getNewMemoCount',
+        data:{
+            "account":$("#curUser").html()
+        },
+        success:function(rs){
+            console.log(rs);
+        },
+        error:function(){
+            alert("获取提醒次数异常！");
+        }
+    });
     layui.use('element', function(){
          element = layui.element;
     });

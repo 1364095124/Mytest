@@ -17,4 +17,12 @@ public interface IPersonService {
     JSONObject setInfo(Person person);
 
     ResultMap<List<Person>> getAllPerson();
+
+    String delPerson(String account);
+
+    String findPersonByAccount(String account);
+
+    String updatePerson(Person person);
+
+    String addPerson(Person person,String password);
 }

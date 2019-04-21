@@ -7,15 +7,21 @@
     <sql id="personItem">
         id,account,name,sex,age,phone,email,photo_url,note
     </sql>
-    
+
 
     <insert id="insertUser" parameterType="User">
         INSERT
         INTO
-          users
-        (
-          <include refid="userItem"/>
-        )
+          users(
+            id,
+            account,
+            password,
+            passwordSalt,
+            isAdmin,
+            isDisabled,
+            isDeleted
+          )
+
         VALUES
         (
           uuid(),
@@ -81,15 +87,7 @@
           account=#{account}
     </select>
 
-    <select id="selectPersonByAccount" parameterType="string" resultType="Person">
-        SELECT
-          <include refid="personItem"/>
-        FROM
-          persons
-        WHERE
-          account=#{account}
 
-    </select>
 
     <update id="updatePwd" parameterType="User">
         UPDATE
@@ -100,35 +98,7 @@
           account=#{account}
     </update>
 
-    <update id="updatePerson" parameterType="Person">
-        UPDATE
-          persons
-        <set>
-            <if test="name!=null">
-                name=#{name},
-            </if>
-            <if test="sex!=null">
-                sex=#{sex},
-            </if>
-            <if test="age!=null">
-                age=#{age},
-            </if>
-            <if test="phone!=null">
-                phone=#{phone},
-            </if>
-            <if test="email!=null">
-                email=#{email},
-            </if>
-            <if test="photo_url!=null">
-                photo_url=#{photo_url},
-            </if>
-            <if test="note!=null">
-                note=#{note},
-            </if>
-        </set>
-        where
-          account=#{account}
-    </update>
+
 
 
     <select id="queryRoleByUser" parameterType="string" resultType="string">
@@ -170,6 +140,95 @@
         FROM
           users
         WHERE
+          isDeleted=0
+    </select>
+
+    <select id="getAllErrUser" resultType="ErrorUser">
+        SELECT
+          a.id,
+          a.account,
+          a.ip,
+          a.createTime,
+          a.reason,
+          b.isDisabled,
+          a.isDeleted
+        FROM
+          error_users a
+        JOIN
+          users b
+        ON
+          a.account=b.account
+        WHERE
+          a.isDeleted=0
+    </select>
+
+    <insert id="addErrUser" parameterType="ErrorUser">
+        INSERT
+        INTO
+          error_users(
+            id,
+            account,
+            ip,
+            createTime,
+            reason,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{account},
+          #{ip},
+          NOW(),
+          #{reason},
+          0
+        )
+    </insert>
+
+    <update id="updateToRight" parameterType="string">
+        UPDATE
+          error_users
+        SET
+          state='启用中'
+        WHERE
+          account=#{account}
+    </update>
+
+    <update id="delErrUser" parameterType="string">
+        UPDATE
+          error_users
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="queryErrUserCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          error_users
+        WHERE
+          isDeleted=0
+    </select>
+
+    <update id="delUser" parameterType="string">
+        UPDATE
+          users
+        SET
+          isDeleted=1
+        WHERE
+          account=#{account}
+    </update>
+
+    <select id="getRest" parameterType="Rest" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          rests
+        WHERE
+          account=#{account}
+        AND
+          password=#{password}
+        AND
           isDeleted=0
     </select>
 </mapper>

@@ -25,10 +25,10 @@
               type:'post',
               url:'deploy',
                data:{
-                  "name":"测试流程单",
-                   "bpmn":'process/leave.bpmn',
-                   "png":"process/leave.png",
-                   "key":"leaveTest"
+                  "name":"差旅费报销流程",
+                   "bpmn":"process/ExpenseProcess.bpmn",
+                   "png":"process/ExpenseProcess.png",
+                   "key":"ExpenseProcess"
                },
                error:function(){
                   alert("异常！");

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.NoticeMapper">
+    <insert id="addNotice" parameterType="Notice">
+        INSERT
+        INTO
+          notices(
+            id,
+            title,
+            content,
+            createAccount,
+            tiggerTime,
+            isDeleted
+          )
+        VALUES (
+          UUID(),
+          #{title},
+          #{content},
+          #{createAccount},
+          #{tiggerTime},
+          0
+        )
+    </insert>
+
+    <select id="getAllNotice" resultType="Notice">
+        SELECT
+            a.id,
+            a.title,
+            a.content,
+            a.createAccount,
+            b.name as createName,
+            a.tiggerTime,
+            a.isDeleted
+          FROM
+            notices a
+          LEFT
+          JOIN
+            persons b
+          ON
+            a.createAccount=b.account
+          WHERE
+            a.isDeleted=0
+    </select>
+
+    <select id="queryNoticeCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          notices
+        WHERE
+          isDeleted=0
+    </select>
+
+    <update id="updateNotice" parameterType="Notice">
+        UPDATE
+          notices
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="content!=null">
+                content=#{content},
+            </if>
+            <if test="tiggerTime!=null">
+                tiggerTime=#{tiggerTime},
+            </if>
+        </set>
+        WHERE
+          id=#{id}
+    </update>
+
+    <update id="delNotice" parameterType="string">
+        UPDATE
+          notices
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <insert id="addMetting" parameterType="Metting">
+        INSERT
+        INTO
+          mettings(
+            id,
+            title,
+            note,
+            address,
+            tiggerTime,
+            createAccount,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{title},
+          #{note},
+          #{address},
+          #{tiggerTime},
+          #{createAccount},
+          0
+        )
+    </insert>
+
+    <select id="getAllMetting" resultType="Metting">
+        SELECT
+          a.id,
+          a.title,
+          a.note,
+          a.address,
+          a.tiggerTime,
+          a.createAccount,
+          b.name as createName,
+          a.isDeleted
+        FROM
+          mettings a
+        LEFT
+        JOIN
+          persons b
+        ON
+          a.createAccount=b.account
+        WHERE
+          a.isDeleted=0
+    </select>
+
+    <select id="queryMettingCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          mettings
+        WHERE
+          isDeleted=0
+    </select>
+
+    <update id="updateMetting" parameterType="Metting">
+        UPDATE
+          mettings
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="note!=null">
+                note=#{note},
+            </if>
+            <if test="address!=null">
+                address=#{address},
+            </if>
+            <if test="tiggerTime!=null">
+                tiggerTime=#{tiggerTime},
+            </if>
+        </set>
+        WHERE
+          isDeleted=0
+    </update>
+
+    <update id="delMetting" parameterType="string">
+        UPDATE
+          mettings
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="querySameNotice" parameterType="Notice" resultType="Notice">
+        SELECT
+          *
+        FROM
+          notices
+        WHERE
+          isDeleted=0
+        AND
+          title=#{title}
+        AND
+          content=#{content}
+        AND
+          tiggerTime=#{tiggerTime}
+    </select>
+
+    <select id="querySameMetting" parameterType="Metting" resultType="Metting">
+        SELECT
+          *
+        FROM
+          mettings
+        WHERE
+          isDeleted=0
+        AND
+          title=#{title}
+        AND
+          note=#{note}
+        AND
+          address=#{address}
+        AND
+          tiggerTime=#{tiggerTime}
+
+    </select>
+
+    <select id="queryMettingByAddress" parameterType="string" resultType="Metting">
+        SELECT
+          *
+        FROM
+          mettings
+        WHERE
+          isDeleted=0
+        AND
+          address=#{address}
+        AND
+          tiggerTime=#{tiggerTime}
+    </select>
+</mapper>

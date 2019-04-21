@@ -3,6 +3,7 @@ package com.lh.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lh.common.JedisUtils;
+import com.lh.model.ErrorUser;
 import com.lh.model.User;
 import com.lh.service.IPersonService;
 import com.lh.service.IUserService;
@@ -29,6 +30,7 @@ public class LoginController {
     private IUserService userService;
     @Autowired
     private IPersonService personService;
+
 
     private Map<String,Object> resultMap=new HashMap<>();
 
@@ -141,7 +143,7 @@ public class LoginController {
             resultMap.put("message", "登录次数过多！");
         }catch(AccountException ae){
 
-            String excessiveInfo = ExcessiveAttemptsInfo(account);
+            String excessiveInfo = ExcessiveAttemptsInfo(account,request.getRemoteAddr());
             if(null!=excessiveInfo){
                 resultMap.put("state",500);
                 resultMap.put("message",excessiveInfo);
@@ -162,7 +164,7 @@ public class LoginController {
     记录该账号密码错误的次数，达到5次提醒，达到10次禁用该账号
     @Param account 登陆名
      */
-    public String ExcessiveAttemptsInfo(String account){
+    public String ExcessiveAttemptsInfo(String account,String ip){
         String excessiveinfo=null;
         String accountkey=account;
         /*StringBuffer username=new StringBuffer(account);
@@ -182,6 +184,11 @@ public class LoginController {
             user.setAccount(account);
             if (null!=userService.selectUser(user)){
                 userService.updateIsDisabled(account,1);
+                ErrorUser errorUser=new ErrorUser();
+                errorUser.setAccount(account);
+                errorUser.setIp(ip);
+                errorUser.setReason("密码错误次数达到10次");
+                userService.addErrUser(errorUser);
                 JedisUtils.del(account);
             }
         }

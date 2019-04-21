@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.AutMapper">
+    <insert id="addAut" parameterType="Authorization">
+        INSERT
+        INTO
+          authorizations(
+            id,
+            permission,
+            account,
+            createAccount,
+            createTime,
+            isDeleted
+          )
+        VALUES(
+          UUID(),
+          #{permission},
+          #{account},
+          #{createAccount},
+          NOW(),
+          0
+        )
+    </insert>
+
+    <select id="getAllNoticeAut" resultType="Authorization">
+        SELECT
+          id,
+          account,
+          createAccount,
+          createTime,
+          isDeleted
+        FROM
+          authorizations
+        WHERE
+          isDeleted=0
+        AND
+          permission='公告管理'
+    </select>
+
+    <select id="queryNoticeAutCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          authorizations
+        WHERE
+            isDeleted=0
+        AND
+          permission='公告管理'
+    </select>
+
+    <select id="getAllMettingAut" resultType="Authorization">
+        SELECT
+          id,
+          account,
+          createAccount,
+          createTime,
+          isDeleted
+
+         FROM
+          authorizations
+        WHERE
+            isDeleted=0
+        AND
+          permission='会议管理'
+    </select>
+
+    <select id="queryMettingAutCount" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          authorizations
+        WHERE
+            isDeleted=0
+        AND
+          permission='会议管理'
+    </select>
+
+    <select id="queryAut" parameterType="string" resultType="Authorization">
+        SELECT
+          id,
+          account,
+          createAccount,
+          createTime,
+          isDeleted
+        FROM
+          authorizations
+        WHERE
+            isDeleted=0
+        AND
+          account=#{account}
+        AND
+          permission=#{permission}
+
+    </select>
+
+    <update id="delAut" parameterType="string">
+        UPDATE
+          authorizations
+        SET
+          isDeleted=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="queryMetAutByAccount" parameterType="string" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          authorizations
+        WHERE
+          isDeleted=0
+        AND
+          account=#{account}
+        AND
+          permission='会议管理'
+    </select>
+
+    <select id="queryNotAutByAccount" parameterType="string" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+             authorizations
+        WHERE
+          isDeleted=0
+        AND
+          account=#{account}
+        AND
+          permission='公告管理'
+    </select>
+</mapper>

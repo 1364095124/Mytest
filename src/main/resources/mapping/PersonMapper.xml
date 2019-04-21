@@ -37,13 +37,27 @@
 
     <select id="queryPersonByAccount" parameterType="string" resultType="Person">
         SELECT
-          <include refid="personItem"/>
+          a.id,
+          a.account,
+          a.name,
+          a.sex,
+          a.age,
+          a.phone,
+          a.email,
+          a.photo_url,
+          a.note,
+          b.isDisabled,
+          a.isDeleted
         FROM
-          persons
+          persons a
+        JOIN
+          users b
+        ON
+          a.account=b.account
         WHERE
-          account=#{account}
+          a.account=#{account}
         AND
-          isDeleted=0
+          a.isDeleted=0
     </select>
 
     <select id="queryPersonCount" resultType="integer">
@@ -96,11 +110,25 @@
 
     <select id="queryAllPerson" resultType="Person">
         SELECT
-          <include refid="personItem"/>
+          a.id,
+          a.account,
+          a.name,
+          a.sex,
+          a.age,
+          a.phone,
+          a.email,
+          a.photo_url,
+          a.note,
+          b.isDisabled,
+          a.isDeleted
         FROM
-          persons
+          persons a
+        JOIN
+          users b
+        ON
+          a.account=b.account
         WHERE
-          isDeleted=0
+          a.isDeleted=0
     </select>
 
 

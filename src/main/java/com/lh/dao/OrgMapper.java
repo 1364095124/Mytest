@@ -157,10 +157,10 @@ public interface OrgMapper {
 
     /**
      * 查询账号的职位详细信息
-     * @param account
+     * @param id
      * @return
      */
-    public List<PersonJob> getJobInfo(String account);
+    public List<PersonJob> getJobInfo(String id);
 
     /**
      * 查询是否有重复的职位匹配信息，防止重复插入
@@ -195,6 +195,16 @@ public interface OrgMapper {
      * @return
      */
     public Integer addJobInfo(PersonJob personJob);
+
+    /**
+     * 查询该账号的职位信息
+     * @param account
+     * @return
+     */
+    PersonJob queryJobInfoByAccount(String account);
+
+
+
 
 
 }
