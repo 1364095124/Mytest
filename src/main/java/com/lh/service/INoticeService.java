@@ -23,4 +23,6 @@ public interface INoticeService {
     String delMetting(String id);
 
     String updateMetting(Metting metting);
+
+    String getNew();
 }

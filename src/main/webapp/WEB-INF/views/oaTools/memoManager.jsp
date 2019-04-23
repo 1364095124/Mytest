@@ -7,6 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="css/mycss/ant.css">
+<link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+<script src="js/bootstrap/bootstrap.js"></script>
+<script src="js/moment/moment-with-locales.js"></script>
+<script src="js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <style type="text/css">
 
     a{
@@ -14,26 +20,9 @@
     }
 </style>
 <body>
-    <%--<div class="layui-row" style="background: #ffffff;height:85px;">
-        <div class="layui-col-md4" style="text-align: center;padding:10px;">
-            <span class="mytitle" >全部提醒</span>
-            <p class="mycontent" ><span>8</span>个提醒</p>
-            <em></em>
-        </div>
-        <div class="layui-col-md4" style="text-align: center;padding:10px;">
-            <span class="mytitle" >过期提醒</span>
-            <p class="mycontent" ><span>8</span>个提醒</p>
-            <em></em>
-        </div>
-        <div class="layui-col-md4" style="text-align: center;padding:10px;">
-            <span class="mytitle">代提醒</span>
-            <p class="mycontent" ><span>8</span>个提醒</p>
-            <em></em>
-        </div>
-    </div>--%>
 
     <div class="antd-pro-components-page-header-wrapper-grid-content-main">
-        <div class="antd-pro-pages-list-basic-list-standardList">
+        <div class="antd-pro-pages-list-basic-list-standardList animated">
             <div class="ant-card ant-card-wider-padding ant-card-padding-transition">
                 <div class="ant-card-body">
                     <div class="layui-row">
@@ -52,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ant-card antd-pro-pages-list-basic-list-listCard ant-card-wider-padding ant-card-padding-transition"
+            <div class=" ant-card antd-pro-pages-list-basic-list-listCard ant-card-wider-padding ant-card-padding-transition"
                  style="margin-top: 24px;">
                 <div class="ant-card-head">
                     <div class="ant-card-head-wrapper">
@@ -171,7 +160,7 @@
                     '           <div class="ant-list-item-meta-description">'+obj.content+'</div>\n' +
                     '           </div>\n' +
                     '       </div>\n' +
-                    '       <div class="ant-list-item-content">\n' +
+                    '       <div class="ant-list-item-content animated">\n' +
                     '          <div class="antd-pro-pages-list-basic-list-listContent">\n' +
                     '              <div class="antd-pro-pages-list-basic-list-listContentItem">\n' +
                     '                   <span>Owner</span>\n' +
@@ -214,42 +203,46 @@
     })
 
 
-    var temp=" <form class=\"layui-form\" action=\"\" >\n" +
-        "        <br/> <br/> <br/><div class=\"layui-form-item\">\n" +
-        "            <label class=\"layui-form-label\">标题</label>\n" +
-        "            <div class=\"layui-input-block\" style=\"width: 500px;\">\n" +
-        "                <input type=\"text\" name=\"title\" id=\"title\" lay-verify=\"required\" placeholder=\"请输入标题\"\n" +
-        "                       autocomplete=\"off\" class=\"layui-input\">\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "        <div class=\"layui-form-item\">\n" +
-        "            <label class=\"layui-form-label\">提醒时间</label>\n" +
-        "            <div class=\"layui-input-block\" style=\"width: 500px;\">\n" +
-        "                <input type=\"date\" name=\"tigger_Time\" id=\"tigger_Time\" lay-verify=\"required\"\n" +
-        "                       autocomplete=\"off\" class=\"layui-input\">\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "        <div class=\"layui-form-item layui-form-text\">\n" +
-        "            <label class=\"layui-form-label\">具体事项</label>\n" +
-        "            <div class=\"layui-input-block\" name=\"\" style=\"width:800px;\">\n" +
-        "                <textarea id=\"content\" name=\"content\" placeholder=\"请输入内容\" class=\"layui-textarea\"></textarea>\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "        <div class=\"layui-form-item\">\n" +
-        "            <div class=\"layui-input-block\">\n" +
-        "                <button  class=\"layui-btn\" lay-submit lay-filter=\"SubForm\">立即提交</button>\n" +
-        "                <button  type=\"reset\" class=\"layui-btn layui-btn-primary\">重置</button>\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "        <br/>\n" +
-        "        <br/>\n" +
-        "    </form>";
+
     function openModak(){
 
         layui.use(['layer','form','laydate'],function () {
             var layer = layui.layer,
                 laydate = layui.laydate;
 
+            var temp=" <form class=\"layui-form\" action=\"\" >\n" +
+                "        <br/> <br/> <br/><div class=\"layui-form-item\">\n" +
+                "            <label class=\"layui-form-label\">标题</label>\n" +
+                "            <div class=\"layui-input-block\" style=\"width: 500px;\">\n" +
+                "                <input type=\"text\" name=\"title\" id=\"title\" lay-verify=\"required\" placeholder=\"请输入标题\"\n" +
+                "                       autocomplete=\"off\" class=\"layui-input\">\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-form-item\">\n" +
+                "            <label class=\"layui-form-label\">提醒时间</label>\n" +
+                "            <div class=\"layui-input-block\" style=\"width: 500px;\">\n" +
+                    ' <div class=\'input-group date\' id=\'datetimepicker1\' >\n' +
+                '                <input type=\'text\' id="tigger_Time" name="tigger_Time" class="form-control" />\n' +
+                '                <span class="input-group-addon">\n' +
+                '                    <span class="glyphicon glyphicon-calendar"></span>\n' +
+                '                </span></div>\n' +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-form-item layui-form-text\">\n" +
+                "            <label class=\"layui-form-label\">具体事项</label>\n" +
+                "            <div class=\"layui-input-block\" name=\"\" style=\"width:800px;\">\n" +
+                "                <textarea id=\"content\" name=\"content\" placeholder=\"请输入内容\" class=\"layui-textarea\"></textarea>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-form-item\">\n" +
+                "            <div class=\"layui-input-block\">\n" +
+                "                <button  class=\"layui-btn\" lay-submit lay-filter=\"SubForm\">立即提交</button>\n" +
+                "                <button  type=\"reset\" class=\"layui-btn layui-btn-primary\">重置</button>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        <br/>\n" +
+                "        <br/>\n" +
+                "    </form>";
             var index=layer.open({
                 type: 1,//类型
                 offset: '150px',
@@ -258,7 +251,11 @@
                 shadeClose: false,//点击遮罩层关闭
                 content: temp//打开的内容
             });
-
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                locale: moment.locale('zh-cn')
+            });
+            form.render();
             form.on('submit(SubForm)', function(data) {
                 var param = JSON.stringify(data.field);//定义临时变量获取表单提交过来的数据，非json格式
                 console.log(param);//测试是否获取到表单数据，调试模式下在页面控制台查看
@@ -278,6 +275,10 @@
                         if (res.success == true) {
                             layer.alert('添加备忘录信息成功', {icon: 1});
                             //$("#res").click();//调用重置按钮将表单数据清空
+                            setTimeout(function(){
+                                $("#main").load("oaTools/memoManager");
+                            },200);
+
 
                         } else {
                             layer.alert(data.msg, {icon: 2});

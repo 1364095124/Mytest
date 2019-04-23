@@ -1,8 +1,11 @@
 package com.lh.service;
 
+import com.lh.model.MyTask;
 import com.lh.model.Page;
+import com.lh.model.ResultMap;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface IMyTaskService {
 
@@ -15,4 +18,10 @@ public interface IMyTaskService {
     String listHistoryCommentByPid(String processInstanceId);
 
     String listHistoryCommentByTid(String taskId);
+
+    String queryNewCount();
+
+    ResultMap<List<MyTask>> yibanTask();
+
+
 }

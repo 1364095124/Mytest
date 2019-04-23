@@ -20,7 +20,7 @@
         <hr/>
     </div>
 
-    <div class="form " style="background: #ffffff;">
+    <div class="form animated" style="background: #ffffff;">
     <h2 style="text-align: center">差旅费报销单</h2>
         <br/>
         <form class="layui-form" action="" id="test">

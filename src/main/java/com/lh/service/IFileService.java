@@ -37,4 +37,6 @@ public interface IFileService {
     ResultMap<List<MyFile>> getAllFile();
 
     String queryAllFileFloder();
+
+    String p2pFile(MultipartFile file,String sendId,String receviceId);
 }

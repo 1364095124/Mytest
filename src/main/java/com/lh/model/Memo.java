@@ -9,7 +9,8 @@ public class Memo {
     private String title; //标题
     private String content;  //内容
     private String tigger_Time; //触发时间
-    private String isDeleted;//是否删除
+    private Integer isRead; //是否已读
+    private Integer isDeleted;//是否删除
 
     public String getId() {
         return id;
@@ -51,11 +52,19 @@ public class Memo {
         this.tigger_Time = tigger_Time;
     }
 
-    public String getIsDeleted() {
+    public Integer getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Integer isRead) {
+        this.isRead = isRead;
+    }
+
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(String isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

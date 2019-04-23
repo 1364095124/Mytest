@@ -23,13 +23,13 @@
     }
 </style>
 <body>
-<div id="signin" style="width: 100%;"></div>
+<div id="signin" class="animated" style="width: 100%;"></div>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>签到记录</legend>
 </fieldset>
 
 <div  style="padding: 10px; background-color: #F2F2F2;">
-    <div class="layui-row layui-col-space5" id="record">
+    <div class="layui-row layui-col-space5 animated" id="record">
     </div>
 </div>
 
@@ -54,7 +54,7 @@
                 datearr=data;
                 var htm_='';
                 for(var i=0;i<datearr.length;i++){
-                    htm_+='<div class="layui-col-md12">'
+                    htm_+='<div class="layui-col-md12 animated">'
                         +'<div class="layui-card">'
                         +'<div class="layui-card-header">'
                         +'<i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #1E9FFF;"></i>     您于【'+datearr[i]+'】签到</div></div></div>';

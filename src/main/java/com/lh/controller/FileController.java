@@ -54,7 +54,7 @@ public class FileController {
     @RequestMapping(value="/file/download")
     public void download(@RequestParam(value = "fileName",required = false)  String fileName,
                          HttpServletRequest request,HttpServletResponse response) {
-        //String truePath=upload_Path+"/"+fileName;
+
 
         try {
             fileService.download(fileName,request,response);
@@ -99,5 +99,19 @@ public class FileController {
     @RequestMapping(value="file/queryAllFileFloder",produces = "text/plain;charset=utf-8")
     public String queryAllFileFloder(){
      return fileService.queryAllFileFloder();
+    }
+
+    /**
+     * p2p文件传输
+     * @param file
+     * @param sendId
+     * @param receviceId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="file/p2pFile",produces = "text/plain;charset")
+    public String p2pFile( MultipartFile file,@RequestParam("sendId") String sendId,
+                           @RequestParam("receviceId") String receviceId){
+        return fileService.p2pFile(file,sendId,receviceId);
     }
 }

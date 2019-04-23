@@ -23,7 +23,7 @@
 
 </div>
 
-<table id="test" lay-filter="test"></table>
+<table id="test"  lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">回复</a>

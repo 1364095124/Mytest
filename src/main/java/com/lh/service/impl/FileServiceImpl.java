@@ -6,6 +6,7 @@ import com.lh.dao.FileMapper;
 import com.lh.dao.PersonMapper;
 import com.lh.model.*;
 import com.lh.service.IFileService;
+import com.lh.service.IMsgService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,9 @@ public class FileServiceImpl implements IFileService {
 
     @Autowired
     private FileMapper fileMapper;
+
+    @Autowired
+    private IMsgService msgService;
 
     @Override
     public String uploadImg(MultipartFile file) {
@@ -74,10 +78,7 @@ public class FileServiceImpl implements IFileService {
 
     @Override
     public void download(String fileName, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        fileName="Images/zhengshu1.JPG";
-        String truePath=upload_Path+"/"+fileName;
-        System.out.println("---true"+truePath);
-        File file=new File(truePath);
+        File file=new File(fileName);
         if(file.exists()){
             response.setContentType("application/x-msdownload;");
             response.setContentType("text/html;charset=utf-8");
@@ -341,6 +342,65 @@ public class FileServiceImpl implements IFileService {
     @Override
     public String queryAllFileFloder() {
         return JSON.toJSONString(fileMapper.getAllFileFloder());
+    }
+
+    /**
+     * 个人到个人的文件传输
+     * @param file 文件
+     * @param sendId 发送者
+     * @param receviceId 接收者
+     * @return
+     */
+    @Override
+    public String p2pFile(MultipartFile file, String sendId, String receviceId) {
+        JSONObject result=new JSONObject();
+        if(file==null||file.isEmpty()){
+            result.put("success",false);
+            result.put("msg","传输失败，传输的文件不能为空！");
+        }else{
+            //如果目录不存在则创建目录
+            File uploadFile=new File("H:/upload/p2p");
+            if(!uploadFile.exists()){
+                uploadFile.mkdirs();
+            }
+            String fileName=file.getOriginalFilename();
+            SimpleDateFormat sm=new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
+            String date=sm.format(new Date());
+            //String truefileName=upload_Path+"/Images/"+date+"_"+fileName;
+            String truefileName="H:/upload/p2p/"+date+"_"+fileName;
+            try {
+                //创建输入流
+                InputStream inputStream=file.getInputStream();
+                //创建文件的输出流
+                OutputStream outputStream=new FileOutputStream(truefileName);
+                byte[] buffer=new byte[1024];
+                while(inputStream.read(buffer)>0){
+                    outputStream.write(buffer);
+                }
+                outputStream.close();
+                Message message=new Message();
+                message.setSend_id(sendId);
+                message.setReceive_id(receviceId);
+                message.setContent(fileName);
+                message.setUrl("file/download?fileName="+truefileName);
+                message.setType("文件");
+                String rs=msgService.sendMsg(message);
+                JSONObject data=JSON.parseObject(rs);
+                if((Boolean)data.get("success")){
+                    result.put("success",true);
+                    result.put("msg",truefileName);
+                }else{
+                    result.put("success",false);
+                    result.put("msg","上传成功，但传输时失败！");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                result.put("success",false);
+                result.put("msg","异常！上传失败请重试！");
+            }
+        }
+        return JSON.toJSONString(result);
     }
 
 }

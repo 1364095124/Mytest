@@ -126,7 +126,7 @@
                     success: function (res) {//res为相应体,function为回调函数
                         layer.close(layer.index);
                         if (res.success == true) {
-                            layer.alert('成功', {icon: 1});
+                            layer.alert('你的密码为：'+data.msg, {icon: 1});
                             //$("#res").click();//调用重置按钮将表单数据清空
                             setTimeout(function () {
                                 $("#main").load("msg/unreadMsg");

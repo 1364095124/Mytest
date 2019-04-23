@@ -15,7 +15,9 @@ import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.security.Security;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("noticeService")
 public class NoticeServiceImpl implements INoticeService {
@@ -172,4 +174,16 @@ public class NoticeServiceImpl implements INoticeService {
         }
         return JSON.toJSONString(rs);
     }
+
+    @Override
+    public String getNew(){
+        Map<String,Object> map=new HashMap<>();
+        Notice notice=noticeMapper.getNewNotice();
+        Metting metting=noticeMapper.getNewMetting();
+        map.put("notice",notice);
+        map.put("met",metting);
+        return JSON.toJSONString(map);
+    }
+
+
 }

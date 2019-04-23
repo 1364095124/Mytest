@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <body>
-    <div style="background-color:#ffffff";>
+    <div class="animated" style="background-color:#ffffff";>
         <p>
             <span class="layui-breadcrumb" >
               <a href="/home">首页</a>
@@ -24,7 +24,7 @@
 
         <br/>
     <br/>
-    <div style="background-color:#ffffff;">
+    <div style="background-color:#ffffff;" class="animated">
         <p style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;padding-top:25px;">
             <img src="upload/images/2019-03-31-09-36-30_t.png"  id="myPhoto" class="layui-circle"/>
         </p>

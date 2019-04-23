@@ -45,23 +45,19 @@ public class MsgServiceImpl implements IMsgService {
 
 
     @Override
-    public String sendMsg(Message message) {
+    public String sendMsg(Message msg) {
         JSONObject resultStr=new JSONObject();
-        Message msg=new Message();
-        msg.setSend_id(message.getSend_id());
-        msg.setReceive_id(message.getReceive_id());
-        msg.setType(message.getType());
-        msg.setContent(message.getContent());
-
+        Person person=personMapper.queryPersonByAccount(msg.getSend_id());
+        msg.setSendName(person.getName());
         SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         msg.setSendTime(fmt.format(new Date()));
 
         int result=msgMapper.addMsg(msg);
         if(result>0) {
-            msg.setSend_id(message.getSend_id());
+
             Map<String, Object> map = new HashMap<>();
             map.put("MSG", msg);
-            socketHandler.sendMessageToUser(message.getReceive_id(), JSONObject.toJSONString(map));
+            socketHandler.sendMessageToUser(msg.getReceive_id(), JSONObject.toJSONString(map));
             resultStr.put("success",true);
             resultStr.put("msg","");
         }else{

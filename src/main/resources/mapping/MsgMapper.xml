@@ -112,4 +112,30 @@
         WHERE
           id=#{id}
     </update>
+
+    <select id="queryNewMsg" parameterType="string" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          messages
+        WHERE
+          isDeleted=0
+        AND
+          isRead=0
+        AND
+          receive_id=#{account}
+    </select>
+
+    <select id="queryNewMemo" parameterType="string" resultType="integer">
+        SELECT
+          COUNT(*)
+        FROM
+          memos
+        WHERE
+          isDeleted=0
+        AND
+          isRead=0
+        AND
+          account=#{account}
+    </select>
 </mapper>

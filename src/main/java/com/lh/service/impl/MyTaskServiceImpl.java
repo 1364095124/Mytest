@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lh.common.ProcessDiagramGenerator;
 import com.lh.dao.LeaveMapper;
+import com.lh.dao.MsgMapper;
 import com.lh.dao.OrgMapper;
 import com.lh.model.*;
 import com.lh.service.IMyTaskService;
@@ -55,6 +56,9 @@ public class MyTaskServiceImpl implements IMyTaskService {
 
     @Autowired
     private OrgMapper orgMapper;
+
+    @Autowired
+    private MsgMapper msgMapper;
 
     /**
      *  分页查询代办
@@ -274,6 +278,51 @@ public class MyTaskServiceImpl implements IMyTaskService {
             return null;
         }
 
+    }
+
+    @Override
+    public String queryNewCount() {
+        JSONObject rs=new JSONObject();
+        User user=(User)SecurityUtils.getSubject().getPrincipal();
+        PersonJob personJob=orgMapper.queryJobInfoByAccount(user.getAccount());
+        String groupId=personJob.getDepartmentName()+"_"+personJob.getJobName();
+        long total=taskService.createTaskQuery()
+                .taskCandidateGroup(groupId)
+                .count(); // 获取总记录数
+        rs.put("daiban",total);
+        Integer memo=msgMapper.queryNewMemo(user.getAccount());
+        Integer msg=msgMapper.queryNewMsg(user.getAccount());
+        rs.put("memo",memo);
+        rs.put("msg",msg);
+        return JSON.toJSONString(rs);
+    }
+
+
+    @Override
+    public ResultMap<List<MyTask>> yibanTask() {
+        User user=(User)SecurityUtils.getSubject().getPrincipal();
+        PersonJob personJob=orgMapper.queryJobInfoByAccount(user.getAccount());
+        String groupId=personJob.getDepartmentName()+"_"+personJob.getJobName();
+        long histCount=historyService.createHistoricTaskInstanceQuery()
+                .taskCandidateGroup(groupId)
+                .count();
+        List<HistoricTaskInstance> histList=historyService.createHistoricTaskInstanceQuery()
+                .taskCandidateGroup(groupId)
+                .list();//根据角色名称查询
+        List<MyTask> MyTaskList=new ArrayList<MyTask>();
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for(HistoricTaskInstance t:histList){
+            MyTask myTask=new MyTask();
+            myTask.setId(t.getId());
+            myTask.setName(t.getName());
+            myTask.setCreateTime(sf.format(t.getCreateTime()));
+            //String leaveId=(String) taskService.getVariable(t.getId(), "leaveId");
+            LeaveForm leaveForm=leaveMapper.queryLeaveByPid(t.getProcessInstanceId());
+            myTask.setLeaveForm(leaveForm);
+            myTask.setApplyName(leaveForm.getAccount());
+            MyTaskList.add(myTask);
+        }
+        return new ResultMap<List<MyTask>>("",MyTaskList,0,Integer.parseInt(String.valueOf(histCount)));
     }
 
 

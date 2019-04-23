@@ -57,7 +57,6 @@
             } //传参数
             , limit: 10
             , id: 'contenttable'
-            , toolbar: '#toolbarDemo'
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 , {

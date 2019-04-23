@@ -11,7 +11,16 @@ public class Metting {
     private String tiggerTime; //开会时间
     private String createAccount; //创建者账号
     private String createName; //创建者姓名
+    private Integer isRead; //是否已读
     private Integer isDeleted;     //是否删除
+
+    public Integer getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Integer isRead) {
+        this.isRead = isRead;
+    }
 
     public String getCreateName() {
         return createName;

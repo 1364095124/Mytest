@@ -145,6 +145,7 @@
                 });
                 laydate.render({
                     elem: '#tiggerTime' //指定元素
+                    ,type: 'datetime'
                 });
                 form.render();
                 form.on('submit(sub)',function(rs){
@@ -261,6 +262,7 @@
                 }
                 laydate.render({
                     elem: '#tiggerTime' //指定元素
+                    ,type: 'datetime'
                 });
                 form.render();
                 $(document).on('click','button[name="update"]',function(){

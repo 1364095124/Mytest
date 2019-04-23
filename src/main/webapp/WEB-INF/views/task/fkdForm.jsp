@@ -15,7 +15,7 @@
     <p style="color:#696969;margin-left:15px;">新建事项&nbsp;/&nbsp;<span style="font-size:22px;">填写领款收据单</span></p>
     <hr/>
 </div>
-<div class="form " style="background: #ffffff;">
+<div class="form animated" style="background: #ffffff;">
     <h2 style="text-align: center">付款单</h2>
     <form class="layui-form" action="" id="test">
         <div class="layui-row">

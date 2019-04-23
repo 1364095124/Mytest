@@ -1,5 +1,6 @@
 package com.lh.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.lh.model.Page;
 import com.lh.service.IMyTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +88,35 @@ public class MyTaskController {
     public String listHistoryComment(String processInstanceId){
         return myTaskService.listHistoryCommentByPid(processInstanceId);
     }
+
+    /**
+     * 查询新代办，新消息，新提醒
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="task/queryNewCount",produces = "text/plain;charset=utf-8")
+    public String queryNewCount(){
+        return myTaskService.queryNewCount();
+    }
+
+    /**
+     * 跳转到已办页面
+     * @return
+     */
+    @RequestMapping(value="task/yibanList")
+    public String yibanList(){
+        return "task/yibanTask";
+    }
+    /**
+     * 查询所有已办
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="task/getYiBanTask",produces = "text/plain;charset=utf-8")
+    public String getyibanTask(){
+        return JSON.toJSONString(myTaskService.yibanTask());
+    }
+
+
 }
 

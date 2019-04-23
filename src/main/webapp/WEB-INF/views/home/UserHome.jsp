@@ -23,6 +23,34 @@
     .list-unstyled{
         float: left;
     }
+    a{
+        text-decoration:none !important;
+    }
+    @keyframes zoomIn {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(.3,.3,.3);
+            transform: scale3d(.3,.3,.3);
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+    .animated{
+        animation-name: zoomIn;
+        animation-duration: .5s;
+    }
+    .card-body-icon{
+        position: absolute;
+        z-index: 0;
+        top: -10px;
+        right: -20px;
+        font-size: 10rem;
+        -webkit-transform: rotate(15deg);
+        -ms-transform: rotate(15deg);
+        transform: rotate(15deg);
+        color: #fff!important;
+    }
 </style>
 <body style="background-color:#f0f2f5">
 
@@ -71,7 +99,7 @@
                     <dd><a class="loadPage" whichPage="task/tasklist" href="javascript:;">
                         <i class="fa fa-clipboard fa-lg"></i> <span >&nbsp;&nbsp;已发事项</span>
                     </a></dd>
-                    <dd><a class="loadPage" whichPage="" href="javascript:;">
+                    <dd><a class="loadPage" whichPage="task/yibanList" href="javascript:;">
                         <i class="fa fa-file-text fa-lg"></i> <span >&nbsp;&nbsp;已办事项</span>
                     </a></dd>
                     <dd><a class="loadPage" whichPage="task/trashTaskJsp" href="javascript:;">
@@ -154,20 +182,66 @@
             <div class="layui-row" >
                 <div  class="layui-col-lg12">
 
-                    <div id="AppSso" style="background-color:rgba(255,255,255,0.9);border-radius:10px;height:80px;box-shadow: 3px 3px 3px #888888;">
-
+                    <div id="AppSso"  style="background-color:rgba(255,255,255,0.9);border-radius:10px;
+                    height:80px;box-shadow: 3px 3px 3px #888888;">
                     </div>
                 </div>
             </div>
             <br/>
-            <div style="background-color:#ffffff;">
-                <div class="layui-row">
-                    <div class="">
+            <link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+            <script src="js/bootstrap/bootstrap.js"></script>
+            <div id="notice" >
+            </div>
+            <div id="metting" >
+            </div>
 
+            <div class="layui-row layui-col-space10" style="background-color:#ffffff;height:150px;padding-top:15px;color:#fff;">
+                <div class="layui-col-md3">
+                    <div class="animated" style="height:130px;background-color:rgba(0,123,255,0.8);border-radius:5px;overflow: hidden;">
+                        <h1 style="padding-left:25px;">
+                            <a style="color:#fff" class="loadPage" whichPage="msg/unreadMsg" href="javascript:;"> 我的消息</a>
+                        </h1>
+                        <span style="padding-left:25px;font-size:20px;" id="msgCount">0条</span>
+                        <div class="card-body-icon" >
+                            <i class="fa fa-fw fa-comments"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="animated" style="height:130px;background-color:rgba(40,167,69,0.8);border-radius:5px;overflow: hidden;">
+                        <h1 style="padding-left:25px;">
+                            <a style="color:#fff" class="loadPage" whichPage="task/daibanjsp" href="javascript:;">我的代办</a>
+                        </h1>
+                        <span style="padding-left:25px;font-size:20px;" id="daiCount">0条</span>
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-list"></i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-col-md3">
+                    <div class="animated" style="height:130px;background-color:rgba(220,53,69,0.8);border-radius:5px;overflow: hidden;">
+                        <h1 style="padding-left:25px;">
+                            <a style="color:#fff" class="loadPage" whichPage="oaTools/memoManager" href="javascript:;">我的提醒</a>
+                        </h1>
+                        <span style="padding-left:25px;font-size:20px;" id="memoCount">0条</span>
+                            <div class="card-body-icon">
+                                <i class="fa fa-fw fa-bell-o"></i>
+                            </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="animated" style="height:130px;background-color:rgba(255,193,7,0.8);border-radius:5px;overflow: hidden;">
+                        <h1 style="padding-left:25px;">
+                            <a style="color:#fff" class="loadPage" whichPage="notice/mettingList" href="javascript:;"> 我的会议</a>
+                        </h1>
+                        <span style="padding-left:25px;font-size:20px;" id="metCount">0条</span>
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-group"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
 
@@ -178,7 +252,52 @@
         </div>
     </div>
 </div>
+<script>
 
+    //获取新消息，新代办，新提醒次数
+    $.ajax({
+        type:'post',
+        url:'task/queryNewCount',
+        data:{},
+        dataType:'json',
+        success:function(data){
+            if(data!=null){
+               $("#memoCount").html(data.memo+'  条');
+               $("#msgCount").html(data.msg+'  条');
+               $("#daiCount").html(data.daiban+'  条');
+            }
+        }
+    });
+    //获取最新 的公告和会议
+    $.ajax({
+        type:'post',
+        url:'notice/getNew',
+        data:{},
+        dataType:'json',
+        success:function(data){
+            if(data!=null){
+                var notice=data.notice;
+                var met=data.met;
+                if(notice!=null&&notice!=''){
+                    var nht='<div class="alert alert-danger alert-dismissible" role="alert">\n' +
+                        '                <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                        '                    <span aria-hidden="true">&times;</span></button>\n' +
+                        '                <strong>公告：</strong>'+notice.content+'\n' +
+                        '            </div>';
+                    $("#notice").append(nht);
+                }
+                if(met!=null&&met!=''){
+                    var mht='<div class="alert alert-warning alert-dismissible" role="alert">\n' +
+                        '                <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                        '                    <span aria-hidden="true">&times;</span></button>\n' +
+                        '                <strong>会议：</strong>'+met.tiggerTime+'在' +met.address+'开会'+
+                        '            </div>';
+                    $("#metting").append(mht);
+                }
+            }
+        }
+    })
+</script>
 <script>
     //JavaScript代码区域
     var element;
@@ -334,8 +453,6 @@
                 data=JSON.parse(data);
                 $.each(data, function(i, obj) {
                     str+='<li class="list-unstyled" style="padding-left:30px;margin-top:10px;">';
-
-
                     str+='<a  href="'+obj.sso_url+'" target="_blank">';
                     str+='<img id="myin" alt="链接" class="img-circle" href='+obj.sso_url+' src="images/sso.png" ' +
                         'width="45px" height="45px" /><br/>';
@@ -372,7 +489,7 @@
             return "ws://"+local.host+"/";
 
         };
-
+        console.log(wsPath);
         //建立socket连接
         var sock;
         var lockReconnect = false,count=0;
@@ -418,7 +535,7 @@
                     if(msg.type=="消息"){
                         layer.open({
                             type:0,
-                            title:msg.sendName,
+                            title:'消息-'+msg.sendName,
                             content:msg.content,
                             offset:'rb',
                             shade:0
@@ -426,7 +543,7 @@
                     }else if(msg.type=="代办"){
                         layer.open({
                             type:0,
-                            title:msg.sendName,
+                            title:'代办-'+msg.sendName,
                             content:msg.content,
                             shade:0,
                             offset:'rb'
@@ -436,22 +553,27 @@
                             type: 1
                             ,title: '备忘录提醒' //不显示标题栏
                             ,closeBtn: false
-                            ,area: '300px;'
+                            ,area: ['500px', '300px']
                             ,shade: 0.8
                             ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
                             ,resize: false
                             ,anim:6
-                            ,btn: ['火速围观', '残忍拒绝']
+                            ,btn:  '取消'
                             ,btnAlign: 'c'
                             ,moveType: 1 //拖拽模式，0或者1
-                            ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">内容<br>内容</div>'
-                            ,success: function(layero){
-                                var btn = layero.find('.layui-layer-btn');
-                                btn.find('.layui-layer-btn0').attr({
-                                    href: 'http://www.layui.com/'
-                                    ,target: '_blank'
-                                });
-                            }
+                            ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">内容<br>'+msg.content+'</div>'
+
+                        });
+                    }else if(msg.type=="文件"){
+                        layer.open({
+                            type:1,
+                            title:'文件-'+msg.sendName,
+                            content:'<span style="font-size:20px;" class="layui-icon layui-icon-file">' +
+                                '</span><a href="'+msg.url+'">'+msg.content+'</a>',
+                            area: ['200px', '300px'],
+                            offset:'rb',
+                            shade: 0.8,
+                            anim: 6
                         });
                     }
 

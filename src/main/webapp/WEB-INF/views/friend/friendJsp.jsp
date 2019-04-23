@@ -59,6 +59,8 @@
     }
 </style>
 <body>
+
+
     <div>
         <input type="text" style="width:400px;" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
         <button id="" style="folat:left" class="layui-btn layui-btn-normal">
@@ -83,7 +85,7 @@
                 var data=rs.data;
                 var str='';
                 for(var i=0;i<data.length;i++){
-                    str+='<li class="myli">\n' ;
+                    str+='<li class="myli animated">\n' ;
                     if(data[i].photo_url==null||data[i].photo_url=='' ){
                         str+='<img src="//t.cn/RCzsdCq"/>\n' ;
                     }else{
@@ -96,7 +98,9 @@
                          '<span class="fa fa-commenting"></span>消息&nbsp;&nbsp;</a>\n' +
                         '   <a name="sendMsg" value="'+data[i].account+'" whichType="Msg">' +
                          '<span class="fa fa-envelope-open"></span>邮件</a>\n' +
-                        '  </span>\n' +
+                         '   <a name="sendFile" value="'+data[i].account+'" whichType="File">' +
+                         '<span class="fa fa-envelope-open"></span>文件</a>\n' +
+                         '  </span>\n' +
                         '</li>';
                 }
                 $("#plist").append(str);
@@ -105,9 +109,97 @@
                 alert("部门列表初始化失败！");
             }
         })
-        layui.use(['layer','form'],function(){
+        layui.use(['layer','form','upload'],function(){
             var layer=layui.layer;
             var form=layui.form;
+            var upload=layui.upload;
+
+            $(document).on('click','a[name="sendFile"]',function(){
+                var v=$(this).attr("value");
+                var str='<div class="layui-upload">\n' +
+                    '  <br/><br/><button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button> \n' +
+                    '  <div class="layui-upload-list">\n' +
+                    '    <table class="layui-table">\n' +
+                    '      <thead>\n' +
+                    '        <tr><th>文件名</th>\n' +
+                    '        <th>大小</th>\n' +
+                    '        <th>状态</th>\n' +
+                    '        <th>操作</th>\n' +
+                    '      </tr></thead>\n' +
+                    '      <tbody id="demoList"></tbody>\n' +
+                    '    </table>\n' +
+                    '  </div>\n' +
+                    '  <button type="button" class="layui-btn" id="testListAction">开始上传</button>\n' +
+                    '</div> ';
+                var index=layer.open({
+                    type: 1,//类型
+                    offset: '150px',
+                    area: ['900px', '500px'],//定义宽和高
+                    title: '请输入内容',//题目
+                    shadeClose: false,//点击遮罩层关闭
+                    content: str//打开的内容
+                });
+                //多文件列表示例
+                var demoListView = $('#demoList')
+                    ,uploadListIns = upload.render({
+                    elem: '#testList'
+                    ,url: 'file/p2pFile'
+                    ,accept: 'file'
+                    ,multiple: true
+                    ,auto: false
+                    ,bindAction: '#testListAction'
+                    ,data:{
+                        "sendId":$("#curUser").html(),
+                        "receviceId":v
+                    }
+                    ,choose: function(obj){
+                        var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                        //读取本地文件
+                        obj.preview(function(index, file, result){
+                            var tr = $(['<tr id="upload-'+ index +'">'
+                                ,'<td>'+ file.name +'</td>'
+                                ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                                ,'<td>等待上传</td>'
+                                ,'<td>'
+                                ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                                ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                                ,'</td>'
+                                ,'</tr>'].join(''));
+
+                            //单个重传
+                            tr.find('.demo-reload').on('click', function(){
+                                obj.upload(index, file);
+                            });
+
+                            //删除
+                            tr.find('.demo-delete').on('click', function(){
+                                delete files[index]; //删除对应的文件
+                                tr.remove();
+                                uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                            });
+
+                            demoListView.append(tr);
+                        });
+                    }
+                    ,done: function(res, index, upload){
+                        if(res.success){ //上传成功
+                            var tr = demoListView.find('tr#upload-'+ index)
+                                ,tds = tr.children();
+                            tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                            tds.eq(3).html(''); //清空操作
+                            return delete this.files[index]; //删除文件队列已经上传成功的文件
+                        }
+                        this.error(index, upload);
+                    }
+                    ,error: function(index, upload){
+                        var tr = demoListView.find('tr#upload-'+ index)
+                            ,tds = tr.children();
+                        tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                        tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                    }
+                });
+
+            });
 
             $(document).on('click','a[name="sendMsg"]',function(){
                 var w=$(this).attr("whichType");

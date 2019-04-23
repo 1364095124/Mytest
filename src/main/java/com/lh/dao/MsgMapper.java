@@ -43,4 +43,8 @@ public interface MsgMapper {
      */
     public Integer delMsg(String id);
 
+    public Integer queryNewMsg(String account);
+
+    public Integer queryNewMemo(String account);
+
 }

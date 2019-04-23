@@ -29,6 +29,7 @@ public interface SignMapper {
 
     Integer newMemoCount(String account);
 
+    Integer changeMemoState(String id);
 
 
 }

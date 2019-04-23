@@ -37,4 +37,14 @@ public interface NoticeMapper {
 
     Integer delMetting(String id);
 
+    List<Notice> queryAvalNotice();
+
+    List<Metting> queryAvalMetting();
+
+    Integer changeMettingState(String id);
+
+    Notice getNewNotice();
+
+    Metting getNewMetting();
+
 }

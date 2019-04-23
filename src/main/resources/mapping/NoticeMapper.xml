@@ -88,6 +88,7 @@
             address,
             tiggerTime,
             createAccount,
+            isRead,
             isDeleted
           )
         VALUES(
@@ -97,6 +98,7 @@
           #{address},
           #{tiggerTime},
           #{createAccount},
+          0,
           0
         )
     </insert>
@@ -110,6 +112,7 @@
           a.tiggerTime,
           a.createAccount,
           b.name as createName,
+          a.isRead,
           a.isDeleted
         FROM
           mettings a
@@ -205,5 +208,92 @@
           address=#{address}
         AND
           tiggerTime=#{tiggerTime}
+    </select>
+
+    <update id="changeMettingState" parameterType="string">
+        UPDATE
+          mettings
+        SET
+          isRead=1
+        WHERE
+          id=#{id}
+    </update>
+
+    <select id="queryAvalNotice" resultType="Notice">
+        SELECT
+          a.id,
+            a.title,
+            a.content,
+            a.createAccount,
+            b.name as createName,
+            a.tiggerTime,
+            a.isDeleted
+          FROM
+            notices a
+          LEFT
+          JOIN
+            persons b
+          ON
+            a.createAccount=b.account
+          WHERE
+            isDeleted=0
+          AND
+             TIMESTAMPDIFF(MINUTE,NOW(),tiggerTime)&gt;0
+    </select>
+
+    <select id="queryAvalMetting" resultType="Metting">
+        SELECT
+          a.id,
+          a.title,
+          a.note,
+          a.address,
+          a.tiggerTime,
+          a.createAccount,
+          b.name as createName,
+          a.isRead,
+          a.isDeleted
+        FROM
+          mettings a
+        LEFT
+        JOIN
+          persons b
+        ON
+          a.createAccount=b.account
+        WHERE
+          isDeleted=0
+        AND
+           TIMESTAMPDIFF(MINUTE,NOW(),tiggerTime)&gt;0
+    </select>
+
+    <select id="getNewNotice" resultType="Notice">
+        SELECT
+          *
+        FROM
+          notices
+        WHERE
+          isDeleted=0
+        AND
+           TIMESTAMPDIFF(MINUTE,NOW(),tiggerTime)&gt;0
+        ORDER
+        by
+          tiggerTime desc
+        LIMIT
+          1
+    </select>
+
+    <select id="getNewMetting" resultType="Metting">
+        SELECT
+          *
+        FROM
+          mettings
+        WHERE
+          isDeleted=0
+        AND
+          TIMESTAMPDIFF(MINUTE,NOW(),tiggerTime)&gt;0
+        ORDER
+        BY
+          tiggerTime desc
+        LIMIT
+          1
     </select>
 </mapper>

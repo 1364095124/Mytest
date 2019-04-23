@@ -22,4 +22,6 @@ public interface ISignService {
     String deleteMemo(String id);
 
     Integer newMemoCount(String account);
+
+
 }

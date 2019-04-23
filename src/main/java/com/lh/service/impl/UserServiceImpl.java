@@ -127,12 +127,12 @@ public class UserServiceImpl implements IUserService {
                     user.setAccount(account);
                     User user0=userMapper.selectUser(user);
 
-                    resultMap.put("state","200");
-                    resultMap.put("message",user0.getPassword());
+                    resultMap.put("success",true);
+                    resultMap.put("msg",user0.getPassword());
                     JedisUtils.del(account+"code");
                 }else{
-                    resultMap.put("state","500");
-                    resultMap.put("message","验证码错误！");
+                    resultMap.put("success",false);
+                    resultMap.put("msg","验证码错误！");
                 }
             }
         }else{

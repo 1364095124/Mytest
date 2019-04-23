@@ -120,4 +120,12 @@ public class NoticeController {
     }
 
 
+    /**
+     * 得到最新公告和会议
+     */
+    @ResponseBody
+    @RequestMapping(value="notice/getNew",produces = "text/plain;charset=utf-8")
+    public String getNew() {
+        return noticeService.getNew();
+    }
 }

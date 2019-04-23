@@ -57,7 +57,11 @@
         FROM
           memos
         WHERE
-          TIMESTAMPDIFF(MINUTE,NOW(),tigger_Time)&lt;5
+          isRead=0
+        AND
+          isDeleted=0
+        AND
+          TIMESTAMPDIFF(MINUTE,NOW(),tigger_Time)&lt;3
     </select>
 
     <select id="queryNewMemo" parameterType="string"  resultType="Memo">
@@ -88,6 +92,8 @@
 
 
     </select>
+
+
 
     <select id="queryOldMemo" parameterType="string" resultType="Memo">
         SELECT
@@ -126,6 +132,7 @@
           #{title},
           #{content},
           #{tigger_Time},
+          0,
           0
         )
     </insert>
@@ -170,4 +177,13 @@
         AND
           tigger_Time>NOW()
     </select>
+
+    <update id="changeMemoState" parameterType="string">
+        UPDATE
+          memos
+        SET
+          isRead=1
+        WHERE
+          id=#{id}
+    </update>
 </mapper>
